@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Navigation from '../components/navigation';
@@ -12,6 +12,11 @@ import './blog-post.css';
 
 const BlogPost = () => {
   const { slug } = useParams();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
   const { post: sanityPost, loading: sanityLoading } = useSanityPostBySlug(slug);
   const { post: supabasePost, loading: supabaseLoading } = usePostBySlug(slug);
 

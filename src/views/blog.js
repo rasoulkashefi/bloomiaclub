@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Navigation from '../components/navigation';
 import Footer from '../components/footer';
 import { useSanityAllPosts, useSanityFeaturedPost } from '../hooks/useSanityPosts';
@@ -9,6 +9,7 @@ import { urlFor } from '../lib/sanity';
 import './blog.css';
 
 const Blog = () => {
+  const history = useHistory();
   const { posts: sanityPosts, loading: sanityLoading, error: sanityError } = useSanityAllPosts();
   const { featuredPost: sanityFeatured } = useSanityFeaturedPost();
   const { posts: supabasePosts, loading: supabaseLoading } = useAllPosts();
@@ -126,48 +127,61 @@ const Blog = () => {
         </section>
 
         {/* Featured Post Banner */}
-        {featuredPost && !searchQuery && selectedCategory === 'all' && (
-          <section className="blog-featured-section">
-            <div className="blog-container">
-              <div className="featured-card">
-                <div className="featured-card-image">
-                  <img
-                    src={
-                      featuredPost.mainImage
-                        ? urlFor(featuredPost.mainImage).width(1200).url()
-                        : featuredPost.imageUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200'
-                    }
-                    alt={featuredPost.title}
-                    loading="lazy"
-                  />
-                  <span className="featured-badge">🔥 مقاله ویژه</span>
-                </div>
-                <div className="featured-card-content">
-                  <div className="featured-meta">
-                    <span className="featured-category">{featuredPost.category?.title || featuredPost.category || 'کوچینگ'}</span>
-                    <span>•</span>
-                    <span>{featuredPost.estimatedReadTime || 5} دقیقه مطالعه</span>
+        {featuredPost && !searchQuery && selectedCategory === 'all' && (() => {
+          const featuredSlug = featuredPost.slug?.current || featuredPost.slug || featuredPost.post_slug;
+          return (
+            <section className="blog-featured-section">
+              <div className="blog-container">
+                <div
+                  className="featured-card"
+                  onClick={() => history.push(`/blog/${featuredSlug}`)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="featured-card-image">
+                    <img
+                      src={
+                        featuredPost.mainImage
+                          ? urlFor(featuredPost.mainImage).width(1200).url()
+                          : featuredPost.imageUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200'
+                      }
+                      alt={featuredPost.title}
+                      loading="lazy"
+                    />
+                    <span className="featured-badge">🔥 مقاله ویژه</span>
                   </div>
-                  <h2 className="featured-title">
-                    <Link to={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
-                  </h2>
-                  <p className="featured-excerpt">{featuredPost.excerpt}</p>
-                  <div className="featured-footer">
-                    <div className="author-info">
-                      <span className="author-name">
-                        {featuredPost.author?.name || featuredPost.authorName || 'تیم بلومیا'}
-                        {featuredPost.author?.isAi && <span className="ai-badge" title="پرسونای هوش مصنوعی">🤖 AI</span>}
-                      </span>
+                  <div className="featured-card-content">
+                    <div className="featured-meta">
+                      <span className="featured-category">{featuredPost.category?.title || featuredPost.category || 'کوچینگ'}</span>
+                      <span>•</span>
+                      <span>{featuredPost.estimatedReadTime || 5} دقیقه مطالعه</span>
                     </div>
-                    <Link to={`/blog/${featuredPost.slug}`} className="read-more-btn">
-                      مطالعه مقاله ↗
-                    </Link>
+                    <h2 className="featured-title">
+                      <Link to={`/blog/${featuredSlug}`} onClick={(e) => e.stopPropagation()}>
+                        {featuredPost.title}
+                      </Link>
+                    </h2>
+                    <p className="featured-excerpt">{featuredPost.excerpt}</p>
+                    <div className="featured-footer">
+                      <div className="author-info">
+                        <span className="author-name">
+                          {featuredPost.author?.name || featuredPost.authorName || 'تیم بلومیا'}
+                          {featuredPost.author?.isAi && <span className="ai-badge" title="پرسونای هوش مصنوعی">🤖 AI</span>}
+                        </span>
+                      </div>
+                      <Link
+                        to={`/blog/${featuredSlug}`}
+                        className="read-more-btn"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        مطالعه مقاله ↗
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-        )}
+            </section>
+          );
+        })()}
 
         {/* Main Blog Grid */}
         <section className="blog-section">
@@ -185,7 +199,7 @@ const Blog = () => {
             ) : (
               <div className="blog-grid">
                 {filteredPosts.map((post) => {
-                  const postSlug = post.slug?.current || post.slug;
+                  const postSlug = post.slug?.current || post.slug || post.post_slug;
                   const catTitle = post.category?.title || post.category || 'عام';
                   const imageUrl = post.mainImage
                     ? urlFor(post.mainImage).width(800).height(500).url()
@@ -199,9 +213,14 @@ const Blog = () => {
                   const isAiAuthor = post.author?.isAi;
 
                   return (
-                    <article key={post._id || post.id} className="blog-card">
+                    <article
+                      key={post._id || post.id}
+                      className="blog-card"
+                      onClick={() => history.push(`/blog/${postSlug}`)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <div className="blog-card-image">
-                        <Link to={`/blog/${postSlug}`}>
+                        <Link to={`/blog/${postSlug}`} onClick={(e) => e.stopPropagation()}>
                           <img src={imageUrl} alt={post.title} loading="lazy" decoding="async" />
                         </Link>
                         <div className="blog-card-category">{catTitle}</div>
@@ -215,7 +234,9 @@ const Blog = () => {
                         </div>
 
                         <h3 className="blog-card-title">
-                          <Link to={`/blog/${postSlug}`}>{post.title}</Link>
+                          <Link to={`/blog/${postSlug}`} onClick={(e) => e.stopPropagation()}>
+                            {post.title}
+                          </Link>
                         </h3>
 
                         <p className="blog-card-excerpt">{post.excerpt}</p>
@@ -229,7 +250,12 @@ const Blog = () => {
                               </span>
                             )}
                           </div>
-                          <Link to={`/blog/${postSlug}`} className="card-link-arrow" aria-label="مطالعه">
+                          <Link
+                            to={`/blog/${postSlug}`}
+                            className="card-link-arrow"
+                            aria-label="مطالعه"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             ←
                           </Link>
                         </div>
