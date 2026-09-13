@@ -17,6 +17,20 @@ const Blog = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
+  const getCategoryTitle = (cat) => {
+    if (!cat) return 'کوچینگ';
+    if (typeof cat === 'string') return cat;
+    if (typeof cat === 'object' && cat.title) return cat.title;
+    return 'کوچینگ';
+  };
+
+  const getAuthorName = (author, fallback) => {
+    if (!author) return fallback || 'تیم بلومیا';
+    if (typeof author === 'string') return author;
+    if (typeof author === 'object' && author.name) return author.name;
+    return fallback || 'تیم بلومیا';
+  };
+
   // Combine Sanity posts or fallback to Supabase if Sanity has no published posts yet
   const posts = useMemo(() => {
     if (sanityPosts && sanityPosts.length > 0) {
@@ -31,7 +45,7 @@ const Blog = () => {
   const categories = useMemo(() => {
     const set = new Set();
     posts.forEach((p) => {
-      const catName = p.category?.title || p.category;
+      const catName = getCategoryTitle(p.category);
       if (catName) set.add(catName);
     });
     return Array.from(set);
@@ -42,7 +56,7 @@ const Blog = () => {
     return posts.filter((post) => {
       const title = post.title?.toLowerCase() || '';
       const excerpt = (post.excerpt || '')?.toLowerCase();
-      const catName = post.category?.title || post.category || '';
+      const catName = getCategoryTitle(post.category);
 
       const matchesSearch = title.includes(searchQuery.toLowerCase()) || excerpt.includes(searchQuery.toLowerCase());
       const matchesCategory = selectedCategory === 'all' || catName === selectedCategory;
@@ -52,6 +66,7 @@ const Blog = () => {
   }, [posts, searchQuery, selectedCategory]);
 
   const featuredPost = sanityFeatured || posts.find((p) => p.isFeatured) || posts[0];
+  const featuredSlug = featuredPost ? (featuredPost.slug?.current || featuredPost.slug || featuredPost.post_slug || '') : '';
 
   return (
     <div className="blog-container1">
@@ -127,61 +142,58 @@ const Blog = () => {
         </section>
 
         {/* Featured Post Banner */}
-        {featuredPost && !searchQuery && selectedCategory === 'all' && (() => {
-          const featuredSlug = featuredPost.slug?.current || featuredPost.slug || featuredPost.post_slug;
-          return (
-            <section className="blog-featured-section">
-              <div className="blog-container">
-                <div
-                  className="featured-card"
-                  onClick={() => history.push(`/blog/${featuredSlug}`)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <div className="featured-card-image">
-                    <img
-                      src={
-                        featuredPost.mainImage
-                          ? urlFor(featuredPost.mainImage).width(1200).url()
-                          : featuredPost.imageUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200'
-                      }
-                      alt={featuredPost.title}
-                      loading="lazy"
-                    />
-                    <span className="featured-badge">🔥 مقاله ویژه</span>
+        {featuredPost && !searchQuery && selectedCategory === 'all' && (
+          <section className="blog-featured-section">
+            <div className="blog-container">
+              <div
+                className="featured-card"
+                onClick={() => history.push(`/blog/${featuredSlug}`)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="featured-card-image">
+                  <img
+                    src={
+                      featuredPost.mainImage
+                        ? urlFor(featuredPost.mainImage).width(1200).url()
+                        : featuredPost.imageUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200'
+                    }
+                    alt={featuredPost.title}
+                    loading="lazy"
+                  />
+                  <span className="featured-badge">🔥 مقاله ویژه</span>
+                </div>
+                <div className="featured-card-content">
+                  <div className="featured-meta">
+                    <span className="featured-category">{getCategoryTitle(featuredPost.category)}</span>
+                    <span>•</span>
+                    <span>{featuredPost.estimatedReadTime || 5} دقیقه مطالعه</span>
                   </div>
-                  <div className="featured-card-content">
-                    <div className="featured-meta">
-                      <span className="featured-category">{featuredPost.category?.title || featuredPost.category || 'کوچینگ'}</span>
-                      <span>•</span>
-                      <span>{featuredPost.estimatedReadTime || 5} دقیقه مطالعه</span>
+                  <h2 className="featured-title">
+                    <Link to={`/blog/${featuredSlug}`} onClick={(e) => e.stopPropagation()}>
+                      {featuredPost.title}
+                    </Link>
+                  </h2>
+                  <p className="featured-excerpt">{featuredPost.excerpt}</p>
+                  <div className="featured-footer">
+                    <div className="author-info">
+                      <span className="author-name">
+                        {getAuthorName(featuredPost.author, featuredPost.authorName)}
+                        {featuredPost.author?.isAi && <span className="ai-badge" title="پرسونای هوش مصنوعی">🤖 AI</span>}
+                      </span>
                     </div>
-                    <h2 className="featured-title">
-                      <Link to={`/blog/${featuredSlug}`} onClick={(e) => e.stopPropagation()}>
-                        {featuredPost.title}
-                      </Link>
-                    </h2>
-                    <p className="featured-excerpt">{featuredPost.excerpt}</p>
-                    <div className="featured-footer">
-                      <div className="author-info">
-                        <span className="author-name">
-                          {featuredPost.author?.name || featuredPost.authorName || 'تیم بلومیا'}
-                          {featuredPost.author?.isAi && <span className="ai-badge" title="پرسونای هوش مصنوعی">🤖 AI</span>}
-                        </span>
-                      </div>
-                      <Link
-                        to={`/blog/${featuredSlug}`}
-                        className="read-more-btn"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        مطالعه مقاله ↗
-                      </Link>
-                    </div>
+                    <Link
+                      to={`/blog/${featuredSlug}`}
+                      className="read-more-btn"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      مطالعه مقاله ↗
+                    </Link>
                   </div>
                 </div>
               </div>
-            </section>
-          );
-        })()}
+            </div>
+          </section>
+        )}
 
         {/* Main Blog Grid */}
         <section className="blog-section">
@@ -200,7 +212,7 @@ const Blog = () => {
               <div className="blog-grid">
                 {filteredPosts.map((post) => {
                   const postSlug = post.slug?.current || post.slug || post.post_slug;
-                  const catTitle = post.category?.title || post.category || 'عام';
+                  const catTitle = getCategoryTitle(post.category);
                   const imageUrl = post.mainImage
                     ? urlFor(post.mainImage).width(800).height(500).url()
                     : post.imageUrl || 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=800';
@@ -209,7 +221,7 @@ const Blog = () => {
                     ? new Date(post.publishedAt || post.createdAt).toLocaleDateString('fa-IR')
                     : '';
 
-                  const authorName = post.author?.name || post.authorName || 'بلومیا کلاب';
+                  const authorName = getAuthorName(post.author, post.authorName);
                   const isAiAuthor = post.author?.isAi;
 
                   return (

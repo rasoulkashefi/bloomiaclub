@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 
 import './style.css'
+import ErrorBoundary from './components/ErrorBoundary'
 const Home = React.lazy(() => import('./views/home'))
 const NotFound = React.lazy(() => import('./views/not-found'))
 
@@ -42,8 +43,9 @@ const Legal = React.lazy(() => import('./views/legal'))
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<div className="app-loading">در حال بارگذاری...</div>}>
-        <Switch>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="app-loading">در حال بارگذاری...</div>}>
+          <Switch>
         {/* Home */}
         <Route component={Home} exact path="/" />
 
@@ -79,7 +81,8 @@ const App = () => {
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
         </Switch>
-      </Suspense>
+        </Suspense>
+      </ErrorBoundary>
     </Router>
   )
 }

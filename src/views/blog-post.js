@@ -168,7 +168,7 @@ const BlogPost = () => {
           <header className="blog-post-header">
             {post.category && (
               <span className="blog-post-category-badge">
-                {post.category.title || post.category}
+                {(typeof post.category === 'object' ? post.category?.title : post.category) || 'کوچینگ'}
               </span>
             )}
             <h1 className="blog-post-main-title">{post.title}</h1>
