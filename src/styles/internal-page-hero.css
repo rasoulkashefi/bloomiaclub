@@ -1,0 +1,57 @@
+/* Internal Page Hero Pattern - Reusable for all internal pages */
+
+.internal-page-hero {
+  padding: var(--spacing-4xl) var(--spacing-2xl);
+  background: #FAFAF8;
+  border-bottom: 1px solid #E5E5E2;
+}
+
+.internal-page-hero-container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.internal-page-hero-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: #1E1E1E;
+  margin-bottom: var(--spacing-lg);
+  font-family: var(--font-family-heading);
+  line-height: 1.2;
+}
+
+.internal-page-hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #6B6B6B;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Optional: Hero with no subtitle */
+.internal-page-hero-title-only {
+  margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .internal-page-hero {
+    padding: var(--spacing-3xl) var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .internal-page-hero {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+
+  .internal-page-hero-title {
+    font-size: 1.75rem;
+  }
+
+  .internal-page-hero-subtitle {
+    font-size: 1rem;
+  }
+}
+

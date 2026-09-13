@@ -1,0 +1,544 @@
+/* Free Intro Session / Blomia Page Styles */
+.blomia-page {
+  color: var(--color-on-surface);
+  overflow-x: hidden;
+  font-family: var(--font-family-body);
+  background-color: var(--color-surface);
+}
+
+.hero-booking {
+  display: flex;
+  padding: var(--spacing-4xl) 0;
+  position: relative;
+  min-height: 80vh;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.booking-form-section {
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--color-surface-elevated);
+}
+
+.process-steps {
+  padding: var(--spacing-4xl) 0;
+}
+
+.coaches-grid {
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--color-surface-elevated);
+}
+
+.blomia-page .coaches-grid {
+  display: block;
+  max-width: none;
+  margin: 0;
+  padding: var(--spacing-4xl) 0;
+}
+
+.blomia-page .coaches-grid .coach-card {
+  height: auto;
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+
+
+.value-guarantee {
+  padding: var(--spacing-4xl) 0;
+}
+
+.testimonials-section {
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--color-surface);
+}
+
+.final-cta {
+  padding: var(--spacing-4xl) 0;
+}
+
+.hero-video-container {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  position: absolute;
+}
+
+.hero-content {
+  color: var(--color-surface);
+  padding: 0 var(--spacing-xl);
+  z-index: 3;
+  position: relative;
+  max-width: 800px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  max-width: var(--content-max-width);
+}
+
+.cta-alert-box {
+  gap: var(--spacing-2xl);
+  color: var(--color-on-primary);
+  width: 100%;
+  display: flex;
+  padding: var(--spacing-3xl);
+  align-items: center;
+  border-radius: var(--border-radius-xl);
+  justify-content: space-between;
+  background-color: var(--color-primary);
+}
+
+.hero-video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+  background: var(--color-scrim);
+}
+
+.hero-actions {
+  gap: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-xl);
+}
+
+.form-card {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-3xl);
+  background: var(--color-surface);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: var(--border-radius-xl);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.steps-wrapper {
+  gap: var(--spacing-xl);
+  display: flex;
+  margin-top: var(--spacing-3xl);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.features-row {
+  gap: var(--spacing-3xl);
+  display: flex;
+}
+
+.step-item {
+  flex: 1;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.step-divider {
+  height: 1px;
+  flex-grow: 1;
+  margin-top: -80px;
+  background-color: var(--color-border);
+}
+
+.feature-col {
+  flex: 1;
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  border-radius: var(--border-radius-lg);
+}
+
+.form-grid {
+  gap: var(--spacing-xl);
+  display: grid;
+  margin-bottom: var(--spacing-2xl);
+  grid-template-columns: 1fr 1fr;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: var(--spacing-lg);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(31, 61, 58, 0.2);
+}
+
+.step-icon {
+  color: var(--color-accent);
+  width: 64px;
+  border: 1px solid var(--color-accent);
+  height: 64px;
+  display: flex;
+  transition: transform 0.3s ease;
+  align-items: center;
+  border-radius: var(--border-radius-full);
+  margin-bottom: var(--spacing-lg);
+  justify-content: center;
+  background-color: var(--color-surface-elevated);
+}
+
+.feature-icon-box {
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+  font-size: 2rem;
+}
+
+.form-group {
+  gap: var(--spacing-xs);
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-native-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-card .section-title {
+  margin-bottom: var(--spacing-sm);
+  text-align: center;
+}
+
+.form-card .section-content {
+  color: var(--color-on-surface-secondary);
+  margin-bottom: var(--spacing-3xl);
+  text-align: center;
+  font-size: var(--font-size-lg);
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xs);
+  display: block;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  transition: all 0.3s ease;
+  font-family: var(--font-family-body);
+  border-radius: var(--border-radius-control);
+  font-size: var(--font-size-base);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(31, 61, 58, 0.1);
+}
+
+.form-hint {
+  color: var(--color-on-surface-secondary);
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
+  display: block;
+}
+
+.form-error {
+  color: #d32f2f;
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
+  display: block;
+}
+
+.input-error {
+  border-color: #d32f2f !important;
+}
+
+.step-item:hover .step-icon {
+  transform: translateY(-5px);
+}
+
+.feature-col .section-subtitle {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.cta-alert-content .section-title {
+  color: var(--color-on-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.cta-alert-content .section-content {
+  color: var(--color-on-primary);
+  opacity: 0.9;
+}
+
+.cta-alert-action {
+  flex-shrink: 0;
+}
+
+.grid-layout {
+  gap: var(--spacing-2xl);
+  display: grid;
+  margin-top: var(--spacing-3xl);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.blomia-page .coaches-grid .grid-layout {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+
+
+.coach-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-card);
+  padding: var(--spacing-xl);
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-level-1);
+}
+
+.coach-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-level-3);
+  border-color: var(--color-accent);
+}
+
+.coach-card-image-wrapper {
+  margin-bottom: var(--spacing-lg);
+}
+
+.coach-img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: var(--border-radius-full);
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+  border: 4px solid var(--color-border);
+}
+
+.coach-card:hover .coach-img {
+  filter: grayscale(0%);
+  border-color: var(--color-accent);
+}
+
+.coach-card-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-md);
+}
+
+.coach-card .coach-name {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-on-surface);
+  margin-bottom: var(--spacing-xs);
+  font-family: var(--font-family-heading);
+}
+
+.coach-card .coach-title {
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.coach-card .coach-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-lg);
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.coach-profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius-control);
+  transition: all 0.3s ease;
+  margin-top: 0;
+}
+
+.coach-profile-link:hover {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.coach-profile-link svg {
+  transition: transform 0.3s ease;
+}
+
+.coach-profile-link:hover svg {
+  transform: translateX(-3px);
+}
+
+.coach-card .section-subtitle {
+  margin-bottom: var(--spacing-xs);
+}
+
+.testimonial-card {
+  display: flex;
+  padding: var(--spacing-xl);
+  background: var(--color-surface-elevated);
+  border-right: 4px solid var(--color-accent);
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: var(--border-radius-md);
+}
+
+.testimonial-author {
+  color: var(--color-on-surface-secondary);
+  display: block;
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-md);
+  font-weight: var(--font-weight-medium);
+}
+
+@media(max-width: 991px) {
+  .cta-alert-box {
+    text-align: center;
+    flex-direction: column;
+  }
+  .steps-wrapper {
+    flex-wrap: wrap;
+  }
+  .grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .features-row {
+    flex-direction: column;
+  }
+  .step-item {
+    flex: 0 0 100%;
+    margin-bottom: var(--spacing-xl);
+  }
+  .step-divider {
+    display: none;
+  }
+}
+
+@media(max-width: 767px) {
+  .hero-booking {
+    min-height: 70vh;
+    padding: var(--spacing-2xl) 0;
+  }
+  .hero-title {
+    font-size: var(--font-size-3xl);
+  }
+  .form-card {
+    padding: var(--spacing-xl);
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+  .grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-sm);
+  }
+  .blomia-page .coaches-grid .grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-sm);
+  }
+  .coaches-grid {
+    padding: var(--spacing-2xl) 0;
+  }
+  .coaches-grid .grid-layout {
+    margin-top: var(--spacing-lg);
+  }
+  .coaches-grid .coach-card {
+    padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-xs) var(--spacing-sm);
+    margin-bottom: 0;
+    max-width: 100%;
+    width: 100%;
+    min-height: auto;
+  }
+  .blomia-page .coaches-grid .coach-card:nth-child(n+4) {
+    display: none;
+  }
+  .coach-card-image-wrapper {
+    width: 70px;
+    height: 70px;
+    margin-bottom: var(--spacing-xs);
+  }
+  .coach-img {
+    width: 70px;
+    height: 70px;
+    border-width: 2px;
+  }
+  .coach-name {
+    font-size: var(--font-size-base);
+    margin: 0 0 var(--spacing-xs) 0;
+  }
+  .coach-card-content {
+    padding: 0;
+    margin-top: 0;
+    gap: var(--spacing-xs);
+  }
+  .coach-profile-link {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+@media(max-width: 479px) {
+  .hero-booking {
+    min-height: 60vh;
+  }
+  .cta-alert-box {
+    padding: var(--spacing-xl);
+  }
+}

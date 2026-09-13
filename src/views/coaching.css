@@ -1,0 +1,185 @@
+.coaching-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #FAFAF8;
+  direction: rtl;
+}
+
+.coaching-main {
+  flex: 1;
+  padding: 120px 20px 110px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.coaching-hero {
+  text-align: center;
+  margin-bottom: 80px;
+  padding: 0 10px;
+}
+
+.coaching-hero h1 {
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  color: #1F3D3A;
+  margin-bottom: 20px;
+  font-family: var(--font-family-heading);
+}
+
+.coaching-hero-tag {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 14px;
+  border: 1px solid #E5E5E2;
+  border-radius: 999px;
+  color: #1F3D3A;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: #ffffff;
+}
+
+.coaching-hero p {
+  color: #4b4b4b;
+  line-height: 2;
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+}
+
+.coaching-section {
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #E5E5E2;
+  border-radius: 16px;
+  padding: 32px 36px;
+  box-shadow: 0 16px 40px rgba(31, 61, 58, 0.05);
+}
+
+.coaching-section h2 {
+  font-size: 1.8rem;
+  color: #1F3D3A;
+  font-family: var(--font-family-heading);
+}
+
+.coaching-section h3 {
+  font-size: 1.2rem;
+  color: #1F3D3A;
+  margin-top: 12px;
+}
+
+.coaching-section p,
+.coaching-section li {
+  color: #4b4b4b;
+  line-height: 2;
+  font-size: 1rem;
+}
+
+.coaching-section ul {
+  padding-right: 20px;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.coaching-muted {
+  background: #f7f7f4;
+  border: 1px solid #e5e5e2;
+  box-shadow: none;
+}
+
+.coaching-split {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.coaching-card {
+  background: #fafaf8;
+  border: 1px solid #E5E5E2;
+  border-radius: 14px;
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.coaching-pill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.coaching-pill-list li {
+  background: #FFFFFF;
+  border: 1px solid #E5E5E2;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.coaching-cta-inline {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.coaching-faq {
+  display: grid;
+  gap: 20px;
+}
+
+.coaching-faq h3 {
+  margin-bottom: 8px;
+}
+
+.coaching-cta {
+  margin-top: 80px;
+  padding: 40px 36px;
+  border: 1px solid #E5E5E2;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.coaching-cta-centered {
+  text-align: center;
+}
+
+.coaching-cta h2 {
+  font-size: 1.8rem;
+  color: #1F3D3A;
+  margin-bottom: 12px;
+}
+
+.coaching-cta p {
+  color: #4b4b4b;
+  line-height: 2;
+}
+
+.coaching-cta-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .coaching-main {
+    padding: 90px 16px 80px;
+  }
+
+  .coaching-split {
+    grid-template-columns: 1fr;
+  }
+
+  .coaching-section {
+    padding: 28px 22px;
+  }
+}

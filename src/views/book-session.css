@@ -1,0 +1,31 @@
+.book-session-container1 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.book-session-container2 {
+  flex: 1;
+  width: 100%;
+  background: #f8f9fa;
+}
+
+.book-session-hero {
+  padding: 60px 20px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.book-session-hero h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.book-session-hero p {
+  font-size: 18px;
+  color: #666;
+}
