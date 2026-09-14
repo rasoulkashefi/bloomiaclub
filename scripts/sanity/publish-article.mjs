@@ -56,8 +56,8 @@ async function uploadImageAsset(filePath, alt = '', caption = '') {
   };
 }
 
-async function ensureAuthor(authorId, authorName, isAi = false) {
-  const docId = authorId || `author-${authorName ? authorName.toLowerCase().replace(/\s+/g, '-') : 'default'}`;
+async function ensureAuthor(authorId, authorName, coachSlug, jobTitle) {
+  const docId = authorId || (coachSlug ? `coach-${coachSlug}` : `author-${authorName ? authorName.toLowerCase().replace(/\s+/g, '-') : 'bloomia'}`);
   
   const existing = await client.getDocument(docId).catch(() => null);
   if (existing) {
@@ -65,16 +65,19 @@ async function ensureAuthor(authorId, authorName, isAi = false) {
     return { _type: 'reference', _ref: existing._id };
   }
 
-  const name = authorName || 'نویسنده هوش مصنوعی بلومیا';
+  const name = authorName || 'تیم کوچینگ بلومیا';
   console.log(`👤 Creating new author: ${name}...`);
 
   const created = await client.createIfNotExists({
     _id: docId,
     _type: 'author',
     name,
-    slug: { _type: 'slug', current: authorName ? authorName.toLowerCase().replace(/\s+/g, '-') : 'ai-author' },
-    isAi,
-    bio: isAi ? 'پرسونای هوش مصنوعی بلومیا کلاب' : 'نویسنده و کارشناس محتوا',
+    slug: { _type: 'slug', current: coachSlug || name.toLowerCase().replace(/\s+/g, '-') },
+    coachSlug: coachSlug || null,
+    isCoach: !!coachSlug,
+    isAi: false,
+    jobTitle: jobTitle || 'کوچ حرفه‌ای بلومیا',
+    bio: 'کوچ رسمی و تاییدشده در مجموعه بلومیا کلاب',
   });
 
   return { _type: 'reference', _ref: created._id };
@@ -195,7 +198,7 @@ async function publishArticle(jsonFilePath) {
   }
 
   // Author & Category
-  const authorRef = await ensureAuthor(payload.authorId, payload.authorName, payload.isAiAuthor ?? true);
+  const authorRef = await ensureAuthor(payload.authorId, payload.authorName, payload.coachSlug, payload.jobTitle);
   const categoryRef = await ensureCategory(payload.categoryTitle, payload.categorySlug);
 
   // Convert PortableText
