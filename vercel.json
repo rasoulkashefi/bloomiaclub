@@ -6,6 +6,21 @@
   "installCommand": "npm install --legacy-peer-deps",
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/((?!static/|images/|videos/|fonts/|.*\\..*).*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(Telegram|telegram|Twitter|twitter|facebookexternalhit|WhatsApp|whatsapp|LinkedIn|linkedin|Pinterest|pinterest|Slack|slack|Discord|discord|Skype|skype|Googlebot|bingbot|Baiduspider|yandex).*"
+        }
+      ],
+      "destination": "/api/og-meta?path=$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
