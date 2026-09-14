@@ -16,8 +16,8 @@ function urlFor(source) {
 }
 
 const SITE_NAME = 'بلومیا | پلتفرم تخصصی کوچینگ';
-const DEFAULT_IMAGE = 'https://bloomiaclub.com/og-image.jpg';
-const BASE_URL = 'https://bloomiaclub.com';
+const DEFAULT_IMAGE = 'https://www.bloomiaclub.com/og-image.jpg';
+const BASE_URL = 'https://www.bloomiaclub.com';
 
 const STATIC_PAGES = {
   '': {
@@ -33,17 +33,17 @@ const STATIC_PAGES = {
   'coaching': {
     title: 'خدمات کوچینگ و رزرو جلسه معارفه | بلومیا کلاب',
     description: 'با همراهی کوچ‌های معتبر و حرفه‌ای بلومیا، موانع ذهنی را پشت سر بگذارید و به اهداف شغلی و فردی خود دست یابید.',
-    image: 'https://bloomiaclub.com/images/og-coaching.jpg',
+    image: 'https://www.bloomiaclub.com/images/og-coaching.jpg',
   },
   'coaching/what-is-coaching': {
     title: 'کوچینگ چیست و چه کمکی به شما می‌کند؟ | بلومیا',
     description: 'راهنمای جامع آشنایی با کوچینگ حرفه‌ای، تفاوت آن با مشاوره و روان‌درمانی و نحوه اثرگذاری بر رشد فردی.',
-    image: 'https://bloomiaclub.com/images/og-what-is-coaching.jpg',
+    image: 'https://www.bloomiaclub.com/images/og-what-is-coaching.jpg',
   },
   'coaching/free-intro-session': {
     title: 'جلسه معارفه رایگان کوچینگ | بلومیا کلاب',
     description: 'فرصت گفتگوی مستقیم و شفاف‌سازی اهداف در یک جلسه معارفه رایگان با کوچ‌های تاییدشده بلومیا.',
-    image: 'https://bloomiaclub.com/images/og-coaching.jpg',
+    image: 'https://www.bloomiaclub.com/images/og-coaching.jpg',
   },
   'coaches': {
     title: 'کوچ‌های رسمی و تاییدشده بلومیا کلاب',
@@ -53,7 +53,7 @@ const STATIC_PAGES = {
   'about': {
     title: 'درباره ما | داستان و مأموریت بلومیا کلاب',
     description: 'آشنایی با هویت، رسالت و چشم‌انداز پلتفرم بلومیا در ارتقای کیفیت زندگی، کار و سلامت روان.',
-    image: 'https://bloomiaclub.com/images/og-about.jpg',
+    image: 'https://www.bloomiaclub.com/images/og-about.jpg',
   },
   'contact': {
     title: 'تماس با بلومیا کلاب | پشتیبانی و ارتباط با ما',

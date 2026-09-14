@@ -2,39 +2,227 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://bloomiaclub.com/</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.bloomiaclub.com/</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://bloomiaclub.com/coaching/all-coaches</loc>
-    <lastmod>2026-02-13</lastmod>
+    <loc>https://www.bloomiaclub.com/coaches</loc>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaching</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaching/free-intro-session</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaching/what-is-coaching</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bloomiaclub.com/blog</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.bloomiaclub.com/blog</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/about</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bloomiaclub.com/about</loc>
-    <lastmod>2026-02-13</lastmod>
+    <loc>https://www.bloomiaclub.com/faq</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/contact</loc>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://bloomiaclub.com/coaching/free-intro-session</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
+    <loc>https://www.bloomiaclub.com/coaches/fatemeh_esmaeeli</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/fatemeh_esmaeeli.jpeg</image:loc>
+      <image:title>فاطمه اسماعیلی</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://bloomiaclub.com/what-is-coaching</loc>
-    <lastmod>2026-02-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://www.bloomiaclub.com/coaches/mahya_shakoori</loc>
+    <lastmod>2026-02-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/mahya_shakouri.jpg</image:loc>
+      <image:title>محیا شکوری</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaches/Arezoo_Ghaffari</loc>
+    <lastmod>2026-02-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/arezoo_ghafari.jpg</image:loc>
+      <image:title>آرزو غفاری</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaches/shabnam_nematimalek</loc>
+    <lastmod>2026-02-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/shabnam_nematimalek.jpg</image:loc>
+      <image:title>شبنم نعمتی‌ملک</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaches/saloomeh_fathijou</loc>
+    <lastmod>2026-02-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/saloomeh_fathijou.jpg</image:loc>
+      <image:title>سالومه فتحی‌جو</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaches/maryam_johari</loc>
+    <lastmod>2026-02-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/maryam_johari.jpg</image:loc>
+      <image:title>مریم جوهری</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaches/fatemeh-derakhsh</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/Fatemeh_Darkhosh.png</image:loc>
+      <image:title>دکتر فاطمه درخوش</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/coaches/payam-esmi</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/Payam_Esmi_Coach.png</image:loc>
+      <image:title>پیام اسمی</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/breaking-limiting-beliefs-for-personal-growth</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/4937861f54581afa8f87096a857b77f9fca43b16-1024x1024.png?rect=0,243,1024,538&amp;w=1200&amp;h=630</image:loc>
+      <image:title>شکستن دیوارهای نامرئی: چگونه باورهای محدودکننده مانع رشد ما می‌شوند</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/coaching-for-moms-prioritizing-what-really-matters</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/8c9cddf680e93aa865eb303fd3c475466e17b17c-1024x1024.png?rect=0,243,1024,538&amp;w=1200&amp;h=630</image:loc>
+      <image:title>کوچینگ و مدیریت اولویت‌ها برای مادران: چطور بین کار، خانواده و خودت تعادل برقرار کنی؟</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/how-to-talk-to-teens-coaching-guide</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/13d8b20f650aa03900e5d83b590f8f0d61c7ced7-1376x768.jpg?rect=0,23,1376,722&amp;w=1200&amp;h=630</image:loc>
+      <image:title>چگونه با فرزند نوجوان خود صحبت کنیم که بشنود؟ راهنمای کوچینگ برای مهار تعارض‌های سن بلوغ</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/mom-burnout-symptoms-causes-coaching</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/6c979da72487e77edf14721eca15a596d447b1f2-2816x1536.png?rect=0,29,2816,1478&amp;w=1200&amp;h=630</image:loc>
+      <image:title>فرسودگی مادرانه (Mom Burnout): علائم، دلایل و نقش کوچینگ در بازیابی انرژی</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/mom-guilt-and-how-to-overcome-it</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/59376590cfde6eaa0606a5678e7c1a693d689de1-1024x1024.jpg?rect=0,243,1024,538&amp;w=1200&amp;h=630</image:loc>
+      <image:title>احساس گناه مادرانه (Mom Guilt): چرا همیشه فکر می‌کنیم «کافی نیستیم»؟ و چگونه می‌توانیم از آن رها شویم؟</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/parenting-in-crisis-managing-anxiety-mothers</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/6875f82433ca546dd4b301b20519cbf08154f007-1536x1024.png?rect=0,109,1536,806&amp;w=1200&amp;h=630</image:loc>
+      <image:title>چگونه در شرایط بحرانی، مادر آرام‌تری باشیم؟ راهنمای مدیریت اضطراب و حمایت از کودک</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/purposeful-time-management-coaching</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/1a573b2151899b0637c636b6c988dfc07cd8536f-1024x576.png?rect=0,19,1024,538&amp;w=1200&amp;h=630</image:loc>
+      <image:title>از تله‌ی «پرمشغله بودن» تا لذت «موثر بودن»: چگونه ناخدای مقتدر زندگی خود شویم؟</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/what-is-personal-development-coaching</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/ade6867636024717aa9add36a8e178c1d12d9b81-1024x768.png?rect=0,115,1024,538&amp;w=1200&amp;h=630</image:loc>
+      <image:title>کوچینگ توسعه فردی چیست و چگونه زندگی شما را تحول می‌بخشد؟</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/work_life_balance_coaching</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/00e4670b9bc7682a6b40cb42cfc3e042b5399c52-1024x1024.png?rect=0,243,1024,538&amp;w=1200&amp;h=630</image:loc>
+      <image:title>چگونه تعادل واقعی بین کار و زندگی را پیدا کنیم؟ (و چرا کمال‌گرایی دشمن شماست)</image:title>
+    </image:image>
   </url>
 </urlset>

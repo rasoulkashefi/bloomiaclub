@@ -1,39 +1,60 @@
 import fs from 'fs';
 import path from 'path';
-import { createClient } from '@sanity/client';
+import { createClient as createSanityClient } from '@sanity/client';
 import { createImageUrlBuilder } from '@sanity/image-url';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
-// Load .env.local if present
-const envPath = path.resolve(process.cwd(), '.env.local');
-if (fs.existsSync(envPath)) {
-  const envContent = fs.readFileSync(envPath, 'utf8');
-  envContent.split('\n').forEach((line) => {
-    const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
-    if (match) {
-      const key = match[1];
-      let value = match[2] || '';
-      if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
-      if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
-      process.env[key] = value;
-    }
-  });
+// Load .env and .env.local if present
+for (const file of ['.env', '.env.local']) {
+  const envPath = path.resolve(process.cwd(), file);
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    envContent.split('\n').forEach((line) => {
+      const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+      if (match) {
+        const key = match[1];
+        let value = (match[2] || '').trim();
+        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1);
+        }
+        process.env[key] = value;
+      }
+    });
+  }
 }
 
-const client = createClient({
+const BASE_URL = 'https://www.bloomiaclub.com';
+const DEFAULT_IMAGE = `${BASE_URL}/og-image.jpg`;
+const SITE_NAME = 'بلومیا | پلتفرم خدمات کوچینگ و رشد فردی';
+
+const supabaseBaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://qxacvupalbfcoqkuydba.supabase.co';
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+
+const sanityClient = createSanityClient({
   projectId: process.env.REACT_APP_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || '7yjhdw88',
   dataset: process.env.REACT_APP_SANITY_DATASET || process.env.SANITY_DATASET || 'production',
   apiVersion: '2024-01-01',
   useCdn: false,
 });
 
-const builder = createImageUrlBuilder(client);
+const builder = createImageUrlBuilder(sanityClient);
 function urlFor(source) {
   return builder.image(source);
 }
 
-const BASE_URL = 'https://bloomiaclub.com';
-const DEFAULT_IMAGE = `${BASE_URL}/og-image.jpg`;
-const SITE_NAME = 'بلومیا | پلتفرم خدمات کوچینگ و رشد فردی';
+const resolveCoachImageUrl = (value) => {
+  if (!value) return null;
+  const cleaned = String(value).trim();
+  if (!cleaned) return null;
+  if (/^https?:\/\//i.test(cleaned)) return cleaned;
+  if (cleaned.startsWith('storage/v1/object/public/')) {
+    return `${supabaseBaseUrl}/${cleaned}`;
+  }
+  if (cleaned.startsWith('/storage/v1/object/public/')) {
+    return `${supabaseBaseUrl}${cleaned}`;
+  }
+  return `${supabaseBaseUrl}/storage/v1/object/public/coaches_images/${cleaned.replace(/^\/+/, '')}`;
+};
 
 const STATIC_PAGES = [
   {
@@ -104,6 +125,7 @@ function updateHtmlMeta(htmlTemplate, meta) {
 
   // Helper to replace or inject meta tag
   const replaceOrInjectMeta = (attr, attrValue, content) => {
+    if (!content) return;
     const escapedContent = escapeHtml(content);
     const regex = new RegExp(`<meta\\s+${attr}=["']${attrValue}["'][^>]*>`, 'i');
     if (regex.test(updated)) {
@@ -121,7 +143,7 @@ function updateHtmlMeta(htmlTemplate, meta) {
   replaceOrInjectMeta('property', 'og:url', meta.url);
   replaceOrInjectMeta('property', 'og:image', meta.image);
   replaceOrInjectMeta('property', 'og:image:secure_url', meta.image);
-  replaceOrInjectMeta('property', 'og:image:type', meta.image.includes('.png') ? 'image/png' : 'image/jpeg');
+  replaceOrInjectMeta('property', 'og:image:type', (meta.image || '').includes('.png') ? 'image/png' : 'image/jpeg');
   replaceOrInjectMeta('property', 'og:image:width', '1200');
   replaceOrInjectMeta('property', 'og:image:height', '630');
   replaceOrInjectMeta('property', 'og:image:alt', meta.title);
@@ -138,6 +160,21 @@ function updateHtmlMeta(htmlTemplate, meta) {
     updated = updated.replace(canonicalRegex, `<link rel="canonical" href="${escapeHtml(meta.url)}" />`);
   } else {
     updated = updated.replace('</head>', `  <link rel="canonical" href="${escapeHtml(meta.url)}" />\n</head>`);
+  }
+
+  // Schema JSON-LD injection
+  if (meta.schema) {
+    const schemaStr = `  <script type="application/ld+json">${JSON.stringify(meta.schema)}</script>\n`;
+    updated = updated.replace('</head>', `${schemaStr}</head>`);
+  }
+
+  // Noscript injection for bots/crawlers
+  if (meta.noscript) {
+    if (updated.includes('<div id="app">')) {
+      updated = updated.replace('<div id="app">', `${meta.noscript}\n<div id="app">`);
+    } else if (updated.includes('<body>')) {
+      updated = updated.replace('<body>', `<body>\n${meta.noscript}`);
+    }
   }
 
   return updated;
@@ -170,9 +207,93 @@ async function run() {
     console.log(`  📄 Created static meta page: /${page.path} [image: ${path.basename(page.image)}]`);
   }
 
-  // 2. Fetch all Posts from Sanity
+  // 2. Fetch all Active Coaches from Supabase
+  if (supabaseAnonKey) {
+    try {
+      console.log('📡 Fetching active coaches from Supabase...');
+      const supabase = createSupabaseClient(supabaseBaseUrl, supabaseAnonKey);
+      const { data: coaches, error: coachesError } = await supabase
+        .from('v2_coaches')
+        .select('*')
+        .eq('is_active', true);
+
+      if (coachesError) {
+        console.error('❌ Supabase error fetching coaches:', coachesError);
+      } else if (coaches) {
+        console.log(`📝 Found ${coaches.length} active coaches. Generating dedicated profile pages...`);
+
+        for (const coach of coaches) {
+          if (!coach.slug && !coach.id) continue;
+
+          const coachName = coach.full_name || 'کوچ بلومیا';
+          const coachJob = coach.job_title || 'کوچ حرفه‌ای توسعه فردی و شغلی';
+          const coachTitle = `${coachName} | ${coachJob} | بلومیا کلاب`;
+          const coachDescription = coach.bio_short || coach.bio_full?.slice(0, 160) || `${coachName}، ${coachJob} در پلتفرم خدمات کوچینگ بلومیا کلاب. رزرو آنلاین جلسه.`;
+          const coachImage = resolveCoachImageUrl(coach.avatar_url || coach.hero_image_url) || DEFAULT_IMAGE;
+          const coachSlug = coach.slug || coach.id;
+          const coachUrl = `${BASE_URL}/coaches/${coachSlug}`;
+
+          const coachSchema = {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": coachName,
+            "jobTitle": coachJob,
+            "url": coachUrl,
+            "image": coachImage,
+            "description": coachDescription,
+            "worksFor": {
+              "@type": "Organization",
+              "name": "بلومیا کلاب",
+              "url": BASE_URL
+            },
+            "inLanguage": "fa-IR"
+          };
+
+          const coachNoscript = `
+<noscript>
+  <div style="padding: 2rem; max-width: 800px; margin: 0 auto; direction: rtl; font-family: IRANYekan, Vazirmatn, sans-serif; text-align: right;">
+    <h1>${escapeHtml(coachName)}</h1>
+    <h2>${escapeHtml(coachJob)}</h2>
+    ${coach.bio_short ? `<p><strong>درباره کوچ:</strong> ${escapeHtml(coach.bio_short)}</p>` : ''}
+    ${coach.bio_full ? `<p>${escapeHtml(coach.bio_full)}</p>` : ''}
+    <p><a href="${BASE_URL}/coaching/free-intro-session">رزرو جلسه معارفه رایگان با ${escapeHtml(coachName)}</a></p>
+  </div>
+</noscript>`;
+
+          const coachHtml = updateHtmlMeta(baseHtml, {
+            title: coachTitle,
+            description: coachDescription,
+            image: coachImage,
+            url: coachUrl,
+            type: 'profile',
+            schema: coachSchema,
+            noscript: coachNoscript,
+          });
+
+          // Write /coaches/:slug/index.html
+          const slugDir = path.resolve('build/coaches', coachSlug);
+          fs.mkdirSync(slugDir, { recursive: true });
+          fs.writeFileSync(path.join(slugDir, 'index.html'), coachHtml, 'utf8');
+          console.log(`  👤 Pre-rendered coach page: /coaches/${coachSlug} (${coachName})`);
+
+          // If id is different from slug, also generate /coaches/:id/index.html so both URLs work seamlessly
+          if (coach.id && coach.id !== coachSlug) {
+            const idDir = path.resolve('build/coaches', coach.id);
+            fs.mkdirSync(idDir, { recursive: true });
+            fs.writeFileSync(path.join(idDir, 'index.html'), coachHtml, 'utf8');
+          }
+        }
+      }
+    } catch (err) {
+      console.error('❌ Error generating coach pages:', err);
+    }
+  } else {
+    console.warn('⚠️ Supabase anon key not found; skipping coach profile generation.');
+  }
+
+  // 3. Fetch all Posts from Sanity
   console.log('📡 Fetching blog posts from Sanity...');
-  const posts = await client.fetch(`*[_type == "post"]{
+  const posts = await sanityClient.fetch(`*[_type == "post"]{
     _id,
     title,
     "slug": slug.current,
@@ -181,6 +302,7 @@ async function run() {
     excerpt,
     mainImage,
     publishedAt,
+    _updatedAt,
     "authorName": author->name
   }`);
 
@@ -208,12 +330,48 @@ async function run() {
     const postDescription = post.metaDescription || post.excerpt || 'مقاله تخصصی در وبلاگ بلومیا کلاب';
     const postUrl = `${BASE_URL}/blog/${post.slug}`;
 
+    const postSchema = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": postDescription,
+      "image": imageUrl,
+      "url": postUrl,
+      "datePublished": post.publishedAt,
+      "dateModified": post._updatedAt || post.publishedAt,
+      "author": {
+        "@type": "Person",
+        "name": post.authorName || "تیم تحریریه بلومیا"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "بلومیا کلاب",
+        "url": BASE_URL,
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${BASE_URL}/images/bloomia-club-logo.png`
+        }
+      },
+      "inLanguage": "fa-IR"
+    };
+
+    const postNoscript = `
+<noscript>
+  <article style="padding: 2rem; max-width: 800px; margin: 0 auto; direction: rtl; font-family: IRANYekan, Vazirmatn, sans-serif; text-align: right;">
+    <h1>${escapeHtml(post.title)}</h1>
+    <p>${escapeHtml(postDescription)}</p>
+    ${post.authorName ? `<p><strong>نویسنده:</strong> ${escapeHtml(post.authorName)}</p>` : ''}
+  </article>
+</noscript>`;
+
     const postHtml = updateHtmlMeta(baseHtml, {
       title: postTitle,
       description: postDescription,
       image: imageUrl,
       url: postUrl,
       type: 'article',
+      schema: postSchema,
+      noscript: postNoscript,
     });
 
     const targetDir = path.resolve('build/blog', post.slug);
@@ -222,7 +380,7 @@ async function run() {
     console.log(`  ✅ Pre-rendered blog post: /blog/${post.slug}`);
   }
 
-  console.log('🎉 All static Open Graph pages successfully generated!');
+  console.log('🎉 All static Open Graph & Schema pages successfully generated!');
 }
 
 run().catch(console.error);
