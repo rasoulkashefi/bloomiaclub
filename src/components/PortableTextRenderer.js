@@ -54,10 +54,55 @@ function renderChildren(children, markDefs = []) {
 export const PortableTextRenderer = ({ value }) => {
   if (!value || !Array.isArray(value)) return null;
 
+  // Group consecutive list items into listGroup blocks
+  const processedBlocks = [];
+  let currentList = null;
+
+  for (let i = 0; i < value.length; i++) {
+    const block = value[i];
+    if (block._type === 'block' && block.listItem) {
+      if (currentList && currentList.listItem === block.listItem) {
+        currentList.items.push(block);
+      } else {
+        if (currentList) {
+          processedBlocks.push(currentList);
+        }
+        currentList = {
+          _type: 'listGroup',
+          listItem: block.listItem,
+          items: [block],
+          _key: block._key || `list-group-${i}`,
+        };
+      }
+    } else {
+      if (currentList) {
+        processedBlocks.push(currentList);
+        currentList = null;
+      }
+      processedBlocks.push(block);
+    }
+  }
+  if (currentList) {
+    processedBlocks.push(currentList);
+  }
+
   return (
     <div className="portable-text-wrapper">
-      {value.map((block, index) => {
+      {processedBlocks.map((block, index) => {
         const key = block._key || index;
+
+        if (block._type === 'listGroup') {
+          const Tag = block.listItem === 'number' ? 'ol' : 'ul';
+          const listClass = block.listItem === 'number' ? 'portable-list-number' : 'portable-list-bullet';
+          return (
+            <Tag key={key} className={listClass}>
+              {block.items.map((item, itemIdx) => {
+                const itemChildren = renderChildren(item.children, item.markDefs);
+                return <li key={item._key || itemIdx}>{itemChildren}</li>;
+              })}
+            </Tag>
+          );
+        }
 
         if (block._type === 'image') {
           if (!block.asset) return null;
@@ -81,7 +126,7 @@ export const PortableTextRenderer = ({ value }) => {
 
         if (block._type === 'callout') {
           const toneMap = {
-            tip: { bg: '#ecfdf5', border: '#10b981', color: '#065f46', icon: '💡', title: 'نکته مهم' },
+            tip: { bg: '#f0fdf4', border: '#16a34a', color: '#14532d', icon: '💡', title: 'نکته کاربردی' },
             warning: { bg: '#fffbeb', border: '#f59e0b', color: '#92400e', icon: '⚠️', title: 'هشدار' },
             info: { bg: '#eff6ff', border: '#3b82f6', color: '#1e40af', icon: 'ℹ️', title: 'اطلاعات' },
           };
@@ -95,9 +140,9 @@ export const PortableTextRenderer = ({ value }) => {
                 backgroundColor: style.bg,
                 borderRight: `4px solid ${style.border}`,
                 color: style.color,
-                padding: '1.2rem 1.5rem',
+                padding: '1.25rem 1.6rem',
                 borderRadius: '12px',
-                margin: '1.8rem 0',
+                margin: '2rem 0',
                 direction: 'rtl',
               }}
             >
@@ -105,7 +150,7 @@ export const PortableTextRenderer = ({ value }) => {
                 <span>{style.icon}</span>
                 <span>{block.title || style.title}</span>
               </div>
-              <div style={{ fontSize: '0.95rem', lineHeight: '1.7' }}>{block.content}</div>
+              <div style={{ fontSize: '0.98rem', lineHeight: '1.8' }}>{block.content}</div>
             </div>
           );
         }
@@ -187,22 +232,6 @@ export const PortableTextRenderer = ({ value }) => {
           if (style === 'h3') return <h3 key={key} className="portable-h3">{children}</h3>;
           if (style === 'h4') return <h4 key={key} className="portable-h4">{children}</h4>;
           if (style === 'blockquote') return <blockquote key={key} className="portable-blockquote">{children}</blockquote>;
-
-          if (block.listItem === 'bullet') {
-            return (
-              <ul key={key} className="portable-list-bullet">
-                <li>{children}</li>
-              </ul>
-            );
-          }
-
-          if (block.listItem === 'number') {
-            return (
-              <ol key={key} className="portable-list-number">
-                <li>{children}</li>
-              </ol>
-            );
-          }
 
           return <p key={key} className="portable-paragraph">{children}</p>;
         }

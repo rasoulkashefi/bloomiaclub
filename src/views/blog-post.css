@@ -186,52 +186,103 @@
 /* PortableText Renderer Typography */
 .blog-post-body {
   font-size: 1.1rem;
-  line-height: 1.9;
-  color: #2d3748;
+  line-height: 2;
+  color: #334155;
+  letter-spacing: -0.01em;
 }
 
 .portable-h2 {
-  font-size: 1.7rem;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
   font-weight: 800;
-  color: #1a202c;
-  margin: 2.5rem 0 1rem;
-  line-height: 1.4;
+  color: #0f172a;
+  margin: 3rem 0 1.25rem;
+  line-height: 1.45;
   border-right: 4px solid #1f3d3a;
-  padding-right: 0.8rem;
+  padding-right: 0.9rem;
 }
 
 .portable-h3 {
-  font-size: 1.35rem;
+  font-size: clamp(1.2rem, 2.2vw, 1.45rem);
   font-weight: 700;
-  color: #2d3748;
-  margin: 2rem 0 0.8rem;
+  color: #1e293b;
+  margin: 2.2rem 0 1rem;
+  line-height: 1.5;
+  border-right: 3px solid #0d9488;
+  padding-right: 0.75rem;
 }
 
 .portable-h4 {
   font-size: 1.15rem;
   font-weight: 600;
-  color: #4a5568;
-  margin: 1.5rem 0 0.6rem;
+  color: #475569;
+  margin: 1.6rem 0 0.75rem;
 }
 
 .portable-paragraph {
   margin-bottom: 1.5rem;
+  line-height: 2.05;
+  color: #334155;
+  font-size: 1.05rem;
+}
+
+.portable-paragraph strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.portable-list-bullet,
+.portable-list-number {
+  margin: 1.6rem 0 2rem;
+  padding-right: 1.8rem;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.portable-list-bullet {
+  list-style-type: disc;
+}
+
+.portable-list-number {
+  list-style-type: decimal;
+}
+
+.portable-list-bullet li,
+.portable-list-number li {
+  line-height: 1.9;
+  color: #334155;
+  font-size: 1.05rem;
+}
+
+.portable-list-bullet li strong,
+.portable-list-number li strong {
+  color: #0f172a;
 }
 
 .portable-blockquote {
   border-right: 4px solid #BF4408;
-  background: #fdf8f6;
-  padding: 1.2rem 1.5rem;
-  margin: 2rem 0;
-  border-radius: 0 12px 12px 0;
-  font-style: italic;
+  background: #fffaf5;
+  padding: 1.4rem 1.8rem;
+  margin: 2.2rem 0;
+  border-radius: 0 14px 14px 0;
+  font-style: normal;
+  font-weight: 500;
   color: #7c2d12;
+  line-height: 1.9;
+  border: 1px solid #fed7aa;
+  border-right: 4px solid #BF4408;
 }
 
 .portable-link {
   color: #1f3d3a;
   text-decoration: underline;
   font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.portable-link:hover {
+  color: #0d9488;
 }
 
 .portable-image-container {
