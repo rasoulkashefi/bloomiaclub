@@ -54,6 +54,7 @@ const BlogPost = () => {
   const authorName = post.author?.name || post.authorName || 'تیم تحریریه بلومیا';
   const authorBio = post.author?.bio || 'کارشناس توسعه فردی و کوچینگ در بلومیا کلاب';
   const isAiAuthor = post.author?.isAi;
+  const coachSlug = post.author?.coachSlug || (post.author?.isCoach ? post.author?.slug : null) || post.authorSlug;
 
   const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://bloomiaclub.com/blog/${slug}`;
   const canonicalUrl = post.canonicalUrl || `https://bloomiaclub.com/blog/${slug}`;
@@ -176,20 +177,20 @@ const BlogPost = () => {
 
             <div className="blog-post-author-meta">
               <div className="author-details">
-                {post.author?.coachSlug ? (
-                  <Link to={`/coaches/${post.author.coachSlug}`} className="author-link-highlight">
+                {coachSlug ? (
+                  <Link
+                    to={`/coaches/${coachSlug}`}
+                    className="author-link-highlight"
+                    title={`مشاهده صفحه اختصاصی کوچ ${authorName}`}
+                  >
                     <span className="author-name-text">{authorName}</span>
                   </Link>
                 ) : (
                   <span className="author-name-text">{authorName}</span>
                 )}
-                {isAiAuthor ? (
+                {isAiAuthor && (
                   <span className="ai-persona-badge" title="پرسونای تولید محتوای هوش مصنوعی بلومیا">
                     🤖 پرسونای هوش مصنوعی
-                  </span>
-                ) : (
-                  <span className="coach-badge-top" title="کوچ تایید شده بلومیا">
-                    🎯 کوچ بلومیا
                   </span>
                 )}
               </div>
@@ -285,26 +286,28 @@ const BlogPost = () => {
           <section className="blog-post-author-box">
             <div className="author-box-content">
               <div className="author-box-header">
-                {post.author?.coachSlug ? (
-                  <Link to={`/coaches/${post.author.coachSlug}`} className="author-box-name-link">
+                {coachSlug ? (
+                  <Link
+                    to={`/coaches/${coachSlug}`}
+                    className="author-box-name-link"
+                    title={`مشاهده صفحه اختصاصی کوچ ${authorName}`}
+                  >
                     <h4 className="author-box-name">{authorName}</h4>
                   </Link>
                 ) : (
                   <h4 className="author-box-name">{authorName}</h4>
                 )}
-                {isAiAuthor ? (
+                {isAiAuthor && (
                   <span className="ai-chip">🤖 نویسنده هوش مصنوعی</span>
-                ) : (
-                  <span className="coach-chip">🎯 کوچ رسمی بلومیا</span>
                 )}
               </div>
               {post.author?.jobTitle && (
                 <div className="author-job-title">{post.author.jobTitle}</div>
               )}
               <p className="author-box-bio">{authorBio}</p>
-              {post.author?.coachSlug && (
+              {coachSlug && (
                 <div className="author-box-cta">
-                  <Link to={`/coaches/${post.author.coachSlug}`} className="coach-booking-link">
+                  <Link to={`/coaches/${coachSlug}`} className="coach-booking-link">
                     مشاهده پروفایل و رزرو جلسه کوچینگ با {authorName} ↗
                   </Link>
                 </div>

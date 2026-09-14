@@ -67,6 +67,8 @@ const Blog = () => {
 
   const featuredPost = sanityFeatured || posts.find((p) => p.isFeatured) || posts[0];
   const featuredSlug = featuredPost ? (featuredPost.slug?.current || featuredPost.slug || featuredPost.post_slug || '') : '';
+  const featuredAuthorName = featuredPost ? getAuthorName(featuredPost.author, featuredPost.authorName) : '';
+  const featuredCoachSlug = featuredPost ? (featuredPost.author?.coachSlug || (featuredPost.author?.isCoach ? featuredPost.author?.slug : null) || featuredPost.authorSlug) : null;
 
   return (
     <div className="blog-container1">
@@ -177,7 +179,18 @@ const Blog = () => {
                   <div className="featured-footer">
                     <div className="author-info">
                       <span className="author-name">
-                        {getAuthorName(featuredPost.author, featuredPost.authorName)}
+                        {featuredCoachSlug ? (
+                          <Link
+                            to={`/coaches/${featuredCoachSlug}`}
+                            className="blog-card-author-link"
+                            onClick={(e) => e.stopPropagation()}
+                            title={`مشاهده صفحه اختصاصی کوچ ${featuredAuthorName}`}
+                          >
+                            {featuredAuthorName}
+                          </Link>
+                        ) : (
+                          featuredAuthorName
+                        )}
                         {featuredPost.author?.isAi && <span className="ai-badge" title="پرسونای هوش مصنوعی">🤖 AI</span>}
                       </span>
                     </div>
@@ -223,6 +236,7 @@ const Blog = () => {
 
                   const authorName = getAuthorName(post.author, post.authorName);
                   const isAiAuthor = post.author?.isAi;
+                  const coachSlug = post.author?.coachSlug || (post.author?.isCoach ? post.author?.slug : null) || post.authorSlug;
 
                   return (
                     <article
@@ -255,7 +269,18 @@ const Blog = () => {
 
                         <div className="blog-card-footer">
                           <div className="blog-card-author">
-                            <span className="author-name">{authorName}</span>
+                            {coachSlug ? (
+                              <Link
+                                to={`/coaches/${coachSlug}`}
+                                className="blog-card-author-link"
+                                onClick={(e) => e.stopPropagation()}
+                                title={`مشاهده صفحه اختصاصی کوچ ${authorName}`}
+                              >
+                                <span className="author-name">{authorName}</span>
+                              </Link>
+                            ) : (
+                              <span className="author-name">{authorName}</span>
+                            )}
                             {isAiAuthor && (
                               <span className="ai-persona-chip" title="پرسونای هوش مصنوعی">
                                 🤖 هوش مصنوعی

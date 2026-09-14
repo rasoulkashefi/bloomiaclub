@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { FiClock, FiUsers } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
@@ -24,6 +24,11 @@ const handleImageFallback = (event, fallbacks) => {
 
 const CoachProfile = () => {
   const { id } = useParams();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   const { coach, loading, error } = useCoachBySlug(id);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const { posts: coachPosts, loading: postsLoading } = usePostsByCoach(coach?.id, 2);
