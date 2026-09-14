@@ -57,7 +57,16 @@ async function uploadImageAsset(filePath, alt = '', caption = '') {
 }
 
 async function ensureAuthor(authorId, authorName, coachSlug, jobTitle) {
-  const docId = authorId || (coachSlug ? `coach-${coachSlug}` : `author-${authorName ? authorName.toLowerCase().replace(/\s+/g, '-') : 'bloomia'}`);
+  let docId = authorId;
+  if (!docId) {
+    if (coachSlug) {
+      docId = `coach-${coachSlug}`;
+    } else if (authorName && (authorName.includes('آکادمی') || authorName.includes('بلومیا') || authorName.includes('تحریریه'))) {
+      docId = 'author-bloomia-academy';
+    } else {
+      docId = 'author-bloomia-academy';
+    }
+  }
   
   const existing = await client.getDocument(docId).catch(() => null);
   if (existing) {
@@ -65,7 +74,7 @@ async function ensureAuthor(authorId, authorName, coachSlug, jobTitle) {
     return { _type: 'reference', _ref: existing._id };
   }
 
-  const name = authorName || 'تیم کوچینگ بلومیا';
+  const name = authorName || 'آکادمی بلومیا';
   console.log(`👤 Creating new author: ${name}...`);
 
   const created = await client.createIfNotExists({
