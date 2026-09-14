@@ -2,11 +2,11 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 
-async function createOgImage() {
+async function createOgImages() {
   const width = 1200;
   const height = 630;
 
-  console.log('Rendering high-resolution OpenGraph default image (1200x630)...');
+  console.log('Rendering high-resolution, lightweight OpenGraph images (under 200KB for WhatsApp/Telegram)...');
 
   let logoInput;
   const logoPath = path.resolve('public/images/bloomia-club-logo.png');
@@ -24,10 +24,6 @@ async function createOgImage() {
           <stop offset="60%" stop-color="#183633" />
           <stop offset="100%" stop-color="#0f211f" />
         </radialGradient>
-        <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#f5e0a0" />
-          <stop offset="100%" stop-color="#d4af37" />
-        </linearGradient>
       </defs>
 
       <!-- Background -->
@@ -77,18 +73,48 @@ async function createOgImage() {
     });
   }
 
-  const finalBuffer = await sharp(Buffer.from(svgBg))
-    .composite(composites)
-    .png({ quality: 95, compressionLevel: 8 })
-    .toBuffer();
+  // 1. Default Brand OG Image (PNG + JPG)
+  const baseImg = sharp(Buffer.from(svgBg)).composite(composites);
+  const pngBuffer = await baseImg.clone().png({ quality: 90, compressionLevel: 8 }).toBuffer();
+  const jpgBuffer = await baseImg.clone().jpeg({ quality: 85 }).toBuffer();
 
-  fs.writeFileSync('public/og-image.png', finalBuffer);
-  console.log(`✅ Saved public/og-image.png (${finalBuffer.length} bytes)`);
+  fs.writeFileSync('public/og-image.png', pngBuffer);
+  fs.writeFileSync('public/og-image.jpg', jpgBuffer);
+  console.log(`✅ Saved public/og-image.png (${pngBuffer.length} bytes) & og-image.jpg (${jpgBuffer.length} bytes)`);
 
+  // 2. Page Specific Lightweight 1200x630 JPEGs (< 200KB for WhatsApp)
+  const pageImageConfigs = [
+    { src: 'public/images/about_us.png', dest: 'public/images/og-about.jpg', quality: 85 },
+    { src: 'public/images/coaching-free-intro-session.png', dest: 'public/images/og-coaching.jpg', quality: 85 },
+    { src: 'public/images/the-modern-professional-coach.png', dest: 'public/images/og-what-is-coaching.jpg', quality: 85 },
+  ];
+
+  for (const item of pageImageConfigs) {
+    if (fs.existsSync(item.src)) {
+      const outBuf = await sharp(item.src)
+        .resize(1200, 630, { fit: 'cover' })
+        .jpeg({ quality: item.quality })
+        .toBuffer();
+      fs.writeFileSync(item.dest, outBuf);
+      console.log(`✅ Saved ${item.dest} (${outBuf.length} bytes)`);
+    }
+  }
+
+  // Copy to build folder if build exists
   if (fs.existsSync('build')) {
-    fs.writeFileSync('build/og-image.png', finalBuffer);
-    console.log(`✅ Also updated build/og-image.png`);
+    fs.writeFileSync('build/og-image.png', pngBuffer);
+    fs.writeFileSync('build/og-image.jpg', jpgBuffer);
+    const buildImgDir = path.resolve('build/images');
+    if (!fs.existsSync(buildImgDir)) fs.mkdirSync(buildImgDir, { recursive: true });
+
+    for (const item of pageImageConfigs) {
+      const filename = path.basename(item.dest);
+      if (fs.existsSync(item.dest)) {
+        fs.copyFileSync(item.dest, path.join(buildImgDir, filename));
+      }
+    }
+    console.log(`✅ Copied all optimized OpenGraph images into build/`);
   }
 }
 
-createOgImage().catch(console.error);
+createOgImages().catch(console.error);

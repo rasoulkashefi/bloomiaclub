@@ -16,7 +16,7 @@ function urlFor(source) {
 }
 
 const SITE_NAME = 'بلومیا | پلتفرم تخصصی کوچینگ';
-const DEFAULT_IMAGE = 'https://bloomiaclub.com/og-image.png';
+const DEFAULT_IMAGE = 'https://bloomiaclub.com/og-image.jpg';
 const BASE_URL = 'https://bloomiaclub.com';
 
 const STATIC_PAGES = {
@@ -33,17 +33,17 @@ const STATIC_PAGES = {
   'coaching': {
     title: 'خدمات کوچینگ و رزرو جلسه معارفه | بلومیا کلاب',
     description: 'با همراهی کوچ‌های معتبر و حرفه‌ای بلومیا، موانع ذهنی را پشت سر بگذارید و به اهداف شغلی و فردی خود دست یابید.',
-    image: 'https://bloomiaclub.com/images/coaching-free-intro-session.png',
+    image: 'https://bloomiaclub.com/images/og-coaching.jpg',
   },
   'coaching/what-is-coaching': {
     title: 'کوچینگ چیست و چه کمکی به شما می‌کند؟ | بلومیا',
     description: 'راهنمای جامع آشنایی با کوچینگ حرفه‌ای، تفاوت آن با مشاوره و روان‌درمانی و نحوه اثرگذاری بر رشد فردی.',
-    image: 'https://bloomiaclub.com/images/the-modern-professional-coach.png',
+    image: 'https://bloomiaclub.com/images/og-what-is-coaching.jpg',
   },
   'coaching/free-intro-session': {
     title: 'جلسه معارفه رایگان کوچینگ | بلومیا کلاب',
     description: 'فرصت گفتگوی مستقیم و شفاف‌سازی اهداف در یک جلسه معارفه رایگان با کوچ‌های تاییدشده بلومیا.',
-    image: 'https://bloomiaclub.com/images/coaching-free-intro-session.png',
+    image: 'https://bloomiaclub.com/images/og-coaching.jpg',
   },
   'coaches': {
     title: 'کوچ‌های رسمی و تاییدشده بلومیا کلاب',
@@ -53,7 +53,7 @@ const STATIC_PAGES = {
   'about': {
     title: 'درباره ما | داستان و مأموریت بلومیا کلاب',
     description: 'آشنایی با هویت، رسالت و چشم‌انداز پلتفرم بلومیا در ارتقای کیفیت زندگی، کار و سلامت روان.',
-    image: 'https://bloomiaclub.com/images/about_us.png',
+    image: 'https://bloomiaclub.com/images/og-about.jpg',
   },
   'contact': {
     title: 'تماس با بلومیا کلاب | پشتیبانی و ارتباط با ما',
@@ -131,7 +131,7 @@ module.exports = async (req, res) => {
 
           if (post.mainImage) {
             try {
-              meta.image = urlFor(post.mainImage).width(1200).height(630).fit('crop').url();
+              meta.image = urlFor(post.mainImage).width(1200).height(630).format('jpg').quality(82).fit('crop').url();
             } catch (e) {
               console.warn('Error formatting sanity image:', e);
             }

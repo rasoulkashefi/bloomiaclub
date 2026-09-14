@@ -32,7 +32,7 @@ function urlFor(source) {
 }
 
 const BASE_URL = 'https://bloomiaclub.com';
-const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
+const DEFAULT_IMAGE = `${BASE_URL}/og-image.jpg`;
 const SITE_NAME = 'بلومیا | پلتفرم خدمات کوچینگ و رشد فردی';
 
 const STATIC_PAGES = [
@@ -46,19 +46,19 @@ const STATIC_PAGES = [
     path: 'coaching',
     title: 'خدمات کوچینگ و رزرو جلسه معارفه | بلومیا کلاب',
     description: 'با همراهی کوچ‌های معتبر و حرفه‌ای بلومیا، موانع ذهنی را پشت سر بگذارید و به اهداف شغلی و فردی خود دست یابید.',
-    image: `${BASE_URL}/images/coaching-free-intro-session.png`,
+    image: `${BASE_URL}/images/og-coaching.jpg`,
   },
   {
     path: 'coaching/what-is-coaching',
     title: 'کوچینگ چیست و چه کمکی به شما می‌کند؟ | بلومیا',
     description: 'راهنمای جامع آشنایی با کوچینگ حرفه‌ای، تفاوت آن با مشاوره و روان‌درمانی و نحوه اثرگذاری بر رشد فردی.',
-    image: `${BASE_URL}/images/the-modern-professional-coach.png`,
+    image: `${BASE_URL}/images/og-what-is-coaching.jpg`,
   },
   {
     path: 'coaching/free-intro-session',
     title: 'جلسه معارفه رایگان کوچینگ | بلومیا کلاب',
     description: 'فرصت گفتگوی مستقیم و شفاف‌سازی اهداف در یک جلسه معارفه رایگان با کوچ‌های تاییدشده بلومیا.',
-    image: `${BASE_URL}/images/coaching-free-intro-session.png`,
+    image: `${BASE_URL}/images/og-coaching.jpg`,
   },
   {
     path: 'coaches',
@@ -70,7 +70,7 @@ const STATIC_PAGES = [
     path: 'about',
     title: 'درباره ما | داستان و مأموریت بلومیا کلاب',
     description: 'آشنایی با هویت، رسالت و چشم‌انداز پلتفرم بلومیا در ارتقای کیفیت زندگی، کار و سلامت روان.',
-    image: `${BASE_URL}/images/about_us.png`,
+    image: `${BASE_URL}/images/og-about.jpg`,
   },
   {
     path: 'contact',
@@ -92,7 +92,8 @@ function escapeHtml(str) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 function updateHtmlMeta(htmlTemplate, meta) {
@@ -113,17 +114,23 @@ function updateHtmlMeta(htmlTemplate, meta) {
   };
 
   replaceOrInjectMeta('name', 'description', meta.description);
+  replaceOrInjectMeta('property', 'og:site_name', SITE_NAME);
+  replaceOrInjectMeta('property', 'og:type', meta.type || 'website');
   replaceOrInjectMeta('property', 'og:title', meta.title);
   replaceOrInjectMeta('property', 'og:description', meta.description);
   replaceOrInjectMeta('property', 'og:url', meta.url);
   replaceOrInjectMeta('property', 'og:image', meta.image);
-  replaceOrInjectMeta('property', 'og:type', meta.type || 'website');
-  replaceOrInjectMeta('property', 'og:site_name', SITE_NAME);
+  replaceOrInjectMeta('property', 'og:image:secure_url', meta.image);
+  replaceOrInjectMeta('property', 'og:image:type', meta.image.includes('.png') ? 'image/png' : 'image/jpeg');
+  replaceOrInjectMeta('property', 'og:image:width', '1200');
+  replaceOrInjectMeta('property', 'og:image:height', '630');
+  replaceOrInjectMeta('property', 'og:image:alt', meta.title);
+  replaceOrInjectMeta('property', 'og:locale', 'fa_IR');
 
+  replaceOrInjectMeta('name', 'twitter:card', 'summary_large_image');
   replaceOrInjectMeta('property', 'twitter:title', meta.title);
   replaceOrInjectMeta('property', 'twitter:description', meta.description);
   replaceOrInjectMeta('property', 'twitter:image', meta.image);
-  replaceOrInjectMeta('name', 'twitter:card', 'summary_large_image');
 
   // Canonical link
   const canonicalRegex = /<link\s+rel=["']canonical["'][^>]*>/i;
@@ -160,7 +167,7 @@ async function run() {
     const targetDir = path.resolve('build', page.path);
     fs.mkdirSync(targetDir, { recursive: true });
     fs.writeFileSync(path.join(targetDir, 'index.html'), pageHtml, 'utf8');
-    console.log(`  📄 Created static meta page: /${page.path}`);
+    console.log(`  📄 Created static meta page: /${page.path} [image: ${path.basename(page.image)}]`);
   }
 
   // 2. Fetch all Posts from Sanity
@@ -185,7 +192,13 @@ async function run() {
     let imageUrl = DEFAULT_IMAGE;
     if (post.mainImage) {
       try {
-        imageUrl = urlFor(post.mainImage).width(1200).height(630).fit('crop').url();
+        imageUrl = urlFor(post.mainImage)
+          .width(1200)
+          .height(630)
+          .format('jpg')
+          .quality(82)
+          .fit('crop')
+          .url();
       } catch (err) {
         console.warn(`Could not build image url for post ${post.slug}:`, err);
       }
