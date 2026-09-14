@@ -68,20 +68,53 @@ const STATIC_PAGES = {
 };
 
 const COACH_META = {
+  'fatemeh-derakhsh': {
+    name: 'دکتر فاطمه درخوش',
+    title: 'دکتر فاطمه درخوش | کوچ رشد فردی و مسیر شغلی - بلومیا کلاب',
+    description: 'دکترای داروسازی، کوچ تایید شده ICF با تمرکز بر خودشناسی شغلی و تصمیم‌گیری آگاهانه برای خروج از سردرگمی.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/Fatemeh_Darkhosh.png',
+  },
   'fatemeh_esmaeeli': {
     name: 'فاطمه اسماعیلی',
-    title: 'فاطمه اسماعیلی | کوچ مادران، بانوان و نوجوانان - بلومیا',
+    title: 'فاطمه اسماعیلی | کوچ مادران، بانوان و نوجوانان - بلومیا کلاب',
     description: 'همراه مادران و نوجوانان در مدیریت فرسودگی، رفع احساس گناه مادری، تنظیم اولویت‌ها و حل تعارض‌های سن بلوغ.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/fatemeh_esmaeeli.jpeg',
   },
   'payam-esmi': {
     name: 'پیام اسمی',
-    title: 'پیام اسمی | کوچ هدفمندی، مدیریت زمان و برنامه‌ریزی - بلومیا',
+    title: 'پیام اسمی | کوچ هدفمندی، مدیریت زمان و برنامه‌ریزی - بلومیا کلاب',
     description: 'همراه شما برای عبور از تله پرمشغله بودن و تبدیل شدن به فردی متمرکز، موثر و مسلط بر زمان.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/payam_esmi.jpg',
   },
   'mahya_shakoori': {
     name: 'محیا شکوری',
-    title: 'محیا شکوری | کوچ رشد فردی، لایف کوچینگ و خودآگاهی - بلومیا',
+    title: 'محیا شکوری | کوچ رشد فردی، لایف کوچینگ و خودآگاهی - بلومیا کلاب',
     description: 'همراهی برای کشف خود، ارتقای خودآگاهی، شکستن باورهای محدودکننده و ساخت آرامش درونی.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/mahya_shakouri.jpg',
+  },
+  'saloomeh_fathijou': {
+    name: 'سالومه فتحی‌جو',
+    title: 'سالومه فتحی‌جو | کوچ حرفه‌ای و توسعه فردی - بلومیا کلاب',
+    description: 'کوچ حرفه‌ای در پلتفرم بلومیا کلاب، همراه شما در مسیر تحول و رشد فردی.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/saloomeh_fathijou.jpg',
+  },
+  'Arezoo_Ghaffari': {
+    name: 'آرزو غفاری',
+    title: 'آرزو غفاری | کوچ حرفه‌ای و رشد فردی - بلومیا کلاب',
+    description: 'کوچ حرفه‌ای در پلتفرم بلومیا کلاب، همراه شما در مسیر تحول و ارتقای فردی.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/arezoo_ghafari.jpg',
+  },
+  'shabnam_nematimalek': {
+    name: 'شبنم نعمتی‌ملک',
+    title: 'شبنم نعمتی‌ملک | کوچ حرفه‌ای - بلومیا کلاب',
+    description: 'کوچ حرفه‌ای در پلتفرم بلومیا کلاب، تسهیل‌گر رشد و خودآگاهی.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/shabnam_nematimalek.jpg',
+  },
+  'maryam_johari': {
+    name: 'مریم جوهری',
+    title: 'مریم جوهری | کوچ حرفه‌ای - بلومیا کلاب',
+    description: 'کوچ حرفه‌ای در پلتفرم بلومیا کلاب، همراه مراجعین در مسیر اهداف فردی و شغلی.',
+    image: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_images/maryam_johari.jpg',
   },
 };
 
@@ -141,8 +174,10 @@ module.exports = async (req, res) => {
     } else if (cleanPath.startsWith('coaches/')) {
       const coachId = cleanPath.replace(/^coaches\//, '').split('/')[0];
       if (COACH_META[coachId]) {
+        meta.type = 'profile';
         meta.title = COACH_META[coachId].title;
         meta.description = COACH_META[coachId].description;
+        if (COACH_META[coachId].image) meta.image = COACH_META[coachId].image;
       }
     } else if (STATIC_PAGES[cleanPath]) {
       meta.title = STATIC_PAGES[cleanPath].title;
