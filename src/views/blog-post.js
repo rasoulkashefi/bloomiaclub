@@ -210,17 +210,14 @@ const BlogPost = () => {
             )}
           </div>
 
-          {/* GEO AI Engine Quick Answer Box */}
+          {/* Quick Summary Box */}
           {post.aiQuickAnswer && (
             <section className="geo-quick-answer-box">
               <div className="geo-box-header">
-                <span className="geo-icon">🤖</span>
-                <h3>پاسخ سریع هوش مصنوعی (AI Quick Answer)</h3>
+                <span className="geo-icon">⚡</span>
+                <h3>خلاصه در یک نگاه</h3>
               </div>
               <p className="geo-answer-text">{post.aiQuickAnswer}</p>
-              <div className="geo-box-footer">
-                <span>بهینه‌شده برای SearchGPT، Perplexity و Google AI Overviews</span>
-              </div>
             </section>
           )}
 
