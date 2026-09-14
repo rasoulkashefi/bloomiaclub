@@ -101,7 +101,7 @@ const Blog = () => {
         {/* Header Hero Section */}
         <section className="blog-hero-section">
           <div className="blog-hero-container">
-            <span className="blog-badge-tag">🌱 آکادمی و مجله بلومیا</span>
+            <span className="blog-badge-tag">آکادمی و مجله بلومیا</span>
             <h1 className="blog-hero-title">دانش و راهکارهای تحول فردی و حرفه‌ای</h1>
             <p className="blog-hero-subtitle">
               مقالات تخصصی کوچینگ، مدیریت زمان، رهبری اصیل و تعادل در زندگی با بالاترین استانداردهای علمی.
@@ -162,7 +162,7 @@ const Blog = () => {
                     alt={featuredPost.title}
                     loading="lazy"
                   />
-                  <span className="featured-badge">🔥 مقاله ویژه</span>
+                  <span className="featured-badge">مقاله ویژه</span>
                 </div>
                 <div className="featured-card-content">
                   <div className="featured-meta">
@@ -191,7 +191,7 @@ const Blog = () => {
                         ) : (
                           featuredAuthorName
                         )}
-                        {featuredPost.author?.isAi && <span className="ai-badge" title="پرسونای هوش مصنوعی">🤖 AI</span>}
+                        {featuredPost.author?.isAi && <span className="ai-badge" title="پرسونای هوش مصنوعی">AI</span>}
                       </span>
                     </div>
                     <Link
@@ -199,7 +199,7 @@ const Blog = () => {
                       className="read-more-btn"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      مطالعه مقاله ↗
+                      مطالعه مقاله
                     </Link>
                   </div>
                 </div>
@@ -283,7 +283,7 @@ const Blog = () => {
                             )}
                             {isAiAuthor && (
                               <span className="ai-persona-chip" title="پرسونای هوش مصنوعی">
-                                🤖 هوش مصنوعی
+                                هوش مصنوعی
                               </span>
                             )}
                           </div>

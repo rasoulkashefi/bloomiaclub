@@ -190,7 +190,7 @@ const BlogPost = () => {
                 )}
                 {isAiAuthor && (
                   <span className="ai-persona-badge" title="پرسونای تولید محتوای هوش مصنوعی بلومیا">
-                    🤖 پرسونای هوش مصنوعی
+                    پرسونای هوش مصنوعی
                   </span>
                 )}
               </div>
@@ -214,7 +214,6 @@ const BlogPost = () => {
           {post.aiQuickAnswer && (
             <section className="geo-quick-answer-box">
               <div className="geo-box-header">
-                <span className="geo-icon">⚡</span>
                 <h3>خلاصه در یک نگاه</h3>
               </div>
               <p className="geo-answer-text">{post.aiQuickAnswer}</p>
@@ -229,21 +228,6 @@ const BlogPost = () => {
               <div dangerouslySetInnerHTML={{ __html: post.content || '' }} />
             )}
           </div>
-
-          {/* GEO Target Q&A List if present */}
-          {post.targetQuestions && post.targetQuestions.length > 0 && (
-            <section className="geo-target-qa-section">
-              <h3 className="qa-section-title">💡 پرسش و پاسخ‌های کلیدی</h3>
-              <div className="qa-list">
-                {post.targetQuestions.map((qa, idx) => (
-                  <div key={idx} className="qa-item-box">
-                    <h4 className="qa-question">📌 {qa.question}</h4>
-                    <p className="qa-answer">{qa.shortAnswer}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
 
           {/* Share Buttons */}
           <section className="blog-post-share-section">
@@ -295,7 +279,7 @@ const BlogPost = () => {
                   <h4 className="author-box-name">{authorName}</h4>
                 )}
                 {isAiAuthor && (
-                  <span className="ai-chip">🤖 نویسنده هوش مصنوعی</span>
+                  <span className="ai-chip">نویسنده هوش مصنوعی</span>
                 )}
               </div>
               {post.author?.jobTitle && (
@@ -305,7 +289,7 @@ const BlogPost = () => {
               {coachSlug && (
                 <div className="author-box-cta">
                   <Link to={`/coaches/${coachSlug}`} className="coach-booking-link">
-                    مشاهده پروفایل و رزرو جلسه کوچینگ با {authorName} ↗
+                    مشاهده پروفایل و رزرو جلسه کوچینگ با {authorName}
                   </Link>
                 </div>
               )}

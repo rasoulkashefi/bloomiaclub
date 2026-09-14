@@ -97,7 +97,25 @@ export const PortableTextRenderer = ({ value }) => {
           return (
             <Tag key={key} className={listClass}>
               {block.items.map((item, itemIdx) => {
-                const itemChildren = renderChildren(item.children, item.markDefs);
+                let children = item.children;
+                if (block.listItem === 'number' && Array.isArray(children) && children.length > 0) {
+                  const firstTextIndex = children.findIndex(
+                    (c) => c && typeof c.text === 'string' && c.text.trim().length > 0
+                  );
+                  if (firstTextIndex !== -1) {
+                    const firstChild = children[firstTextIndex];
+                    const cleanedText = firstChild.text.replace(
+                      /^[\d\u0660-\u0669\u06F0-\u06F9]+[\.\-\:\)\s]+\s*/,
+                      ''
+                    );
+                    children = [
+                      ...children.slice(0, firstTextIndex),
+                      { ...firstChild, text: cleanedText },
+                      ...children.slice(firstTextIndex + 1),
+                    ];
+                  }
+                }
+                const itemChildren = renderChildren(children, item.markDefs);
                 return <li key={item._key || itemIdx}>{itemChildren}</li>;
               })}
             </Tag>
@@ -126,9 +144,9 @@ export const PortableTextRenderer = ({ value }) => {
 
         if (block._type === 'callout') {
           const toneMap = {
-            tip: { bg: '#f0fdf4', border: '#16a34a', color: '#14532d', icon: '💡', title: 'نکته کاربردی' },
-            warning: { bg: '#fffbeb', border: '#f59e0b', color: '#92400e', icon: '⚠️', title: 'هشدار' },
-            info: { bg: '#eff6ff', border: '#3b82f6', color: '#1e40af', icon: 'ℹ️', title: 'اطلاعات' },
+            tip: { bg: '#f0fdf4', border: '#16a34a', color: '#14532d', title: 'نکته کاربردی' },
+            warning: { bg: '#fffbeb', border: '#f59e0b', color: '#92400e', title: 'هشدار' },
+            info: { bg: '#eff6ff', border: '#3b82f6', color: '#1e40af', title: 'اطلاعات' },
           };
           const style = toneMap[block.tone] || toneMap.tip;
 
@@ -146,8 +164,7 @@ export const PortableTextRenderer = ({ value }) => {
                 direction: 'rtl',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '700', fontSize: '1.05rem', marginBottom: '0.4rem' }}>
-                <span>{style.icon}</span>
+              <div style={{ fontWeight: '700', fontSize: '1.05rem', marginBottom: '0.4rem' }}>
                 <span>{block.title || style.title}</span>
               </div>
               <div style={{ fontSize: '0.98rem', lineHeight: '1.8' }}>{block.content}</div>
@@ -159,7 +176,6 @@ export const PortableTextRenderer = ({ value }) => {
           return (
             <div key={key} className="portable-key-takeaways">
               <div className="key-takeaways-header">
-                <span>📌</span>
                 <h4>{block.title || 'نکات کلیدی این بخش'}</h4>
               </div>
               <ul className="key-takeaways-list">
@@ -184,11 +200,11 @@ export const PortableTextRenderer = ({ value }) => {
         if (block._type === 'faqSection') {
           return (
             <div key={key} className="portable-faq-box">
-              <h3 className="faq-box-title">❓ {block.title || 'سوالات متداول'}</h3>
+              <h3 className="faq-box-title">{block.title || 'سوالات متداول'}</h3>
               <div className="faq-box-items">
                 {(block.items || []).map((item, idx) => (
                   <div key={idx} className="faq-item">
-                    <h4 className="faq-item-question">Q: {item.question}</h4>
+                    <h4 className="faq-item-question">{item.question}</h4>
                     <p className="faq-item-answer">{item.answer}</p>
                   </div>
                 ))}
@@ -216,7 +232,7 @@ export const PortableTextRenderer = ({ value }) => {
 
           return (
             <div key={key} className="portable-video-embed">
-              {block.title && <h4 className="video-embed-title">🎬 {block.title}</h4>}
+              {block.title && <h4 className="video-embed-title">{block.title}</h4>}
               <div className="video-aspect-ratio">
                 <iframe src={src} title={block.title || 'ویدیو'} allowFullScreen frameBorder="0" />
               </div>
