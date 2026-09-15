@@ -1,23 +1,10 @@
-const { createClient } = require('@sanity/client');
-const imageUrlPkg = require('@sanity/image-url');
-const imageUrlBuilder = imageUrlPkg.createImageUrlBuilder || imageUrlPkg.default || imageUrlPkg;
-
-const client = createClient({
-  projectId: process.env.REACT_APP_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || '7yjhdw88',
-  dataset: process.env.REACT_APP_SANITY_DATASET || process.env.SANITY_DATASET || 'production',
-  apiVersion: '2024-01-01',
-  useCdn: true,
-});
-
-const builder = imageUrlBuilder(client);
-
-function urlFor(source) {
-  return builder.image(source);
-}
-
+// Standalone zero-dependency meta generator for crawlers / social bots on Vercel
 const SITE_NAME = 'بلومیا | پلتفرم تخصصی کوچینگ';
 const DEFAULT_IMAGE = 'https://www.bloomiaclub.com/og-image.jpg';
 const BASE_URL = 'https://www.bloomiaclub.com';
+
+const SANITY_PROJECT_ID = process.env.REACT_APP_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || '7yjhdw88';
+const SANITY_DATASET = process.env.REACT_APP_SANITY_DATASET || process.env.SANITY_DATASET || 'production';
 
 const STATIC_PAGES = {
   '': {
@@ -118,6 +105,21 @@ const COACH_META = {
   },
 };
 
+function formatSanityImageUrl(mainImage) {
+  if (!mainImage) return null;
+  const ref = mainImage.asset?._ref || mainImage._ref;
+  if (!ref || typeof ref !== 'string') return null;
+  // Format: image-13d8b20f650aa03900e5d83b590f8f0d61c7ced7-1376x768-jpg
+  const parts = ref.split('-');
+  if (parts.length >= 4) {
+    const id = parts[1];
+    const dimensions = parts[2];
+    const format = parts[3];
+    return `https://cdn.sanity.io/images/${SANITY_PROJECT_ID}/${SANITY_DATASET}/${id}-${dimensions}.${format}?rect=0,0,${dimensions.replace('x', ',')}&w=1200&h=630&fm=jpg&q=82&fit=crop`;
+  }
+  return null;
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -129,46 +131,50 @@ function escapeHtml(str) {
 }
 
 module.exports = async (req, res) => {
+  let cleanPath = '';
+  let meta = {
+    title: 'بلومیا | پلتفرم خدمات کوچینگ و رشد فردی',
+    description: 'با کوچ‌های متخصص بلومیا، مسیر تغییر خود را از همین امروز شفاف کنید. اولین جلسه ارزیابی رایگان!',
+    image: DEFAULT_IMAGE,
+    type: 'website',
+    url: BASE_URL,
+  };
+
   try {
-    const rawPath = req.query.path || req.url || '';
-    const cleanPath = rawPath.replace(/^\/+/, '').replace(/\/+$/, '').split('?')[0];
+    const rawPath = (req && req.query && req.query.path) || (req && req.url) || '';
+    cleanPath = String(rawPath).replace(/^\/+/, '').replace(/\/+$/, '').split('?')[0];
+    meta.url = `${BASE_URL}/${cleanPath}`;
 
-    let meta = {
-      title: 'بلومیا | پلتفرم خدمات کوچینگ و رشد فردی',
-      description: 'با کوچ‌های متخصص بلومیا، مسیر تغییر خود را از همین امروز شفاف کنید. اولین جلسه ارزیابی رایگان!',
-      image: DEFAULT_IMAGE,
-      type: 'website',
-      url: `${BASE_URL}/${cleanPath}`,
-    };
-
-    // 1. Check if it's a blog post: blog/[slug]
+    // 1. Blog posts: blog/[slug]
     if (cleanPath.startsWith('blog/')) {
       const slug = cleanPath.replace(/^blog\//, '').trim();
       if (slug) {
-        const query = `*[_type == "post" && slug.current == $slug][0]{
-          title,
-          excerpt,
-          metaTitle,
-          metaDescription,
-          mainImage,
-          publishedAt,
-          "authorName": author->name
-        }`;
-        const post = await client.fetch(query, { slug });
-
-        if (post) {
-          meta.type = 'article';
-          meta.title = post.metaTitle || `${post.title} | وبلاگ بلومیا`;
-          meta.description = post.metaDescription || post.excerpt || meta.description;
-          meta.url = `${BASE_URL}/blog/${slug}`;
-
-          if (post.mainImage) {
-            try {
-              meta.image = urlFor(post.mainImage).width(1200).height(630).format('jpg').quality(82).fit('crop').url();
-            } catch (e) {
-              console.warn('Error formatting sanity image:', e);
+        try {
+          const query = `*[_type == "post" && slug.current == "${slug}"][0]{
+            title,
+            excerpt,
+            metaTitle,
+            metaDescription,
+            mainImage,
+            publishedAt,
+            "authorName": author->name
+          }`;
+          const sanityUrl = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/query/${SANITY_DATASET}?query=${encodeURIComponent(query)}`;
+          const postRes = await fetch(sanityUrl, { signal: AbortSignal.timeout(3000) });
+          if (postRes.ok) {
+            const data = await postRes.json();
+            const post = data && data.result;
+            if (post) {
+              meta.type = 'article';
+              meta.title = post.metaTitle || `${post.title} | وبلاگ بلومیا`;
+              meta.description = post.metaDescription || post.excerpt || meta.description;
+              meta.url = `${BASE_URL}/blog/${slug}`;
+              const imgUrl = formatSanityImageUrl(post.mainImage);
+              if (imgUrl) meta.image = imgUrl;
             }
           }
+        } catch (e) {
+          console.warn('Error fetching blog post from Sanity API:', e);
         }
       }
     } else if (cleanPath.startsWith('coaches/')) {
@@ -184,8 +190,12 @@ module.exports = async (req, res) => {
       meta.description = STATIC_PAGES[cleanPath].description;
       if (STATIC_PAGES[cleanPath].image) meta.image = STATIC_PAGES[cleanPath].image;
     }
+  } catch (err) {
+    console.error('Error in og-meta calculation:', err);
+  }
 
-    const html = `<!DOCTYPE html>
+  // Generate HTML response safely
+  const html = `<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
@@ -213,7 +223,7 @@ module.exports = async (req, res) => {
   <meta name="twitter:description" content="${escapeHtml(meta.description)}" />
   <meta name="twitter:image" content="${escapeHtml(meta.image)}" />
 
-  <!-- Instant Browser Redirect if a real user arrives here -->
+  <!-- Instant Browser Redirect for human users -->
   <meta http-equiv="refresh" content="0; url=/${escapeHtml(cleanPath)}" />
   <script>
     if (typeof window !== 'undefined') {
@@ -228,11 +238,12 @@ module.exports = async (req, res) => {
 </body>
 </html>`;
 
+  try {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
     return res.status(200).send(html);
-  } catch (err) {
-    console.error('Error in og-meta handler:', err);
-    return res.status(500).send('Internal Server Error');
+  } catch (sendErr) {
+    console.error('Error sending response:', sendErr);
+    return res.status(200).send(html);
   }
 };

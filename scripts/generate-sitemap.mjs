@@ -25,7 +25,7 @@ for (const file of ['.env', '.env.local']) {
 
 const BASE_URL = 'https://www.bloomiaclub.com';
 const supabaseBaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://qxacvupalbfcoqkuydba.supabase.co';
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4YWN2dXBhbGJmY29xa3V5ZGJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MDQwMDgsImV4cCI6MjA3NDk4MDAwOH0.c0TCM2eTu_GNhScWk4Rozc5vtXQMZItW1v43wd4fo_o';
 
 const sanityClient = createSanityClient({
   projectId: process.env.REACT_APP_SANITY_PROJECT_ID || process.env.SANITY_PROJECT_ID || '7yjhdw88',

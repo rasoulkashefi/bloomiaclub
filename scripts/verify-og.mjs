@@ -5,7 +5,8 @@ async function verifyAll() {
     'https://bloomiaclub.com/blog/mom-burnout-symptoms-causes-coaching',
     'https://bloomiaclub.com/about',
     'https://bloomiaclub.com/coaching',
-    'https://bloomiaclub.com/coaches'
+    'https://bloomiaclub.com/coaches',
+    'https://bloomiaclub.com/coaches/fatemeh-derakhsh'
   ];
 
   for (const url of urls) {
