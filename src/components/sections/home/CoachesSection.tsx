@@ -19,7 +19,7 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
             <span>کوچ‌های دارای مدرک بین‌المللی ICF</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-neutral-900 tracking-tight">
-            با مربیان بلومیا، هوشمندانه‌تر رشد کنید
+            با کوچ‌های بلومیا، هوشمندانه‌تر رشد کنید
           </h2>
           <p className="text-sm sm:text-base text-brand-neutral-600 leading-relaxed">
             دسترسی مستقیم به شبکه‌ای از برجسته‌ترین کوچ‌های معتبر کشور برای همراهی گام‌به‌گام تا رسیدن به اهداف.

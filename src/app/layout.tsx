@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     'کوچینگ فردی',
     'کوچینگ شغلی',
     'توسعه فردی',
-    'مربی رشد',
+    'کوچ رشد',
     'بلومیا کلاب',
     'جلسه معارفه رایگان کوچینگ',
   ],
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     siteName: 'بلومیا کلاب',
     title: 'بلومیا کلاب | پلتفرم تخصصی کوچینگ و توسعه فردی',
     description:
-      'همراه شما در مسیر شکوفایی فردی و شغلی با برترین مربیان و کوچ‌های معتبر بین‌المللی.',
+      'همراه شما در مسیر شکوفایی فردی و شغلی با برترین کوچ‌های معتبر بین‌المللی.',
     images: [
       {
         url: '/og-image.jpg',
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'بلومیا کلاب | پلتفرم تخصصی کوچینگ و توسعه فردی',
     description:
-      'همراه شما در مسیر شکوفایی فردی و شغلی با برترین مربیان و کوچ‌های معتبر بین‌المللی.',
+      'همراه شما در مسیر شکوفایی فردی و شغلی با برترین کوچ‌های معتبر بین‌المللی.',
     images: ['/og-image.jpg'],
   },
   icons: {
@@ -77,7 +77,7 @@ const jsonLdOrg = {
   alternateName: 'Bloomia Club',
   url: 'https://bloomiaclub.com',
   logo: 'https://bloomiaclub.com/images/bloomia-club-logo.png',
-  description: 'پلتفرم تخصصی کوچینگ فردی، کسب‌وکار و توسعه شغلی با مربیان معتبر ICF',
+  description: 'پلتفرم تخصصی کوچینگ فردی، کسب‌وکار و توسعه شغلی با کوچ‌های معتبر ICF',
   sameAs: [
     'https://instagram.com/bloomiaclub',
     'https://linkedin.com/company/bloomiaclub',

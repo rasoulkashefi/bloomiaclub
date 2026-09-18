@@ -69,7 +69,7 @@ export const HeroSection: React.FC = () => {
             href="/coaches"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white border border-white/30 font-semibold text-base transition-all min-h-[52px]"
           >
-            <span>مشاهده لیست مربیان</span>
+            <span>مشاهده لیست کوچ‌ها</span>
           </Link>
         </div>
 
@@ -85,7 +85,7 @@ export const HeroSection: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-black/50 backdrop-blur-md border border-white/15 text-white shadow-sm">
             <ShieldCheck className="w-4 h-4 text-brand-teal-300 shrink-0" />
-            <span>مربیان تاییدشده ICF</span>
+            <span>کوچ‌های تاییدشده ICF</span>
           </div>
         </div>
       </div>

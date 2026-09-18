@@ -17,7 +17,7 @@ export const FinalCtaSection: React.FC = () => {
           </h2>
 
           <p className="text-base sm:text-lg text-brand-neutral-600 leading-relaxed max-w-2xl mx-auto">
-            اولین جلسه معارفه ۳۰ دقیقه‌ای با مربی متخصص، ۱۰۰٪ رایگان است. فرصتی امن برای بیان دغدغه‌ها و شناخت پتانسیل‌های پنهان درونتان.
+            اولین جلسه معارفه ۳۰ دقیقه‌ای با کوچ متخصص، ۱۰۰٪ رایگان است. فرصتی امن برای بیان دغدغه‌ها و شناخت پتانسیل‌های پنهان درونتان.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ export const FinalCtaSection: React.FC = () => {
             href="/coaches"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-brand-surface-paper hover:bg-brand-neutral-100 text-brand-teal-900 border border-brand-teal-300 font-semibold text-base transition-colors min-h-[50px] shadow-xs"
           >
-            <span>بررسی لیست کامل مربیان</span>
+            <span>بررسی لیست کامل کوچ‌ها</span>
           </Link>
         </div>
 
@@ -52,7 +52,7 @@ export const FinalCtaSection: React.FC = () => {
           </span>
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-brand-teal-700" />
-            مربیان تأییدشده ICF
+            کوچ‌های تأییدشده ICF
           </span>
         </div>
       </div>

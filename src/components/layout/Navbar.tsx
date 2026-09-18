@@ -9,7 +9,7 @@ import { MobileDrawer } from './MobileDrawer';
 
 const mainNav = [
   { href: '/', label: 'صفحه اصلی' },
-  { href: '/coaches', label: 'مربیان' },
+  { href: '/coaches', label: 'کوچ‌ها' },
   { href: '/coaching/what-is-coaching', label: 'کوچینگ چیست؟' },
   { href: '/blog', label: 'وبلاگ' },
   { href: '/about', label: 'درباره ما' },

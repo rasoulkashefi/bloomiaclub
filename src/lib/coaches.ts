@@ -66,7 +66,7 @@ export const normalizeCoach = (coach: any): Coach => {
   return {
     id: coach.id,
     slug: coach.slug || String(coach.id),
-    name: coach.full_name || coach.name || 'مربی بلومیا',
+    name: coach.full_name || coach.name || 'کوچ بلومیا',
     title: coach.job_title || coach.title || 'کوچ حرفه‌ای ICF',
     description: coach.bio_short || coach.description || 'همراه شما در مسیر رشد و تحول فردی و حرفه‌ای.',
     longDescription: coach.bio_full,

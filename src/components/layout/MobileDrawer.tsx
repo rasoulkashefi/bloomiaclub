@@ -13,7 +13,7 @@ interface MobileDrawerProps {
 
 const navLinks = [
   { href: '/', label: 'صفحه اصلی', icon: Compass },
-  { href: '/coaches', label: 'مربیان و کوچ‌ها', icon: Users },
+  { href: '/coaches', label: 'کوچ‌ها', icon: Users },
   { href: '/coaching/what-is-coaching', label: 'کوچینگ چیست؟', icon: HelpCircle },
   { href: '/coaching/free-intro-session', label: 'جلسه معارفه رایگان', icon: Calendar, highlight: true },
   { href: '/blog', label: 'وبلاگ و مقالات', icon: BookOpen },

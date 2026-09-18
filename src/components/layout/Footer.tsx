@@ -89,7 +89,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link href="/coaches" className="hover:text-white transition-colors">
-                  جستجو و انتخاب مربیان
+                  جستجو و انتخاب کوچ‌ها
                 </Link>
               </li>
               <li>
