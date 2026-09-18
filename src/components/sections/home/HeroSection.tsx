@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles, CheckCircle2, ShieldCheck, Clock } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ShieldCheck, Clock } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   return (
@@ -37,9 +37,8 @@ export const HeroSection: React.FC = () => {
 
       {/* 4. Hero Content Over Video */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center space-y-6 md:space-y-8">
-        {/* Eyebrow Pill */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-medium shadow-md">
-          <Sparkles className="w-4 h-4 text-brand-teal-300 shrink-0" />
+        {/* Eyebrow Pill - Pure and clean without sparkle icons */}
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-medium shadow-md">
           <span>پلتفرم تخصصی کوچینگ با استاندارد بین‌المللی ICF</span>
         </div>
 
