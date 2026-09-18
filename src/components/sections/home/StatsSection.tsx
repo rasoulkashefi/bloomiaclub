@@ -4,37 +4,31 @@ import { Award, Filter, HeartHandshake, Lock, Zap, Target } from 'lucide-react';
 const statsCards = [
   {
     icon: Award,
-    stat: '۱۰۰٪',
-    title: 'تخصص‌محور و استاندارد',
+    title: 'تخصص‌محور و استاندارد ICF',
     description: 'تمام کوچ‌های فعال در بلومیا دارای گواهینامه‌های رسمی و معتبر بین‌المللی ICF هستند.',
   },
   {
     icon: Filter,
-    stat: 'انتخاب هوشمند',
     title: 'فیلتر سخت‌گیرانه صلاحیت',
     description: 'کوچ‌ها از میان ده‌ها داوطلب و پس از بررسی دقیق سوابق، رضایت مراجعین و مصاحبه تخصصی انتخاب می‌شوند.',
   },
   {
     icon: HeartHandshake,
-    stat: '۹۸٪+',
     title: 'تمرکز بر رضایت مراجعین',
     description: 'هدف ما خلق تجربه‌ای ارزشمند است که در آن هر جلسه، گامی شفاف و محسوس به سوی اهداف شما باشد.',
   },
   {
     icon: Lock,
-    stat: 'امن و محرمانه',
-    title: 'حریم خصوصی اخلاقی',
+    title: 'حریم خصوصی و محرمانگی',
     description: 'تمامی گفتگوها در محیطی امن و با تعهد کامل به اصول حفظ رازداری کدهای اخلاقی ICF انجام می‌گیرد.',
   },
   {
     icon: Zap,
-    stat: '۲ دقیقه',
-    title: 'تا ثبت اولین جلسه',
+    title: 'شروع سریع در کمتر از ۲ دقیقه',
     description: 'فرآیند جستجو و انتخاب کوچ در پلتفرم بهینه‌سازی شده تا بدون فوت وقت مسیر را شروع کنید.',
   },
   {
     icon: Target,
-    stat: 'نتیجه‌گرا',
     title: 'تمرکز بر اقدام و تغییر',
     description: 'کوچینگ در بلومیا تئوری نیست؛ ما به شما کمک می‌کنیم موانع را شناسایی و برنامه‌ای عملی پیاده کنید.',
   },
@@ -75,24 +69,17 @@ export const StatsSection: React.FC = () => {
                 key={idx}
                 className="bg-brand-teal-900/60 backdrop-blur-xs border border-brand-teal-800/80 p-6 sm:p-7 rounded-3xl space-y-3.5 hover:border-brand-teal-600 hover:bg-brand-teal-900/90 transition-all duration-300 shadow-soft"
               >
-                <div className="flex items-center justify-between gap-3">
-                  {/* Right side: Icon + Title */}
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-11 h-11 rounded-2xl bg-brand-teal-800/80 text-brand-teal-300 flex items-center justify-center shrink-0 shadow-xs">
-                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-tight">
-                      {item.title}
-                    </h3>
+                {/* Clean Header: Icon + Title on a single line */}
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-brand-teal-800/80 text-brand-teal-300 flex items-center justify-center shrink-0 shadow-xs">
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-
-                  {/* Left side: Stat / Number badge */}
-                  <span className="text-xs sm:text-sm font-extrabold text-brand-teal-200 shrink-0 px-2.5 py-1 rounded-xl bg-brand-teal-950/60 border border-brand-teal-800/60">
-                    {item.stat}
-                  </span>
+                  <h3 className="text-base sm:text-lg font-bold text-white leading-tight">
+                    {item.title}
+                  </h3>
                 </div>
 
-                <p className="text-xs sm:text-sm text-brand-teal-100/75 leading-relaxed pt-1">
+                <p className="text-xs sm:text-sm text-brand-teal-100/75 leading-relaxed">
                   {item.description}
                 </p>
               </div>
