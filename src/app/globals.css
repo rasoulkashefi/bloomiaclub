@@ -59,6 +59,16 @@ textarea {
   min-width: 44px;
 }
 
+/* Hide scrollbar for touch carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 /* Inline small buttons or icon links exception if explicitly sized */
 .touch-auto {
   min-height: auto;

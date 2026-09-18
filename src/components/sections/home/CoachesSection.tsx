@@ -25,8 +25,8 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
           </p>
         </div>
 
-        {/* Coaches Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Coaches Cards Container: Horizontal Snap Rail on Mobile, 3-Col Grid on Desktop */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 lg:gap-8 md:overflow-visible">
           {coaches.map((coach) => {
             const avatarUrl =
               coach.imageUrl ||
@@ -35,7 +35,7 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
             return (
               <article
                 key={coach.id}
-                className="group flex flex-col bg-brand-surface-paper rounded-3xl p-5 sm:p-6 border border-brand-neutral-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
+                className="group flex flex-col bg-brand-surface-paper rounded-3xl p-5 sm:p-6 border border-brand-neutral-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 snap-start shrink-0 w-[84vw] max-w-[310px] md:w-auto md:max-w-none"
               >
                 {/* Top Row: Avatar & Badges */}
                 <div className="flex items-start gap-4">
@@ -107,8 +107,14 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
           })}
         </div>
 
+        {/* Mobile Swipe Hint */}
+        <div className="flex md:hidden items-center justify-center gap-1.5 text-xs text-brand-neutral-500 mt-2 mb-2">
+          <span>برای مشاهده سایر کوچ‌ها، به چپ ورق بزنید</span>
+          <span className="text-sm font-bold">←</span>
+        </div>
+
         {/* View All Button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-10 md:mt-12">
           <Link
             href="/coaches"
             className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full border-2 border-brand-teal-900 text-brand-teal-900 hover:bg-brand-teal-900 hover:text-white font-bold text-sm sm:text-base transition-all shadow-xs"
