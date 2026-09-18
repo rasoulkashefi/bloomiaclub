@@ -31,25 +31,31 @@ export const BookingFeaturesSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Visual Column */}
           <div className="lg:col-span-6 order-2 lg:order-1 relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-soft-lg border border-brand-surface-border aspect-4/3 sm:aspect-16/11 bg-brand-neutral-100">
+            <div className="relative rounded-3xl overflow-hidden shadow-elevated border border-brand-surface-border bg-brand-neutral-100 max-w-md lg:max-w-lg mx-auto">
               <Image
-                src="/images/blomia-self-reflection-journey.webp"
-                alt="مسیر رشد و خودآگاهی با کوچینگ بلومیا"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover object-center"
+                src="/images/the-modern-professional-coach.webp"
+                alt="کوچ حرفه‌ای مدرن بلومیا"
+                width={768}
+                height={1152}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 550px"
+                className="w-full h-auto object-cover"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-brand-teal-950/50 via-transparent to-transparent" />
-            </div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-            {/* Micro Badge */}
-            <div className="absolute bottom-6 left-6 right-6 sm:right-auto bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-soft border border-brand-neutral-200 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-teal-50 text-brand-teal-900 flex items-center justify-center shrink-0">
-                <CalendarCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs text-brand-neutral-500 font-medium">جلسه صفر معارفه</p>
-                <p className="text-sm font-bold text-brand-neutral-900">۳۰ دقیقه گفتگوی اختصاصی</p>
+              {/* Floating Card: Fast Booking Widget from live site */}
+              <div className="absolute bottom-6 left-6 right-6 sm:right-auto sm:min-w-[240px] bg-white/95 backdrop-blur-md p-4 sm:p-5 rounded-2xl shadow-elevated border border-brand-neutral-200">
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="w-8 h-8 rounded-lg bg-brand-teal-50 text-brand-teal-900 flex items-center justify-center shrink-0">
+                    <CalendarCheck className="w-4 h-4" />
+                  </div>
+                  <span className="text-sm font-bold text-brand-neutral-900">رزرو سریع</span>
+                </div>
+                <p className="text-xs sm:text-sm text-brand-neutral-600 mb-2.5">
+                  زمان جلسه: امروز ۱۶:۰۰
+                </p>
+                <div className="w-full h-1.5 bg-brand-neutral-200 rounded-full overflow-hidden">
+                  <div className="w-[70%] h-full bg-brand-teal-800 rounded-full" />
+                </div>
               </div>
             </div>
           </div>
