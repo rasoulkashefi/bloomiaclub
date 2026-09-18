@@ -19,10 +19,12 @@ See root file `AGENTS.md` for full specification.
    - Dynamic metadata & OpenGraph (`generateMetadata`).
    - Full JSON-LD schemas (`Organization`, `WebSite`, `Person`, `Article`, `FAQPage`, `BreadcrumbList`).
    - Generative Engine Optimization for SearchGPT, Perplexity, Gemini.
-6. **Brand & Typography**:
-   - Primary: `#1f3d3a` (Deep Emerald/Teal).
-   - Accent: Warm terracotta/coral (`#BF4408`, `#E65103`).
+6. **Strict Brand Colors & Typography (No New Colors Allowed)**:
+   - Primary, Secondary & Accent: `#1f3d3a` (Deep Emerald/Teal) only.
    - Surface: `#fafaf8` & `#ffffff`.
+   - Borders: `#e5e5e2`.
+   - Text: `#1e1e1e` (Dark charcoal) & `#6b6b6b` (Muted grey).
+   - Strict ban on adding orange, red, coral or any foreign colors.
    - Font: `Vazirmatn` via `next/font` (Zero Layout Shift).
 7. **Safe Branch Workflow**:
    - Developed in `feature/nextjs-migration` branch.

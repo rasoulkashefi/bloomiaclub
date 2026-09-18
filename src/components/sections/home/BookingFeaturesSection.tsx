@@ -44,7 +44,7 @@ export const BookingFeaturesSection: React.FC = () => {
 
             {/* Micro Badge */}
             <div className="absolute bottom-6 left-6 right-6 sm:right-auto bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-soft border border-brand-neutral-200 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-coral-50 text-brand-coral-600 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-brand-teal-50 text-brand-teal-900 flex items-center justify-center shrink-0">
                 <CalendarCheck className="w-5 h-5" />
               </div>
               <div>
@@ -57,7 +57,7 @@ export const BookingFeaturesSection: React.FC = () => {
           {/* Text & Features Column */}
           <div className="lg:col-span-6 order-1 lg:order-2 space-y-6">
             <div className="space-y-3">
-              <span className="text-brand-coral-600 font-bold text-sm tracking-wide uppercase">
+              <span className="text-brand-teal-800 font-bold text-sm tracking-wide uppercase">
                 تجربه کاربری ساده و مطمئن
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-neutral-900 leading-tight">

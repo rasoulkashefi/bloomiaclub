@@ -49,13 +49,13 @@ export const StatsSection: React.FC = () => {
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute top-0 -left-20 w-80 h-80 bg-brand-coral-900/20 rounded-full blur-3xl"
+        className="pointer-events-none absolute top-0 -left-20 w-80 h-80 bg-brand-teal-900/30 rounded-full blur-3xl"
         aria-hidden="true"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-14 md:mb-18">
-          <span className="text-brand-coral-400 font-semibold text-xs sm:text-sm tracking-wider uppercase">
+          <span className="text-brand-teal-300 font-semibold text-xs sm:text-sm tracking-wider uppercase">
             تعهد به استانداردهای جهانی
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
@@ -73,13 +73,13 @@ export const StatsSection: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="bg-brand-teal-900/60 backdrop-blur-xs border border-brand-teal-800/80 p-6 sm:p-7 rounded-3xl space-y-3.5 hover:border-brand-coral-500/50 hover:bg-brand-teal-900/90 transition-all duration-300 shadow-soft"
+                className="bg-brand-teal-900/60 backdrop-blur-xs border border-brand-teal-800/80 p-6 sm:p-7 rounded-3xl space-y-3.5 hover:border-brand-teal-600 hover:bg-brand-teal-900/90 transition-all duration-300 shadow-soft"
               >
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-teal-800/80 text-brand-coral-400 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-teal-800/80 text-brand-teal-300 flex items-center justify-center">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <span className="text-lg sm:text-xl font-extrabold text-brand-coral-400">
+                  <span className="text-lg sm:text-xl font-extrabold text-brand-teal-200">
                     {item.stat}
                   </span>
                 </div>

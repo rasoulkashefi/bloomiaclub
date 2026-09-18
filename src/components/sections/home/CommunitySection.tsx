@@ -49,7 +49,7 @@ export const CommunitySection: React.FC = () => {
     <section className="py-16 md:py-24 bg-brand-surface border-b border-brand-surface-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12 md:mb-16">
-          <span className="text-brand-coral-600 font-bold text-sm tracking-wide uppercase">
+          <span className="text-brand-teal-800 font-bold text-sm tracking-wide uppercase">
             اکوسیستم رشد مشترک
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-neutral-900 tracking-tight">

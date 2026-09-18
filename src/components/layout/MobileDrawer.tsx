@@ -69,14 +69,14 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ isOpen, onClose }) =
                 onClick={onClose}
                 className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-medium transition-colors ${
                   item.highlight
-                    ? 'bg-brand-coral-50 text-brand-coral-700 border border-brand-coral-200 font-semibold'
+                    ? 'bg-brand-teal-50 text-brand-teal-900 border border-brand-teal-200 font-semibold'
                     : isActive
                     ? 'bg-brand-teal-50 text-brand-teal-900 font-bold'
                     : 'text-brand-neutral-700 hover:bg-brand-neutral-100 hover:text-brand-teal-900'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Icon className={`w-5 h-5 ${item.highlight ? 'text-brand-coral-600' : 'text-brand-neutral-500'}`} />
+                  <Icon className={`w-5 h-5 ${item.highlight ? 'text-brand-teal-700' : 'text-brand-neutral-500'}`} />
                   <span>{item.label}</span>
                 </div>
                 <ArrowLeft className="w-4 h-4 opacity-40" />

@@ -45,7 +45,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="اینستاگرام بلومیا کلاب"
-                className="w-10 h-10 rounded-full bg-brand-teal-900/80 hover:bg-brand-coral-600 flex items-center justify-center text-white transition-colors"
+                className="w-10 h-10 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 flex items-center justify-center text-white transition-colors border border-brand-teal-800"
               >
                 <InstagramIcon className="w-5 h-5" />
               </a>
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="لینکدین بلومیا کلاب"
-                className="w-10 h-10 rounded-full bg-brand-teal-900/80 hover:bg-brand-coral-600 flex items-center justify-center text-white transition-colors"
+                className="w-10 h-10 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 flex items-center justify-center text-white transition-colors border border-brand-teal-800"
               >
                 <LinkedinIcon className="w-5 h-5" />
               </a>
@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="کانال تلگرام بلومیا کلاب"
-                className="w-10 h-10 rounded-full bg-brand-teal-900/80 hover:bg-brand-coral-600 flex items-center justify-center text-white transition-colors"
+                className="w-10 h-10 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 flex items-center justify-center text-white transition-colors border border-brand-teal-800"
               >
                 <Send className="w-4 h-4" />
               </a>
@@ -73,32 +73,32 @@ export const Footer: React.FC = () => {
           {/* Column 2: خدمات کوچینگ */}
           <div>
             <h3 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-coral-500"></span>
+              <span className="w-2 h-2 rounded-full bg-brand-teal-400"></span>
               خدمات کوچینگ
             </h3>
             <ul className="space-y-2.5 text-sm text-brand-teal-100/75">
               <li>
-                <Link href="/coaching/free-intro-session" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/coaching/free-intro-session" className="hover:text-white transition-colors">
                   جلسه معارفه رایگان ۳۰ دقیقه‌ای
                 </Link>
               </li>
               <li>
-                <Link href="/coaching/what-is-coaching" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/coaching/what-is-coaching" className="hover:text-white transition-colors">
                   کوچینگ چیست و چگونه کمک می‌کند؟
                 </Link>
               </li>
               <li>
-                <Link href="/coaches" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/coaches" className="hover:text-white transition-colors">
                   جستجو و انتخاب مربیان
                 </Link>
               </li>
               <li>
-                <Link href="/coaches?specialty=career" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/coaches?specialty=career" className="hover:text-white transition-colors">
                   کوچینگ مسیر شغلی و حرفه‌ای
                 </Link>
               </li>
               <li>
-                <Link href="/coaches?specialty=personal" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/coaches?specialty=personal" className="hover:text-white transition-colors">
                   کوچینگ توسعه و رشد فردی
                 </Link>
               </li>
@@ -108,32 +108,32 @@ export const Footer: React.FC = () => {
           {/* Column 3: دسترسی سریع */}
           <div>
             <h3 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-coral-500"></span>
+              <span className="w-2 h-2 rounded-full bg-brand-teal-400"></span>
               دسترسی سریع
             </h3>
             <ul className="space-y-2.5 text-sm text-brand-teal-100/75">
               <li>
-                <Link href="/blog" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/blog" className="hover:text-white transition-colors">
                   وبلاگ و مقالات آموزشی
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/events" className="hover:text-white transition-colors">
                   رویدادها و کارگاه‌های آنلاین
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/about" className="hover:text-white transition-colors">
                   درباره بلومیا کلاب
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/faq" className="hover:text-white transition-colors">
                   پرسش‌های متداول (FAQ)
                 </Link>
               </li>
               <li>
-                <Link href="/legal" className="hover:text-brand-coral-300 transition-colors">
+                <Link href="/legal" className="hover:text-white transition-colors">
                   قوانین و حریم خصوصی
                 </Link>
               </li>
@@ -143,24 +143,24 @@ export const Footer: React.FC = () => {
           {/* Column 4: ارتباط با ما */}
           <div>
             <h3 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-coral-500"></span>
+              <span className="w-2 h-2 rounded-full bg-brand-teal-400"></span>
               ارتباط با ما
             </h3>
             <ul className="space-y-3 text-sm text-brand-teal-100/75">
               <li className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-brand-coral-400 shrink-0" />
+                <Phone className="w-4 h-4 text-brand-teal-300 shrink-0" />
                 <a href="tel:02191000000" className="hover:text-white transition-colors dir-ltr">
                   ۰۲۱ - ۹۱۰۰ ۰۰۰۰
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-brand-coral-400 shrink-0" />
+                <Mail className="w-4 h-4 text-brand-teal-300 shrink-0" />
                 <a href="mailto:info@bloomiaclub.com" className="hover:text-white transition-colors">
                   info@bloomiaclub.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-brand-coral-400 shrink-0 mt-1" />
+                <MapPin className="w-4 h-4 text-brand-teal-300 shrink-0 mt-1" />
                 <span>تهران، خیابان ولیعصر، مرکز نوآوری و توسعه کسب‌وکار</span>
               </li>
             </ul>
@@ -171,7 +171,7 @@ export const Footer: React.FC = () => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-teal-300/70">
           <p>© {new Date().getFullYear()} بلومیا کلاب (Bloomia Club). تمامی حقوق محفوظ است.</p>
           <p className="flex items-center gap-1.5">
-            طراحی شده با <Heart className="w-3.5 h-3.5 text-brand-coral-500 fill-brand-coral-500 inline" /> برای رشد و شکوفایی شما
+            طراحی شده با <Heart className="w-3.5 h-3.5 text-brand-teal-400 fill-brand-teal-400 inline" /> برای رشد و شکوفایی شما
           </p>
         </div>
       </div>

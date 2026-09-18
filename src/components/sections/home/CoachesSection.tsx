@@ -15,7 +15,7 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12 md:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-brand-teal-50 text-brand-teal-900 text-xs font-semibold border border-brand-teal-200">
-            <UserCheck className="w-3.5 h-3.5 text-brand-coral-600" />
+            <UserCheck className="w-3.5 h-3.5 text-brand-teal-700" />
             <span>کوچ‌های دارای مدرک بین‌المللی ICF</span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-neutral-900 tracking-tight">

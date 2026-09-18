@@ -7,8 +7,8 @@ export const FinalCtaSection: React.FC = () => {
     <section className="py-16 md:py-24 bg-linear-to-b from-brand-surface to-brand-teal-50/60 border-b border-brand-surface-border relative overflow-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
         <div className="space-y-4 max-w-3xl mx-auto">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-brand-coral-100 text-brand-coral-800 text-xs sm:text-sm font-semibold">
-            <CheckCircle className="w-4 h-4 text-brand-coral-600" />
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-brand-teal-50 text-brand-teal-900 border border-brand-teal-200 text-xs sm:text-sm font-semibold">
+            <CheckCircle className="w-4 h-4 text-brand-teal-700" />
             <span>یک قدم تا شفافیت و آرامش ذهنی</span>
           </span>
 
@@ -25,7 +25,7 @@ export const FinalCtaSection: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <Link
             href="/coaching/free-intro-session"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-brand-coral-600 hover:bg-brand-coral-700 text-white font-bold text-base shadow-soft hover:shadow-soft-lg active:scale-98 transition-all min-h-[50px]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 text-white font-bold text-base shadow-soft hover:shadow-soft-lg active:scale-98 transition-all min-h-[50px]"
           >
             <Calendar className="w-5 h-5" />
             <span>رزرو جلسه معارفه رایگان (جلسه صفر)</span>

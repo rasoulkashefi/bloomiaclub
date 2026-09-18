@@ -21,27 +21,20 @@ const config: Config = {
             600: '#336962',
             700: '#2b544e',
             800: '#254541',
-            900: '#1f3d3a', // Brand Primary
+            900: '#1f3d3a', // Brand Primary & Accent
             950: '#0f2220',
           },
-          coral: {
-            50: '#fff5f0',
-            100: '#ffe8dc',
-            200: '#fed1ba',
-            300: '#fdb28e',
-            400: '#fa8757',
-            500: '#f5632b',
-            600: '#e65103', // Accent Warm
-            700: '#bf4408', // Accent Deep
-            800: '#99370c',
-            900: '#7c2f0f',
-            950: '#431505',
+          primary: {
+            DEFAULT: '#1f3d3a',
+            hover: '#2b544e',
+            dark: '#162d2b',
+            light: '#254a46',
           },
           surface: {
-            DEFAULT: '#fafaf8',
-            paper: '#ffffff',
-            muted: '#f4f4f1',
-            border: '#e5e5e2',
+            DEFAULT: '#fafaf8', // Warm off-white
+            paper: '#ffffff',   // Clean card white
+            muted: '#f4f4f1',   // Subtle contrast
+            border: '#e5e5e2',  // Clean neutral border
           },
           neutral: {
             50: '#fcfcfb',
@@ -50,10 +43,10 @@ const config: Config = {
             300: '#e5e5e2',
             400: '#b8b8b3',
             500: '#8a8a84',
-            600: '#6b6b6b',
+            600: '#6b6b6b', // Secondary Text
             700: '#4a4a47',
             800: '#2e2e2c',
-            900: '#1e1e1e',
+            900: '#1e1e1e', // Primary Heading & Text
           },
         },
       },

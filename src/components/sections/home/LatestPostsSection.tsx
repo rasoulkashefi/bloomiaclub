@@ -16,7 +16,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-teal-50 text-brand-teal-900 text-xs font-semibold border border-brand-teal-200">
-              <BookOpen className="w-3.5 h-3.5 text-brand-coral-600" />
+              <BookOpen className="w-3.5 h-3.5 text-brand-teal-700" />
               <span>وبلاگ و آموزش‌های تحلیلی بلومیا</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-neutral-900 tracking-tight">
@@ -28,7 +28,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
           </div>
           <Link
             href="/blog"
-            className="hidden md:inline-flex items-center gap-2 text-brand-teal-900 hover:text-brand-coral-600 font-bold text-sm transition-colors shrink-0"
+            className="hidden md:inline-flex items-center gap-2 text-brand-teal-900 hover:text-brand-teal-700 font-bold text-sm transition-colors shrink-0"
           >
             <span>مشاهده همه مقالات</span>
             <ArrowLeft className="w-4 h-4" />
@@ -114,7 +114,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
 
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-brand-coral-600 hover:text-brand-coral-700 transition-colors"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-brand-teal-900 hover:text-brand-teal-700 transition-colors"
                     >
                       <span>ادامه مطلب</span>
                       <ArrowLeft className="w-3.5 h-3.5" />

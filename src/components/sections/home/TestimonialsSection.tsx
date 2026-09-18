@@ -54,7 +54,7 @@ export const TestimonialsSection: React.FC = () => {
     <section className="py-16 md:py-24 bg-brand-surface border-b border-brand-surface-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-12 md:mb-16">
-          <span className="text-brand-coral-600 font-bold text-sm tracking-wide uppercase">
+          <span className="text-brand-teal-800 font-bold text-sm tracking-wide uppercase">
             تجربه واقعی مراجعین
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-neutral-900 tracking-tight">
@@ -68,7 +68,7 @@ export const TestimonialsSection: React.FC = () => {
         {/* Featured Card + Navigation */}
         <div className="max-w-4xl mx-auto">
           <div className="relative bg-brand-surface-paper rounded-3xl p-6 sm:p-10 md:p-12 border border-brand-neutral-200 shadow-elevated">
-            <Quote className="w-10 h-10 sm:w-14 sm:h-14 text-brand-coral-300 opacity-60 mb-6" />
+            <Quote className="w-10 h-10 sm:w-14 sm:h-14 text-brand-teal-200 opacity-80 mb-6" />
 
             <p className="text-base sm:text-lg md:text-xl text-brand-neutral-800 leading-relaxed font-normal min-h-[100px] sm:min-h-[90px]">
               «{testimonials[activeIndex].text}»
@@ -76,7 +76,7 @@ export const TestimonialsSection: React.FC = () => {
 
             <div className="pt-8 mt-6 border-t border-brand-neutral-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden bg-brand-neutral-100 border-2 border-brand-coral-200 shrink-0">
+                <div className="relative w-14 h-14 rounded-full overflow-hidden bg-brand-neutral-100 border-2 border-brand-teal-200 shrink-0">
                   <Image
                     src={testimonials[activeIndex].avatar}
                     alt={testimonials[activeIndex].name}
@@ -132,7 +132,7 @@ export const TestimonialsSection: React.FC = () => {
                 aria-label={`رفتن به اسلاید ${idx + 1}`}
                 className={`transition-all duration-300 rounded-full h-2.5 ${
                   idx === activeIndex
-                    ? 'w-8 bg-brand-coral-600'
+                    ? 'w-8 bg-brand-teal-900'
                     : 'w-2.5 bg-brand-neutral-300 hover:bg-brand-neutral-400'
                 }`}
               />
