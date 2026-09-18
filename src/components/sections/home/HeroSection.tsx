@@ -42,13 +42,9 @@ export const HeroSection: React.FC = () => {
           <span>پلتفرم تخصصی کوچینگ با استاندارد بین‌المللی ICF</span>
         </div>
 
-        {/* Semantic H1 - Clean without any underline */}
+        {/* Semantic H1 - Clean without any underline and all white */}
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.3] md:leading-[1.25] drop-shadow-lg max-w-4xl">
-          فاصله شما تا هدف،{' '}
-          <span className="text-brand-teal-200">
-            فقط یک گفتگوی
-          </span>{' '}
-          آگاهانه است
+          فاصله شما تا هدف، فقط یک گفتگوی آگاهانه است
         </h1>
 
         {/* Subtitle */}
