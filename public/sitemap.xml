@@ -3,55 +3,55 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.bloomiaclub.com/</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/coaches</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/coaching</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/coaching/free-intro-session</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/coaching/what-is-coaching</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/blog</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/about</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/faq</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.bloomiaclub.com/contact</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -153,6 +153,16 @@
     <image:image>
       <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/8c9cddf680e93aa865eb303fd3c475466e17b17c-1024x1024.png?rect=0,243,1024,538&amp;w=1200&amp;h=630</image:loc>
       <image:title>کوچینگ و مدیریت اولویت‌ها برای مادران: چطور بین کار، خانواده و خودت تعادل برقرار کنی؟</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bloomiaclub.com/blog/how-to-stop-fighting-your-mind-act-coaching-guide</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cdn.sanity.io/images/7yjhdw88/production/440c8b6b8d6656a6f62f228f99a322e1360aa358-1376x768.jpg?rect=0,23,1376,722&amp;w=1200&amp;h=630</image:loc>
+      <image:title>چگونه از جنگ با ذهن دست برداریم؟ راهنمای رهایی از نشخوار فکری و اضطراب با رویکرد ACT</image:title>
     </image:image>
   </url>
   <url>

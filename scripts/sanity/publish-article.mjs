@@ -56,7 +56,40 @@ async function uploadImageAsset(filePath, alt = '', caption = '') {
   };
 }
 
-async function ensureAuthor(authorId, authorName, coachSlug, jobTitle) {
+async function uploadImageUrlOrPath(imagePathOrUrl, alt = '', caption = '') {
+  if (!imagePathOrUrl) return null;
+  if (imagePathOrUrl.startsWith('http://') || imagePathOrUrl.startsWith('https://')) {
+    console.log(`🌐 Downloading & uploading image asset from URL: ${imagePathOrUrl}...`);
+    try {
+      const res = await fetch(imagePathOrUrl);
+      if (!res.ok) {
+        console.warn(`⚠️ Failed to download image from ${imagePathOrUrl}: ${res.statusText}`);
+        return null;
+      }
+      const arrayBuffer = await res.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const urlObj = new URL(imagePathOrUrl);
+      const filename = path.basename(urlObj.pathname) || 'image.jpg';
+      const asset = await client.assets.upload('image', buffer, { filename });
+      return {
+        _type: 'image',
+        asset: {
+          _type: 'reference',
+          _ref: asset._id,
+        },
+        alt,
+        caption,
+      };
+    } catch (err) {
+      console.warn(`⚠️ Error downloading image: ${err.message}`);
+      return null;
+    }
+  } else {
+    return await uploadImageAsset(imagePathOrUrl, alt, caption);
+  }
+}
+
+async function ensureAuthor(authorId, authorName, coachSlug, jobTitle, bio, authorImageUrl) {
   let docId = authorId;
   if (!docId) {
     if (coachSlug) {
@@ -77,6 +110,11 @@ async function ensureAuthor(authorId, authorName, coachSlug, jobTitle) {
   const name = authorName || 'آکادمی بلومیا';
   console.log(`👤 Creating new author: ${name}...`);
 
+  let imageDoc = null;
+  if (authorImageUrl) {
+    imageDoc = await uploadImageUrlOrPath(authorImageUrl, name);
+  }
+
   const created = await client.createIfNotExists({
     _id: docId,
     _type: 'author',
@@ -86,7 +124,8 @@ async function ensureAuthor(authorId, authorName, coachSlug, jobTitle) {
     isCoach: !!coachSlug,
     isAi: false,
     jobTitle: jobTitle || 'کوچ حرفه‌ای بلومیا',
-    bio: 'کوچ رسمی و تاییدشده در مجموعه بلومیا کلاب',
+    bio: bio || 'کوچ رسمی و تاییدشده در مجموعه بلومیا کلاب',
+    ...(imageDoc ? { image: imageDoc } : {}),
   });
 
   return { _type: 'reference', _ref: created._id };
@@ -207,7 +246,7 @@ async function publishArticle(jsonFilePath) {
   }
 
   // Author & Category
-  const authorRef = await ensureAuthor(payload.authorId, payload.authorName, payload.coachSlug, payload.jobTitle);
+  const authorRef = await ensureAuthor(payload.authorId, payload.authorName, payload.coachSlug, payload.jobTitle, payload.authorBio, payload.authorImageUrl);
   const categoryRef = await ensureCategory(payload.categoryTitle, payload.categorySlug);
 
   // Convert PortableText

@@ -6,6 +6,8 @@
 # Production Build output
 /build
 /dist
+/.next/
+*.tsbuildinfo
 
 # Environment variables & Sensitive keys
 .env

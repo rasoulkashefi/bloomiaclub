@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-vazirmatn: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Smooth scrolling and touch optimization */
+html {
+  scroll-behavior: smooth;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+/* Impeccable Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fafaf8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bfd9d4;
+  border-radius: 9999px;
+  border: 2px solid #fafaf8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64a197;
+}
+
+/* Selection Color */
+::selection {
+  background-color: #1f3d3a;
+  color: #ffffff;
+}
+
+/* Accessible outline */
+:focus-visible {
+  outline: 2px solid #1f3d3a;
+  outline-offset: 2px;
+}
+
+/* Minimum mobile touch targets */
+button, 
+a, 
+input, 
+select, 
+textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Inline small buttons or icon links exception if explicitly sized */
+.touch-auto {
+  min-height: auto;
+  min-width: auto;
+}
