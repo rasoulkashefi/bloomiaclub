@@ -56,14 +56,14 @@ export const HeroSection: React.FC = () => {
         <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
           <Link
             href="/coaching/free-intro-session"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 border border-brand-teal-600 active:scale-98 text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-brand-teal-900/50 hover:scale-102 transition-all min-h-[48px] sm:min-h-[50px] group"
+            className="w-full max-w-[260px] sm:max-w-none sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 border border-brand-teal-600 active:scale-98 text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-brand-teal-900/50 hover:scale-102 transition-all min-h-[48px] sm:min-h-[50px] group"
           >
             <span>رزرو جلسه صفر (رایگان)</span>
             <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 group-hover:-translate-x-1 transition-transform" />
           </Link>
           <Link
             href="/coaches"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white border border-white/30 font-semibold text-sm sm:text-base transition-all min-h-[48px] sm:min-h-[50px]"
+            className="w-full max-w-[260px] sm:max-w-none sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white border border-white/30 font-semibold text-sm sm:text-base transition-all min-h-[48px] sm:min-h-[50px]"
           >
             <span>مشاهده لیست کوچ‌ها</span>
           </Link>
