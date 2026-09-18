@@ -33,8 +33,8 @@ export const Navbar: React.FC = () => {
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         isScrolled
-          ? 'bg-brand-surface-paper/90 backdrop-blur-md shadow-soft-sm py-2'
-          : 'bg-brand-surface-paper py-3 border-b border-brand-surface-border'
+          ? 'bg-brand-surface-paper/90 backdrop-blur-md shadow-soft-sm py-1.5 sm:py-2'
+          : 'bg-brand-surface-paper py-2 sm:py-2.5 border-b border-brand-surface-border'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -56,7 +56,7 @@ export const Navbar: React.FC = () => {
               width={140}
               height={44}
               priority
-              className="h-9 md:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-102"
+              className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-102"
             />
           </Link>
         </div>
