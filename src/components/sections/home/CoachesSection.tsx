@@ -39,7 +39,7 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
               >
                 {/* Top Row: Avatar & Badges */}
                 <div className="flex items-start gap-4">
-                  <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-brand-neutral-100 shrink-0 border border-brand-neutral-200">
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-brand-neutral-100 shrink-0 border border-brand-neutral-200">
                     <Image
                       src={avatarUrl}
                       alt={`تصویر ${coach.name}`}
