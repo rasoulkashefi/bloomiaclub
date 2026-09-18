@@ -45,8 +45,41 @@ export const ProcessSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 4 Steps Grid: 1 col on mobile, 2 col on tablet, 4 col on desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {/* Mobile: Vertical Connected Timeline Roadmap */}
+        <div className="relative sm:hidden space-y-4 max-w-md mx-auto">
+          {/* Continuous vertical connector line */}
+          <div className="absolute top-5 bottom-8 right-[19px] w-0.5 bg-brand-teal-200/80" />
+
+          {steps.map((step, idx) => {
+            const Icon = step.icon;
+            return (
+              <div key={idx} className="relative flex items-start gap-3.5">
+                {/* Step circle node on the timeline */}
+                <div className="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-brand-teal-900 text-white font-bold text-sm flex items-center justify-center shadow-soft ring-4 ring-brand-surface-paper">
+                  <span>{step.number}</span>
+                </div>
+
+                {/* Step card content */}
+                <div className="flex-1 bg-brand-surface p-4 rounded-2xl border border-brand-neutral-200/80 shadow-soft space-y-1.5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-brand-teal-50 text-brand-teal-900 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <h3 className="text-sm font-bold text-brand-neutral-900">
+                      {step.title}
+                    </h3>
+                  </div>
+                  <p className="text-xs text-brand-neutral-600 leading-relaxed pr-0.5">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Tablet & Desktop: 4 Steps Grid */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
@@ -55,7 +88,7 @@ export const ProcessSection: React.FC = () => {
                 className="relative bg-brand-surface p-6 sm:p-7 rounded-3xl border border-brand-neutral-200/80 shadow-soft flex flex-col items-center text-center space-y-4 hover:-translate-y-1 transition-all duration-200"
               >
                 {/* Step badge */}
-                <span className="absolute top-4 right-4 w-7 h-7 rounded-full bg-brand-teal-900 text-white text-xs font-bold flex items-center justify-center">
+                <span className="absolute top-4 right-4 w-7 h-7 rounded-full bg-brand-teal-900 text-white text-xs font-bold flex items-center justify-center shadow-xs">
                   {step.number}
                 </span>
 
@@ -76,10 +109,10 @@ export const ProcessSection: React.FC = () => {
         </div>
 
         {/* Call to action */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-10 md:mt-12">
           <Link
             href="/coaching/free-intro-session"
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 text-white font-bold text-sm sm:text-base transition-colors shadow-soft"
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 text-white font-bold text-sm sm:text-base transition-colors shadow-soft w-full sm:w-auto max-w-[320px] sm:max-w-none min-h-[48px]"
           >
             <span>همین حالا جلسه معارفه رایگان را رزرو کنید</span>
             <ArrowLeft className="w-4 h-4" />
