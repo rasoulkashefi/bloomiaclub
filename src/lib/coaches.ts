@@ -127,22 +127,34 @@ export const fallbackCoaches: Coach[] = [
   },
 ];
 
+/**
+ * الگوریتم Fisher-Yates برای shuffle کردن آرایه به صورت رندوم، سریع و بدون بایاس
+ */
+export function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export async function getRandomCoaches(count = 6): Promise<Coach[]> {
   try {
     const { data, error } = await supabase
       .from('v2_coaches')
       .select('*')
-      .eq('is_active', true)
-      .limit(count * 2);
+      .eq('is_active', true);
 
     if (error || !data || data.length === 0) {
-      return fallbackCoaches.slice(0, count);
+      return shuffleArray(fallbackCoaches).slice(0, count);
     }
 
-    const normalized = data.map(normalizeCoach);
-    return normalized.slice(0, count);
+    // بُر زدن کامل لیست با الگوریتم فیشر-یتس برای تضمین رندوم بودن با هر بار لود
+    const shuffled = shuffleArray(data);
+    return shuffled.slice(0, count).map(normalizeCoach);
   } catch (err) {
     console.error('Error in getRandomCoaches:', err);
-    return fallbackCoaches.slice(0, count);
+    return shuffleArray(fallbackCoaches).slice(0, count);
   }
 }

@@ -12,8 +12,8 @@ import { CommunitySection } from '@/components/sections/home/CommunitySection';
 import { FaqSection } from '@/components/sections/home/FaqSection';
 import { FinalCtaSection } from '@/components/sections/home/FinalCtaSection';
 
-// Enable Incremental Static Regeneration (ISR) - revalidate every 1 hour
-export const revalidate = 3600;
+// Force dynamic rendering on each request to guarantee randomized coaches list on every page load
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   // Fetch real data on server (SSR/SSG with cache revalidation)
