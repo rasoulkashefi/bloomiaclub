@@ -56,7 +56,7 @@ export const CoachFiltersSection: React.FC<CoachFiltersSectionProps> = ({
     <section className="py-6 bg-brand-surface border-b border-brand-surface-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Horizontal scrollable pills on mobile, centered flex on desktop */}
-        <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1 px-1 sm:px-0 sm:flex-wrap sm:justify-center">
+        <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1.5 px-4 sm:px-0 sm:flex-wrap sm:justify-center">
           {coachCategories.map((category) => {
             const isActive = currentFilter === category.id;
             return (
@@ -64,15 +64,15 @@ export const CoachFiltersSection: React.FC<CoachFiltersSectionProps> = ({
                 key={category.id}
                 type="button"
                 onClick={() => setCurrentFilter(category.id)}
-                className={`shrink-0 px-4.5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap min-h-[44px] flex items-center gap-2 active:scale-98 ${
+                className={`shrink-0 px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap min-h-[44px] flex items-center justify-center gap-2.5 active:scale-98 ${
                   isActive
                     ? 'bg-brand-teal-900 text-white shadow-soft ring-2 ring-brand-teal-900/20'
-                    : 'bg-brand-surface-paper text-brand-neutral-700 hover:text-brand-teal-900 hover:bg-brand-teal-50/70 border border-brand-neutral-200/80'
+                    : 'bg-brand-surface-paper text-brand-neutral-700 hover:text-brand-teal-900 hover:bg-brand-teal-50/70 border border-brand-neutral-200/90'
                 }`}
               >
                 <span>{category.label}</span>
                 {isActive && (
-                  <span className="w-5 h-5 rounded-full bg-white/20 text-white text-[11px] font-bold flex items-center justify-center">
+                  <span className="w-5.5 h-5.5 px-1.5 rounded-full bg-white/20 text-white text-[11px] font-bold flex items-center justify-center shrink-0">
                     {filteredCount}
                   </span>
                 )}
