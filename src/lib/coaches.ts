@@ -9,6 +9,7 @@ export interface Coach {
   description: string;
   longDescription?: string | null;
   imageUrl?: string | null;
+  cutoutImageUrl?: string | null;
   coverImage?: string | null;
   specialties: string[];
   rating: number;
@@ -122,6 +123,7 @@ export const fallbackCoaches: Coach[] = [
     description: 'همراه افراد در مسیر کشف توانایی‌ها، رشد درونی و ساختن زندگی آگاهانه و اصیل بر پایه ارزش‌های فردی.',
     longDescription: 'بیش از ۱۰ سال است که در زمینه تسهیل‌گری تحول فردی، خودشناسی و بازیابی انگیزه درونی فعالیت می‌کنم.\n\nرویکرد من مبتنی بر گفتگوهای عمیق، شفافیت ذهنی و کدهای اخلاقی فدراسیون بین‌المللی کوچینگ (ICF) است. در جلسات کوچینگ، فضایی امن و سرشار از همدلی می‌سازیم تا شما بتوانید با ارزش‌های اصیل خود همسو شده و تصمیماتی مقتدرانه برای زندگی و کارتان اتخاذ کنید.',
     imageUrl: '/images/the-modern-professional-coach.webp',
+    cutoutImageUrl: '/images/coach-cutout-test.png',
     specialties: ['خودشناسی عمیق', 'وضوح درونی', 'تحول آگاهانه', 'ارزش‌های فردی و رسالت'],
     rating: 5,
     totalReviews: 3,
