@@ -115,6 +115,33 @@ export const normalizeCoach = (coach: any): Coach => {
 // Fallback coaches for offline / zero latency SSR
 export const fallbackCoaches: Coach[] = [
   {
+    id: 'salomeh-fathijoo',
+    slug: 'salomeh-fathijoo',
+    name: 'سالومه فتحی‌جو',
+    title: 'کوچ حرفه‌ای و تسهیل‌گر تحول فردی',
+    description: 'همراه افراد در مسیر کشف توانایی‌ها، رشد درونی و ساختن زندگی آگاهانه و اصیل بر پایه ارزش‌های فردی.',
+    longDescription: 'بیش از ۱۰ سال است که در زمینه تسهیل‌گری تحول فردی، خودشناسی و بازیابی انگیزه درونی فعالیت می‌کنم.\n\nرویکرد من مبتنی بر گفتگوهای عمیق، شفافیت ذهنی و کدهای اخلاقی فدراسیون بین‌المللی کوچینگ (ICF) است. در جلسات کوچینگ، فضایی امن و سرشار از همدلی می‌سازیم تا شما بتوانید با ارزش‌های اصیل خود همسو شده و تصمیماتی مقتدرانه برای زندگی و کارتان اتخاذ کنید.',
+    imageUrl: '/images/the-modern-professional-coach.webp',
+    specialties: ['خودشناسی عمیق', 'وضوح درونی', 'تحول آگاهانه', 'ارزش‌های فردی و رسالت'],
+    rating: 5,
+    totalReviews: 3,
+    totalSessions: 950,
+    coachingHours: 950,
+    satisfiedClients: 210,
+    packagePrices: {
+      start: 4800000,
+      discovery: 7200000,
+      transformation: 9500000,
+      excellence: 14000000,
+    },
+    packageDiscounts: {
+      discovery: 15,
+      transformation: 20,
+    },
+    instagramUrl: 'https://instagram.com/bloomiaclub',
+    linkedinUrl: 'https://linkedin.com/company/bloomiaclub',
+  },
+  {
     id: '1',
     slug: 'farzaneh-sharifi',
     name: 'فرزانه شریفی',
