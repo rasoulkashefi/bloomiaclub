@@ -1,24 +1,21 @@
 import React from 'react';
 import { Award, Filter, HeartHandshake, Lock, Zap, Target } from 'lucide-react';
 
-const leadCards = [
+const statsCards = [
   {
     icon: Award,
     title: 'تخصص‌محور و استاندارد ICF',
-    description: 'تمام کوچ‌های فعال در بلومیا دارای گواهینامه‌های رسمی و معتبر بین‌المللی ICF هستند.',
+    description: 'تمامی کوچ‌ها دارای گواهینامه‌های رسمی و معتبر بین‌المللی ICF هستند.',
   },
   {
     icon: Filter,
     title: 'فیلتر سخت‌گیرانه صلاحیت',
-    description: 'کوچ‌ها از میان ده‌ها داوطلب و پس از بررسی دقیق سوابق، رضایت مراجعین و مصاحبه تخصصی انتخاب می‌شوند.',
+    description: 'بررسی دقیق سوابق، رضایت مراجعین و مصاحبه تخصصی پیش از شروع همکاری.',
   },
-];
-
-const supportingCards = [
   {
     icon: HeartHandshake,
     title: 'تمرکز بر رضایت مراجعین',
-    description: 'خلق تجربه‌ای ارزشمند که در آن هر جلسه، گامی به سوی اهداف شما باشد.',
+    description: 'خلق تجربه‌ای ارزشمند که در آن هر جلسه، گامی ملموس به سوی اهداف باشد.',
   },
   {
     icon: Lock,
@@ -27,17 +24,15 @@ const supportingCards = [
   },
   {
     icon: Zap,
-    title: 'شروع سریع در کمتر از ۲ دقیقه',
+    title: 'شروع سریع در ۲ دقیقه',
     description: 'فرآیند جستجو و انتخاب کوچ بهینه‌سازی شده تا بدون فوت وقت شروع کنید.',
   },
   {
     icon: Target,
     title: 'تمرکز بر اقدام و تغییر',
-    description: 'کوچینگ در بلومیا تئوری نیست؛ کمک می‌کنیم برنامه‌ای عملی پیاده کنید.',
+    description: 'کوچینگ در بلومیا تئوری نیست؛ به شما کمک می‌کنیم برنامه‌ای عملی پیاده کنید.',
   },
 ];
-
-const statsCards = [...leadCards, ...supportingCards];
 
 export const StatsSection: React.FC = () => {
   return (
@@ -65,57 +60,29 @@ export const StatsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Mobile: Bento Hierarchy (2 Lead Cards + 2x2 Supporting Grid) */}
-        <div className="sm:hidden space-y-3">
-          {/* 2 Lead Cards */}
-          <div className="space-y-3">
-            {leadCards.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={idx}
-                  className="relative overflow-hidden bg-gradient-to-b from-brand-teal-900/90 to-brand-teal-900/60 border border-brand-teal-700/60 p-4.5 rounded-2xl shadow-soft space-y-2.5"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-brand-teal-800 text-brand-teal-300 flex items-center justify-center shrink-0 shadow-xs ring-1 ring-brand-teal-700/50">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <h3 className="text-sm font-bold text-white leading-tight">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <p className="text-xs text-brand-teal-100/80 leading-relaxed pr-0.5">
+        {/* Mobile: Harmonious 2-Column Grid (3 rows of 2 balanced portrait cards) */}
+        <div className="grid grid-cols-2 gap-3 sm:hidden">
+          {statsCards.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={idx}
+                className="bg-brand-teal-900/60 backdrop-blur-xs border border-brand-teal-800/80 p-4 rounded-2xl flex flex-col justify-start space-y-3 shadow-soft hover:border-brand-teal-600 transition-all duration-300"
+              >
+                <div className="w-10 h-10 rounded-xl bg-brand-teal-800 text-brand-teal-300 flex items-center justify-center shrink-0 shadow-xs ring-1 ring-brand-teal-700/50">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-xs font-bold text-white leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="text-[11px] text-brand-teal-100/75 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* 2x2 Supporting Grid */}
-          <div className="grid grid-cols-2 gap-3 pt-1">
-            {supportingCards.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={idx}
-                  className="bg-brand-teal-900/40 border border-brand-teal-800/70 p-3.5 rounded-2xl flex flex-col justify-between space-y-2.5 shadow-xs"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-brand-teal-800/80 text-brand-teal-300 flex items-center justify-center shrink-0">
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="text-xs font-bold text-white leading-snug">
-                      {item.title}
-                    </h3>
-                    <p className="text-[11px] text-brand-teal-100/70 leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Tablet & Desktop: 6 Grid Cards */}
@@ -148,3 +115,4 @@ export const StatsSection: React.FC = () => {
     </section>
   );
 };
+
