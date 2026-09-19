@@ -167,14 +167,15 @@ export async function getAllCoaches(): Promise<Coach[]> {
       .eq('is_active', true);
 
     if (error || !data || data.length === 0) {
-      return fallbackCoaches;
+      return shuffleArray(fallbackCoaches);
     }
 
-    // مرتب‌سازی بر اساس امتیاز و تعداد نظرات برای نمایش بهترین کیفیت
-    return data.map(normalizeCoach);
+    // بُر زدن کامل لیست با الگوریتم فیشر-یتس برای تضمین ترتیب رندوم با هر بار لود
+    const shuffled = shuffleArray(data);
+    return shuffled.map(normalizeCoach);
   } catch (err) {
     console.error('Error in getAllCoaches:', err);
-    return fallbackCoaches;
+    return shuffleArray(fallbackCoaches);
   }
 }
 

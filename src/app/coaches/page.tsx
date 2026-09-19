@@ -6,7 +6,7 @@ import { CoachFaqSection } from '@/components/sections/coaches/CoachFaqSection';
 import { CoachSeoGuideSection } from '@/components/sections/coaches/CoachSeoGuideSection';
 import { coachFaqs } from '@/data/coachFaqs';
 
-export const revalidate = 3600; // ISR: Revalidate every 1 hour
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'کوچ‌های بلومیا کلاب | تخصص‌های رشد فردی، شغلی و کسب‌وکار با مدرک ICF',
