@@ -1,7 +1,7 @@
 import React from 'react';
 import { Award, Filter, HeartHandshake, Lock, Zap, Target } from 'lucide-react';
 
-const statsCards = [
+const leadCards = [
   {
     icon: Award,
     title: 'تخصص‌محور و استاندارد ICF',
@@ -12,27 +12,32 @@ const statsCards = [
     title: 'فیلتر سخت‌گیرانه صلاحیت',
     description: 'کوچ‌ها از میان ده‌ها داوطلب و پس از بررسی دقیق سوابق، رضایت مراجعین و مصاحبه تخصصی انتخاب می‌شوند.',
   },
+];
+
+const supportingCards = [
   {
     icon: HeartHandshake,
     title: 'تمرکز بر رضایت مراجعین',
-    description: 'هدف ما خلق تجربه‌ای ارزشمند است که در آن هر جلسه، گامی شفاف و محسوس به سوی اهداف شما باشد.',
+    description: 'خلق تجربه‌ای ارزشمند که در آن هر جلسه، گامی به سوی اهداف شما باشد.',
   },
   {
     icon: Lock,
     title: 'حریم خصوصی و محرمانگی',
-    description: 'تمامی گفتگوها در محیطی امن و با تعهد کامل به اصول حفظ رازداری کدهای اخلاقی ICF انجام می‌گیرد.',
+    description: 'تمامی گفتگوها با تعهد کامل به اصول حفظ رازداری کدهای اخلاقی ICF انجام می‌گیرد.',
   },
   {
     icon: Zap,
     title: 'شروع سریع در کمتر از ۲ دقیقه',
-    description: 'فرآیند جستجو و انتخاب کوچ در پلتفرم بهینه‌سازی شده تا بدون فوت وقت مسیر را شروع کنید.',
+    description: 'فرآیند جستجو و انتخاب کوچ بهینه‌سازی شده تا بدون فوت وقت شروع کنید.',
   },
   {
     icon: Target,
     title: 'تمرکز بر اقدام و تغییر',
-    description: 'کوچینگ در بلومیا تئوری نیست؛ ما به شما کمک می‌کنیم موانع را شناسایی و برنامه‌ای عملی پیاده کنید.',
+    description: 'کوچینگ در بلومیا تئوری نیست؛ کمک می‌کنیم برنامه‌ای عملی پیاده کنید.',
   },
 ];
+
+const statsCards = [...leadCards, ...supportingCards];
 
 export const StatsSection: React.FC = () => {
   return (
@@ -48,7 +53,7 @@ export const StatsSection: React.FC = () => {
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-14 md:mb-18">
+        <div className="text-center max-w-3xl mx-auto space-y-4 mb-10 sm:mb-14 md:mb-18">
           <span className="text-brand-teal-300 font-semibold text-xs sm:text-sm tracking-wider uppercase">
             تعهد به استانداردهای جهانی
           </span>
@@ -60,8 +65,61 @@ export const StatsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 6 Grid Cards: 1 col on mobile, 2 on tablet, 3 on desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Mobile: Bento Hierarchy (2 Lead Cards + 2x2 Supporting Grid) */}
+        <div className="sm:hidden space-y-3">
+          {/* 2 Lead Cards */}
+          <div className="space-y-3">
+            {leadCards.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={idx}
+                  className="relative overflow-hidden bg-gradient-to-b from-brand-teal-900/90 to-brand-teal-900/60 border border-brand-teal-700/60 p-4.5 rounded-2xl shadow-soft space-y-2.5"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-brand-teal-800 text-brand-teal-300 flex items-center justify-center shrink-0 shadow-xs ring-1 ring-brand-teal-700/50">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-sm font-bold text-white leading-tight">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <p className="text-xs text-brand-teal-100/80 leading-relaxed pr-0.5">
+                    {item.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* 2x2 Supporting Grid */}
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            {supportingCards.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={idx}
+                  className="bg-brand-teal-900/40 border border-brand-teal-800/70 p-3.5 rounded-2xl flex flex-col justify-between space-y-2.5 shadow-xs"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-brand-teal-800/80 text-brand-teal-300 flex items-center justify-center shrink-0">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="text-xs font-bold text-white leading-snug">
+                      {item.title}
+                    </h3>
+                    <p className="text-[11px] text-brand-teal-100/70 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Tablet & Desktop: 6 Grid Cards */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {statsCards.map((item, idx) => {
             const Icon = item.icon;
             return (
