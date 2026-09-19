@@ -158,3 +158,23 @@ export async function getRandomCoaches(count = 6): Promise<Coach[]> {
     return shuffleArray(fallbackCoaches).slice(0, count);
   }
 }
+
+export async function getAllCoaches(): Promise<Coach[]> {
+  try {
+    const { data, error } = await supabase
+      .from('v2_coaches')
+      .select('*')
+      .eq('is_active', true);
+
+    if (error || !data || data.length === 0) {
+      return fallbackCoaches;
+    }
+
+    // مرتب‌سازی بر اساس امتیاز و تعداد نظرات برای نمایش بهترین کیفیت
+    return data.map(normalizeCoach);
+  } catch (err) {
+    console.error('Error in getAllCoaches:', err);
+    return fallbackCoaches;
+  }
+}
+
