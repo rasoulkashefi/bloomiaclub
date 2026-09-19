@@ -124,18 +124,22 @@ export const TestimonialsSection: React.FC = () => {
           </div>
 
           {/* Dots */}
-          <div className="flex items-center justify-center gap-2 mt-6">
+          <div className="flex items-center justify-center gap-1.5 mt-6">
             {testimonials.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
                 aria-label={`رفتن به اسلاید ${idx + 1}`}
-                className={`transition-all duration-300 rounded-full h-2.5 ${
-                  idx === activeIndex
-                    ? 'w-8 bg-brand-teal-900'
-                    : 'w-2.5 bg-brand-neutral-300 hover:bg-brand-neutral-400'
-                }`}
-              />
+                className="touch-auto p-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-800 rounded-full"
+              >
+                <span
+                  className={`block transition-all duration-300 rounded-full h-2 ${
+                    idx === activeIndex
+                      ? 'w-6 bg-brand-teal-900'
+                      : 'w-2 bg-brand-neutral-300 hover:bg-brand-neutral-400'
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>
