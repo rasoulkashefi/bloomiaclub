@@ -81,7 +81,10 @@ export async function getLatestPosts(count = 3): Promise<BlogPostSummary[]> {
       let imgUrl = 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200&auto=format&fit=crop';
       if (item.mainImage) {
         try {
-          imgUrl = urlFor(item.mainImage).width(1200).url();
+          const imgBuilder = urlFor(item.mainImage);
+          if (imgBuilder) {
+            imgUrl = imgBuilder.width(1200).url();
+          }
         } catch {
           // fallback
         }
@@ -90,7 +93,10 @@ export async function getLatestPosts(count = 3): Promise<BlogPostSummary[]> {
       let authorImg = 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop';
       if (item.author?.image) {
         try {
-          authorImg = urlFor(item.author.image).width(200).url();
+          const authorImgBuilder = urlFor(item.author.image);
+          if (authorImgBuilder) {
+            authorImg = authorImgBuilder.width(200).url();
+          }
         } catch {
           // fallback
         }

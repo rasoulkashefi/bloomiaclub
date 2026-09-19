@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { sanityClient, coachesQuery, coachBySlugQuery } from './sanity';
 
 export interface Coach {
   id: string | number;
@@ -6,7 +7,7 @@ export interface Coach {
   name: string;
   title: string;
   description: string;
-  longDescription?: string;
+  longDescription?: string | null;
   imageUrl?: string | null;
   coverImage?: string | null;
   specialties: string[];
@@ -15,6 +16,15 @@ export interface Coach {
   totalSessions: number;
   coachingHours: number;
   satisfiedClients: number;
+  videoUrl?: string | null;
+  videoCover?: string | null;
+  videoTitle?: string | null;
+  videoDescription?: string | null;
+  packagePrices?: Record<string, number | null>;
+  packageDiscounts?: Record<string, number | null>;
+  instagramUrl?: string | null;
+  linkedinUrl?: string | null;
+  bookingUrl?: string | null;
 }
 
 const supabaseBaseUrl =
@@ -62,22 +72,43 @@ const parseJsonField = (value: any, fallback: any) => {
 };
 
 export const normalizeCoach = (coach: any): Coach => {
+  const socialLinks = parseJsonField(coach.social_links, {}) || {};
   const tags = parseJsonField(coach.tags, []) || [];
+  const packagePrices = parseJsonField(coach.package_prices, {}) || {};
+  const packageDiscounts = parseJsonField(coach.package_discounts, {}) || {};
+
   return {
-    id: coach.id,
+    id: coach.id || coach._id,
     slug: coach.slug || String(coach.id),
     name: coach.full_name || coach.name || 'کوچ بلومیا',
     title: coach.job_title || coach.title || 'کوچ حرفه‌ای ICF',
     description: coach.bio_short || coach.description || 'همراه شما در مسیر رشد و تحول فردی و حرفه‌ای.',
-    longDescription: coach.bio_full,
+    longDescription: coach.bio_full || coach.longDescription || null,
     imageUrl: resolvePublicUrl(coach.avatar_url || coach.imageUrl, 'coaches_images'),
     coverImage: resolvePublicUrl(coach.hero_image_url || coach.coverImage, 'coaches_images'),
-    specialties: Array.isArray(tags) ? tags : [],
-    rating: coach.average_rating != null ? Number(coach.average_rating) : 5,
-    totalReviews: coach.review_count || coach.satisfied_clients || 0,
-    totalSessions: coach.coaching_hours || 50,
-    coachingHours: coach.coaching_hours || 50,
-    satisfiedClients: coach.satisfied_clients || 20,
+    specialties: Array.isArray(tags) && tags.length > 0 ? tags : (coach.specialties || []),
+    rating: coach.average_rating != null ? Number(coach.average_rating) : (coach.rating || 5),
+    totalReviews: coach.review_count || coach.satisfied_clients || coach.totalReviews || 0,
+    totalSessions: coach.coaching_hours || coach.totalSessions || 50,
+    coachingHours: coach.coaching_hours || coach.coachingHours || 50,
+    satisfiedClients: coach.satisfied_clients || coach.satisfiedClients || 20,
+    videoUrl: coach.intro_video_url || coach.videoUrl || null,
+    videoCover: resolvePublicUrl(coach.intro_video_cover || coach.videoCover, 'coaches_images'),
+    videoTitle: coach.intro_video_title || coach.videoTitle || null,
+    videoDescription: coach.intro_video_description || coach.videoDescription || null,
+    packagePrices: Object.keys(packagePrices).length > 0 ? packagePrices : (coach.packagePrices || {
+      start: 4500000,
+      discovery: 6800000,
+      transformation: 8900000,
+      excellence: 13500000,
+    }),
+    packageDiscounts: Object.keys(packageDiscounts).length > 0 ? packageDiscounts : (coach.packageDiscounts || {
+      discovery: 15,
+      transformation: 20,
+    }),
+    instagramUrl: socialLinks.instagram || coach.instagramUrl || null,
+    linkedinUrl: socialLinks.linkedin || coach.linkedinUrl || null,
+    bookingUrl: socialLinks.booking || coach.bookingUrl || null,
   };
 };
 
@@ -89,6 +120,7 @@ export const fallbackCoaches: Coach[] = [
     name: 'فرزانه شریفی',
     title: 'کوچ ارشد توسعه فردی و مهارت‌های ارتباطی (PCC)',
     description: 'بیش از ۸ سال سابقه در کوچینگ رهبری فردی، مدیریت تعارضات و افزایش وضوح ذهنی.',
+    longDescription: 'بیش از ۸ سال است که به عنوان کوچ معتبر بین‌المللی، به افراد، مدیران و تیم‌ها کمک می‌کنم تا به شفافیت ذهنی برسند و از موانع پنهان درون خود عبور کنند.\n\nرویکرد من مبتنی بر گفتگوهای تحول‌آفرین و کدهای اخلاقی فدراسیون بین‌المللی کوچینگ (ICF) است. ما در جلسات فضایی امن و بدون قضاوت می‌سازیم تا پتانسیل‌های واقعی شما شکوفا شود.',
     imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop',
     specialties: ['رشد فردی', 'هوش هیجانی', 'توسعه ارتباطات'],
     rating: 5,
@@ -96,6 +128,18 @@ export const fallbackCoaches: Coach[] = [
     totalSessions: 420,
     coachingHours: 420,
     satisfiedClients: 65,
+    packagePrices: {
+      start: 4800000,
+      discovery: 7200000,
+      transformation: 9500000,
+      excellence: 14000000,
+    },
+    packageDiscounts: {
+      discovery: 15,
+      transformation: 20,
+    },
+    instagramUrl: 'https://instagram.com/bloomiaclub',
+    linkedinUrl: 'https://linkedin.com/company/bloomiaclub',
   },
   {
     id: '2',
@@ -103,6 +147,7 @@ export const fallbackCoaches: Coach[] = [
     name: 'رضا احمدی',
     title: 'کوچ توسعه مسیر شغلی و ارتقای سازمانی (ACC)',
     description: 'متخصص در تحول شغلی، آمادگی برای موقعیت‌های مدیریتی و حل چالش‌های سازمانی.',
+    longDescription: 'مسیر شغلی پر از دوراهی‌های حساس است. همراهی با بیش از ۱۰۰ متخصص و مدیر اجرایی به من آموخته که بزرگترین عامل پیشرفت شغلی، خودآگاهی و توانایی اتخاذ تصمیمات شجاعانه است.\n\nدر جلسات کوچینگ شغلی، نقشه راه شفافی برای رسیدن به اهداف حرفه‌ای‌تان ترسیم می‌کنیم.',
     imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop',
     specialties: ['مسیر شغلی', 'توسعه شغلی', 'رهبری کسب‌وکار'],
     rating: 4.9,
@@ -110,6 +155,18 @@ export const fallbackCoaches: Coach[] = [
     totalSessions: 310,
     coachingHours: 310,
     satisfiedClients: 42,
+    packagePrices: {
+      start: 4500000,
+      discovery: 6800000,
+      transformation: 8900000,
+      excellence: 13500000,
+    },
+    packageDiscounts: {
+      discovery: 10,
+      transformation: 15,
+    },
+    instagramUrl: 'https://instagram.com/bloomiaclub',
+    linkedinUrl: 'https://linkedin.com/company/bloomiaclub',
   },
   {
     id: '3',
@@ -117,6 +174,7 @@ export const fallbackCoaches: Coach[] = [
     name: 'آرزو مرادی',
     title: 'کوچ تخصصی زنان و تعادل کار و زندگی',
     description: 'همراهی با زنان و مادران شاغل برای غلبه بر فرسودگی، تقویت اعتماد به نفس و کشف علایق واقعی.',
+    longDescription: 'تعادل کار و زندگی برای زنان و مادران شاغل یکی از بزرگترین چالش‌های دنیای معاصر است. در بلومیا، فضایی فراهم کرده‌ام تا بدون احساس گناه، مرزهای سالم در زندگی خود بسازید و به احساس آرامش و عاملیت دست یابید.',
     imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=600&auto=format&fit=crop',
     specialties: ['تعادل کار و زندگی', 'کوچینگ زنان', 'مدیریت استرس'],
     rating: 5,
@@ -124,6 +182,18 @@ export const fallbackCoaches: Coach[] = [
     totalSessions: 380,
     coachingHours: 380,
     satisfiedClients: 58,
+    packagePrices: {
+      start: 4200000,
+      discovery: 6300000,
+      transformation: 8400000,
+      excellence: 12500000,
+    },
+    packageDiscounts: {
+      discovery: 15,
+      transformation: 20,
+    },
+    instagramUrl: 'https://instagram.com/bloomiaclub',
+    linkedinUrl: 'https://linkedin.com/company/bloomiaclub',
   },
 ];
 
@@ -140,42 +210,71 @@ export function shuffleArray<T>(array: T[]): T[] {
 }
 
 export async function getRandomCoaches(count = 6): Promise<Coach[]> {
-  try {
-    const { data, error } = await supabase
-      .from('v2_coaches')
-      .select('*')
-      .eq('is_active', true);
-
-    if (error || !data || data.length === 0) {
-      return shuffleArray(fallbackCoaches).slice(0, count);
-    }
-
-    // بُر زدن کامل لیست با الگوریتم فیشر-یتس برای تضمین رندوم بودن با هر بار لود
-    const shuffled = shuffleArray(data);
-    return shuffled.slice(0, count).map(normalizeCoach);
-  } catch (err) {
-    console.error('Error in getRandomCoaches:', err);
-    return shuffleArray(fallbackCoaches).slice(0, count);
-  }
+  const all = await getAllCoaches();
+  return shuffleArray(all).slice(0, count);
 }
 
 export async function getAllCoaches(): Promise<Coach[]> {
+  // ۱. اولویت اول: بررسی و دریافت کوچ‌ها از Sanity CMS
+  try {
+    const sanityCoaches = await sanityClient.fetch(coachesQuery);
+    if (Array.isArray(sanityCoaches) && sanityCoaches.length > 0) {
+      const normalized = sanityCoaches.map(normalizeCoach);
+      return shuffleArray(normalized);
+    }
+  } catch (sanityErr) {
+    console.warn('Could not fetch coaches from Sanity, falling back to Supabase:', sanityErr);
+  }
+
+  // ۲. اولویت دوم: دریافت از دیتابیس Supabase
   try {
     const { data, error } = await supabase
       .from('v2_coaches')
       .select('*')
       .eq('is_active', true);
 
-    if (error || !data || data.length === 0) {
-      return shuffleArray(fallbackCoaches);
+    if (!error && data && data.length > 0) {
+      const shuffled = shuffleArray(data);
+      return shuffled.map(normalizeCoach);
     }
-
-    // بُر زدن کامل لیست با الگوریتم فیشر-یتس برای تضمین ترتیب رندوم با هر بار لود
-    const shuffled = shuffleArray(data);
-    return shuffled.map(normalizeCoach);
-  } catch (err) {
-    console.error('Error in getAllCoaches:', err);
-    return shuffleArray(fallbackCoaches);
+  } catch (supabaseErr) {
+    console.warn('Could not fetch coaches from Supabase:', supabaseErr);
   }
+
+  // ۳. فال‌بک آفلاین تضمین‌شده
+  return shuffleArray(fallbackCoaches);
 }
 
+export async function getCoachBySlug(slug: string): Promise<Coach | null> {
+  if (!slug) return null;
+
+  // ۱. اولویت اول: جستجو در Sanity CMS
+  try {
+    const sanityCoach = await sanityClient.fetch(coachBySlugQuery, { slug });
+    if (sanityCoach) {
+      return normalizeCoach(sanityCoach);
+    }
+  } catch (sanityErr) {
+    console.warn(`Could not fetch coach [${slug}] from Sanity:`, sanityErr);
+  }
+
+  // ۲. اولویت دوم: جستجو در Supabase
+  try {
+    const { data, error } = await supabase
+      .from('v2_coaches')
+      .select('*')
+      .eq('slug', slug)
+      .eq('is_active', true)
+      .maybeSingle();
+
+    if (!error && data) {
+      return normalizeCoach(data);
+    }
+  } catch (supabaseErr) {
+    console.warn(`Could not fetch coach [${slug}] from Supabase:`, supabaseErr);
+  }
+
+  // ۳. فال‌بک لوکال
+  const fallback = fallbackCoaches.find((c) => c.slug === slug);
+  return fallback || null;
+}
