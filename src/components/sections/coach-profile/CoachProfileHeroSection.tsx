@@ -10,8 +10,7 @@ import {
   Users,
   Calendar,
   ChevronLeft,
-  ShieldCheck,
-  TrendingUp,
+  ArrowLeft,
 } from 'lucide-react';
 import type { Coach } from '@/lib/coaches';
 
@@ -28,22 +27,26 @@ export const CoachProfileHeroSection: React.FC<CoachProfileHeroSectionProps> = (
     ? `+${Number(coach.coachingHours).toLocaleString('fa-IR')}`
     : '+۰';
   const clients = coach.satisfiedClients
-    ? Number(coach.satisfiedClients).toLocaleString('fa-IR')
+    ? `+${Number(coach.satisfiedClients).toLocaleString('fa-IR')}`
     : '۰';
   const sessions = coach.totalSessions
-    ? Number(coach.totalSessions).toLocaleString('fa-IR')
+    ? `+${Number(coach.totalSessions).toLocaleString('fa-IR')}`
     : '۰';
+  const ratingText = String(coach.rating).replace('.', '/');
 
-  // Desktop uses editoral cutout layout if cutoutImageUrl exists, otherwise falls back to framed portrait
   const hasEditorialLayout = !!cutoutUrl;
+
+  // Extract first part of title for editorial typography split
+  const titleWords = coach.title.split(' ');
+  const titleFirstLine = titleWords.slice(0, 2).join(' ');
+  const titleSecondLine = titleWords.slice(2).join(' ');
 
   return (
     <>
       {/* =====================================================================
-          MOBILE HERO — 100% UNTOUCHED, exactly as before
+          MOBILE HERO — 100% UNTOUCHED
          ===================================================================== */}
       <section className="lg:hidden relative pt-8 pb-12 bg-brand-teal-950 text-white overflow-hidden border-b border-brand-teal-900">
-        {/* Background ambient glows */}
         <div
           className="pointer-events-none absolute -bottom-24 right-1/4 w-96 h-96 bg-brand-teal-800/25 rounded-full blur-3xl -z-10"
           aria-hidden="true"
@@ -54,7 +57,6 @@ export const CoachProfileHeroSection: React.FC<CoachProfileHeroSectionProps> = (
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          {/* Breadcrumb */}
           <nav aria-label="مسیر صفحه" className="mb-6 sm:mb-8">
             <ol className="flex items-center gap-2 text-xs sm:text-sm text-brand-teal-200/80">
               <li>
@@ -75,9 +77,7 @@ export const CoachProfileHeroSection: React.FC<CoachProfileHeroSectionProps> = (
             </ol>
           </nav>
 
-          {/* Mobile Layout */}
           <div className="flex flex-col items-center">
-            {/* Avatar */}
             <div className="relative shrink-0 text-center">
               <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-3xl overflow-hidden border-4 border-brand-teal-800/80 shadow-elevated ring-2 ring-brand-teal-700/50 bg-brand-teal-900">
                 <Image
@@ -95,7 +95,6 @@ export const CoachProfileHeroSection: React.FC<CoachProfileHeroSectionProps> = (
               </div>
             </div>
 
-            {/* Details */}
             <div className="text-center space-y-4 mt-6">
               <div className="space-y-1.5">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -171,242 +170,170 @@ export const CoachProfileHeroSection: React.FC<CoachProfileHeroSectionProps> = (
       </section>
 
       {/* =====================================================================
-          DESKTOP HERO — Editorial Kinetik-style with cutout + floating cards
+          DESKTOP HERO — Editorial 3-column layout inspired by Solt portfolio
+          RTL: Content RIGHT | Portrait CENTER | Stats LEFT
          ===================================================================== */}
-      <section
-        className="hidden lg:block relative overflow-hidden border-b border-brand-teal-900"
-        style={{
-          background: hasEditorialLayout
-            ? 'linear-gradient(135deg, #0f2825 0%, #1f3d3a 35%, #1a3330 65%, #142a27 100%)'
-            : undefined,
-        }}
-      >
-        {/* ---- Background layers ---- */}
-        {hasEditorialLayout && (
-          <>
-            {/* Subtle grid pattern */}
-            <div
-              className="absolute inset-0 opacity-[0.04]"
-              style={{
-                backgroundImage:
-                  'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-                backgroundSize: '60px 60px',
-              }}
-              aria-hidden="true"
-            />
-            {/* Top-right warm glow */}
-            <div
-              className="pointer-events-none absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full blur-3xl"
-              style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 70%)' }}
-              aria-hidden="true"
-            />
-            {/* Bottom-left cool glow */}
-            <div
-              className="pointer-events-none absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full blur-3xl"
-              style={{ background: 'radial-gradient(circle, rgba(6,78,59,0.25) 0%, transparent 70%)' }}
-              aria-hidden="true"
-            />
-            {/* Center spotlight behind coach */}
-            <div
-              className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl"
-              style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.06) 0%, transparent 60%)' }}
-              aria-hidden="true"
-            />
-          </>
-        )}
-
-        {!hasEditorialLayout && (
-          <div className="absolute inset-0 bg-gradient-to-l from-white via-[#fafaf8] to-[#eef6f4]" />
-        )}
-
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-14 pb-0">
+      <section className="hidden lg:block relative overflow-hidden bg-brand-surface-muted border-b border-brand-surface-border">
+        <div className="max-w-[1400px] mx-auto px-8 xl:px-12">
           {/* Breadcrumb */}
-          <nav aria-label="مسیر صفحه" className="mb-10">
-            <ol className={`flex items-center gap-2 text-sm ${hasEditorialLayout ? 'text-brand-teal-300/70' : 'text-brand-neutral-500'}`}>
+          <nav aria-label="مسیر صفحه" className="pt-8 pb-6">
+            <ol className="flex items-center gap-2 text-sm text-brand-neutral-400">
               <li>
-                <Link
-                  href="/"
-                  className={`transition-colors ${hasEditorialLayout ? 'hover:text-white' : 'hover:text-brand-teal-950'}`}
-                >
+                <Link href="/" className="hover:text-brand-neutral-900 transition-colors">
                   صفحه اصلی
                 </Link>
               </li>
-              <ChevronLeft className="w-3.5 h-3.5 opacity-60" />
+              <ChevronLeft className="w-3.5 h-3.5" />
               <li>
-                <Link
-                  href="/coaches"
-                  className={`transition-colors ${hasEditorialLayout ? 'hover:text-white' : 'hover:text-brand-teal-950'}`}
-                >
+                <Link href="/coaches" className="hover:text-brand-neutral-900 transition-colors">
                   کوچ‌ها
                 </Link>
               </li>
-              <ChevronLeft className="w-3.5 h-3.5 opacity-60" />
-              <li className={`font-semibold truncate ${hasEditorialLayout ? 'text-white' : 'text-brand-teal-950'}`} aria-current="page">
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <li className="text-brand-neutral-900 font-semibold" aria-current="page">
                 {coach.name}
               </li>
             </ol>
           </nav>
 
-          {/* Main editorial grid */}
-          <div className="relative grid grid-cols-12 gap-8 xl:gap-12 items-end min-h-[600px]">
+          {/* Main editorial hero area:
+              - Arch & Coach portrait: absolutely centered at dead center of container (50%)
+              - Right side (RTL): Typography and CTA buttons (with slight overlap on the arch)
+              - Left side (RTL): Vertical stats stack
+          */}
+          <div className="relative min-h-[580px] xl:min-h-[640px] flex items-end justify-between pb-14">
 
-            {/* ── Column A: Typography & Actions (RTL = right side) ── */}
-            <div className="col-span-6 xl:col-span-5 text-right pb-20 relative z-20">
-              {/* Title group */}
-              <div className="space-y-3 mb-6">
-                <h1 className={`text-4xl xl:text-[3.5rem] font-black leading-[1.15] tracking-tight ${hasEditorialLayout ? 'text-white' : 'text-brand-neutral-900'}`}>
+            {/* ── CENTER ARCH & PORTRAIT (Mathematically 50% Centered) ── */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-10 z-10 flex justify-center pointer-events-none">
+              {/* Arch container: wider (460px - 520px), rounded-b-full clips the image at the bottom curve */}
+              <div className="relative w-[460px] xl:w-[520px] h-full rounded-b-full overflow-hidden bg-brand-teal-100/45">
+                <Image
+                  src={hasEditorialLayout ? cutoutUrl! : avatarUrl}
+                  alt={coach.name}
+                  fill
+                  priority
+                  sizes="(max-width: 1280px) 460px, 520px"
+                  className="object-cover"
+                  style={{ objectPosition: 'center 8%' }}
+                />
+              </div>
+            </div>
+
+            {/* ── RIGHT COLUMN (RTL first): Typography & CTA ── */}
+            <div className="relative z-20 max-w-[460px] xl:max-w-[530px] text-right pb-4">
+              {/* Kicker */}
+              <p className="text-sm text-brand-neutral-500 font-medium mb-3 italic">
+                کوچ حرفه‌ای بلومیا کلاب
+              </p>
+
+              {/* Name — massive editorial typography */}
+              <h1 className="mb-3">
+                <span className="block text-[3.2rem] xl:text-[4rem] font-black text-brand-neutral-900 leading-[1.05] tracking-tight">
                   {coach.name}
-                </h1>
-                <p className={`text-lg xl:text-xl font-bold ${hasEditorialLayout ? 'text-emerald-300' : 'text-brand-teal-800'}`}>
-                  {coach.title}
-                </p>
+                </span>
+              </h1>
+
+              {/* Title split — mixed weight for editorial feel */}
+              <div className="mb-6">
+                <span className="block text-2xl xl:text-3xl font-black text-brand-teal-950 leading-tight">
+                  {titleFirstLine}
+                </span>
+                {titleSecondLine && (
+                  <span className="block text-xl xl:text-2xl text-brand-neutral-500 font-medium mt-1">
+                    {titleSecondLine}
+                  </span>
+                )}
               </div>
 
               {/* Description */}
-              <p className={`text-base leading-relaxed mb-8 max-w-lg mr-0 ml-auto ${hasEditorialLayout ? 'text-brand-teal-100/80' : 'text-brand-neutral-600'}`}>
+              <p className="text-base text-brand-neutral-600 leading-relaxed mb-8 max-w-md mr-0 ml-auto">
                 {coach.description}
               </p>
 
-              {/* Action buttons */}
-              <div className="flex items-center justify-end gap-4">
+              {/* CTA Buttons — Solt reference style: pill button with circular white arrow icon */}
+              <div className="flex items-center justify-end gap-3.5">
                 <a
                   href="#booking"
-                  className={`inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl font-bold text-sm shadow-elevated hover:shadow-xl transition-all active:scale-[0.98] min-h-[52px] ${
-                    hasEditorialLayout
-                      ? 'bg-white text-brand-teal-950 hover:bg-emerald-50'
-                      : 'bg-brand-teal-950 text-white hover:bg-brand-teal-900'
-                  }`}
+                  className="inline-flex items-center gap-3 pr-6 pl-2 py-2 rounded-full bg-brand-teal-950 text-white font-bold text-sm hover:bg-brand-teal-900 transition-all shadow-soft hover:shadow-elevated active:scale-[0.98] min-h-[52px]"
                 >
-                  <Calendar className="w-5 h-5" />
-                  <span>رزرو جلسه معارفه رایگان (جلسه صفر)</span>
+                  <span>رزرو جلسه معارفه رایگان</span>
+                  <span className="w-9 h-9 rounded-full bg-white text-brand-teal-950 flex items-center justify-center shrink-0 shadow-xs">
+                    <ArrowLeft className="w-4 h-4" />
+                  </span>
                 </a>
                 <a
                   href="#packages"
-                  className={`inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-sm transition-colors min-h-[52px] ${
-                    hasEditorialLayout
-                      ? 'bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20'
-                      : 'bg-white border-2 border-brand-teal-950 text-brand-teal-950 hover:bg-brand-teal-50'
-                  }`}
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-brand-surface-border bg-white/70 backdrop-blur-xs text-brand-neutral-700 font-bold text-sm hover:border-brand-teal-950 hover:text-brand-teal-950 transition-colors min-h-[52px]"
                 >
-                  <span>مشاهده بسته‌ها و قیمت‌ها</span>
+                  <span>مشاهده بسته‌ها</span>
                 </a>
               </div>
             </div>
 
-            {/* ── Column B: Coach cutout + Floating cards ── */}
-            <div className="col-span-6 xl:col-span-7 relative flex justify-center items-end">
-              {hasEditorialLayout ? (
-                <>
-                  {/* The cutout coach image — no frame, no border, floating freely */}
-                  <div className="relative w-full max-w-[480px] xl:max-w-[520px] h-[580px] xl:h-[640px] z-10">
-                    <Image
-                      src={cutoutUrl!}
-                      alt={coach.name}
-                      fill
-                      priority
-                      sizes="520px"
-                      className="object-contain object-bottom drop-shadow-2xl"
-                    />
-                  </div>
-
-                  {/* ═══════════ Floating Glass Cards ═══════════ */}
-
-                  {/* Card 1: Coaching Hours — top-right */}
-                  <div className="absolute top-16 right-4 xl:right-8 z-30 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-4 shadow-2xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                        <Clock className="w-5 h-5 text-emerald-400" />
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-black text-white tabular-nums">{hours}</div>
-                        <div className="text-[11px] text-brand-teal-300/80 font-medium">ساعت تجربه کوچینگ</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card 2: Satisfied Clients — middle-left */}
-                  <div className="absolute top-40 left-0 xl:-left-4 z-30 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-4 shadow-2xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                        <Users className="w-5 h-5 text-emerald-400" />
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-black text-white tabular-nums">+{clients}</div>
-                        <div className="text-[11px] text-brand-teal-300/80 font-medium">مراجع راضی و همراه</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card 3: Rating — bottom-right */}
-                  <div className="absolute bottom-32 right-0 xl:right-4 z-30 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-4 shadow-2xl">
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-0.5">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                        ))}
-                      </div>
-                      <div className="text-right">
-                        <div className="text-xl font-black text-white">{coach.rating}</div>
-                        <div className="text-[11px] text-brand-teal-300/80 font-medium">
-                          نرخ رضایت مراجعین
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card 4: ICF Badge — bottom-left */}
-                  <div className="absolute bottom-44 left-4 xl:left-0 z-30 bg-emerald-500/15 backdrop-blur-xl border border-emerald-400/30 rounded-2xl px-5 py-3.5 shadow-2xl">
-                    <div className="flex items-center gap-2.5">
-                      <ShieldCheck className="w-5 h-5 text-emerald-400" />
-                      <div className="text-right">
-                        <div className="text-sm font-bold text-white">تایید رسمی ICF</div>
-                        <div className="text-[11px] text-emerald-300/80 font-medium">فدراسیون بین‌المللی کوچینگ</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card 5: Sessions count — top-left area */}
-                  <div className="absolute top-8 left-8 xl:left-16 z-30 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-4 shadow-2xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                        <TrendingUp className="w-5 h-5 text-emerald-400" />
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-black text-white tabular-nums">{sessions}</div>
-                        <div className="text-[11px] text-brand-teal-300/80 font-medium">جلسه کوچینگ</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Specialty pills scattered near top of coach */}
-                  {coach.specialties && coach.specialties.length > 0 && (
-                    <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 flex flex-wrap justify-center gap-2 max-w-[500px]">
-                      {coach.specialties.map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-white/90 text-xs font-medium"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                /* Fallback: framed portrait for coaches without cutout */
-                <div className="relative w-full max-w-[420px] h-[540px] xl:h-[580px] rounded-[2rem] overflow-hidden border border-brand-neutral-200/80 shadow-2xl bg-white mb-0">
-                  <Image
-                    src={avatarUrl}
-                    alt={coach.name}
-                    fill
-                    priority
-                    sizes="500px"
-                    className="object-cover object-top"
-                  />
+            {/* ── LEFT COLUMN (RTL last): Stats Stack ── */}
+            <div className="relative z-20 flex flex-col items-start gap-10 xl:gap-12 pb-6 text-left">
+              {/* Stat 1: Coaching Hours */}
+              <div className="text-left">
+                <div className="text-4xl xl:text-5xl font-black text-brand-neutral-900 tabular-nums leading-none">
+                  {hours}
                 </div>
-              )}
+                <div className="text-sm text-brand-neutral-500 mt-1.5 font-medium">
+                  ساعت تجربه کوچینگ
+                </div>
+              </div>
+
+              {/* Stat 2: Sessions */}
+              <div className="text-left">
+                <div className="text-4xl xl:text-5xl font-black text-brand-neutral-900 tabular-nums leading-none">
+                  {sessions}
+                </div>
+                <div className="text-sm text-brand-neutral-500 mt-1.5 font-medium">
+                  جلسه کوچینگ برگزار شده
+                </div>
+              </div>
+
+              {/* Stat 3: Satisfaction Rate */}
+              <div className="text-left">
+                <div className="text-4xl xl:text-5xl font-black text-brand-neutral-900 leading-none">
+                  *۱۰۰٪
+                </div>
+                <div className="text-sm text-brand-neutral-500 mt-1.5 font-medium">
+                  نرخ رضایت مراجعین
+                </div>
+              </div>
+
+              {/* Stat 4: Clients */}
+              <div className="text-left">
+                <div className="text-4xl xl:text-5xl font-black text-brand-neutral-900 tabular-nums leading-none">
+                  {clients}
+                </div>
+                <div className="text-sm text-brand-neutral-500 mt-1.5 font-medium">
+                  مراجع راضی و همراه
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* ── BOTTOM BAR: Specialties ── */}
+          {coach.specialties && coach.specialties.length > 0 && (
+            <div className="border-t border-brand-surface-border py-8">
+              <div className="grid grid-cols-4 gap-0 divide-x divide-brand-surface-border" style={{ direction: 'ltr' }}>
+                {coach.specialties.slice(0, 4).map((tag, idx) => (
+                  <div key={idx} className="px-6 text-right" style={{ direction: 'rtl' }}>
+                    <h3 className="text-sm font-black text-brand-neutral-900 uppercase tracking-wide mb-1.5">
+                      {tag}
+                    </h3>
+                    <p className="text-xs text-brand-neutral-500 leading-relaxed">
+                      {idx === 0 && 'همراهی تخصصی و عمیق برای شناخت استعدادها و ارزش‌های درونی شما.'}
+                      {idx === 1 && 'ایجاد شفافیت ذهنی برای تصمیم‌گیری مقتدرانه و هدفمند.'}
+                      {idx === 2 && 'فرایند گام‌به‌گام تحول بر پایه اصول علمی کوچینگ بین‌المللی.'}
+                      {idx === 3 && 'کشف رسالت فردی و زندگی هماهنگ با باورهای اصیل شما.'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </>
