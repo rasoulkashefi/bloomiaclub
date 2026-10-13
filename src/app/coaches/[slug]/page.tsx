@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { getCoachBySlug, getAllCoaches } from '@/lib/coaches';
 import { CoachProfileHeroSection } from '@/components/sections/coach-profile/CoachProfileHeroSection';
@@ -121,13 +122,17 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
 
   return (
     <>
-      <script
+      <Script
+        id={`jsonld-person-v1-${coach.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
+        strategy="beforeInteractive"
       />
-      <script
+      <Script
+        id={`jsonld-breadcrumb-v1-${coach.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        strategy="beforeInteractive"
       />
 
       <main className="min-h-screen bg-brand-surface">

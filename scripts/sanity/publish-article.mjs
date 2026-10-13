@@ -292,6 +292,103 @@ async function publishArticle(jsonFilePath) {
   console.log(`✅ SUCCESS! Article successfully published to Sanity CMS.`);
   console.log(`📌 Document ID: ${result._id}`);
   console.log(`🌐 URL: https://bloomiaclub.com/blog/${payload.slug}`);
+
+  // Automatically keep BLOG_CATALOG.md updated
+  updateBlogCatalog(payload);
+}
+
+function toEnglishDigits(str) {
+  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return String(str).replace(/[۰-۹]/g, (w) => String(persianDigits.indexOf(w)));
+}
+
+function toPersianDigits(n) {
+  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return String(n).replace(/\d/g, (w) => persianDigits[+w]);
+}
+
+function updateBlogCatalog(payload) {
+  const catalogPath = path.resolve(process.cwd(), 'BLOG_CATALOG.md');
+  if (!fs.existsSync(catalogPath)) {
+    console.log('ℹ️ BLOG_CATALOG.md not found, skipping catalog update.');
+    return;
+  }
+
+  let content = fs.readFileSync(catalogPath, 'utf8');
+  if (content.includes(`\`${payload.slug}\``)) {
+    console.log(`ℹ️ Article slug [${payload.slug}] is already recorded in BLOG_CATALOG.md.`);
+    return;
+  }
+
+  console.log(`📝 Updating BLOG_CATALOG.md with new article: ${payload.title}...`);
+
+  // 1. Update total articles count
+  content = content.replace(/\* \*\*تعداد کل مقالات منتشرشده:\*\* ([۰-۹\d]+) مقاله/, (match, count) => {
+    const num = parseInt(toEnglishDigits(count), 10) + 1;
+    return `* **تعداد کل مقالات منتشرشده:** ${toPersianDigits(num)} مقاله`;
+  });
+
+  // 2. Update author count
+  const authorName = payload.authorName || 'آکادمی بلومیا';
+  const escapedName = authorName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const authorRegex = new RegExp(`(\\b${escapedName}[^:]*\\: )([۰-۹\\d]+)( مقاله)`);
+  if (authorRegex.test(content)) {
+    content = content.replace(authorRegex, (match, prefix, count, suffix) => {
+      const num = parseInt(toEnglishDigits(count), 10) + 1;
+      return `${prefix}${toPersianDigits(num)}${suffix}`;
+    });
+  } else {
+    // Insert new author at the end of the author list
+    const authorListMatch = content.match(/(\* \*\*تفکیک بر اساس نویسنده:\*\*[\s\S]*?)(\n---|\n##)/);
+    if (authorListMatch) {
+      const authorIdStr = payload.coachSlug ? `\`${payload.coachSlug}\`` : (payload.authorId ? `\`${payload.authorId}\`` : '');
+      const focus = payload.categoryTitle || 'رشد فردی و خودآگاهی';
+      const newAuthorLine = `  - **${authorName}${authorIdStr ? ' (' + authorIdStr + ')' : ''}:** ۱ مقاله (تمرکز: ${focus})`;
+      const updatedAuthorBlock = authorListMatch[1].trimEnd() + '\n' + newAuthorLine + '\n';
+      content = content.replace(authorListMatch[1], updatedAuthorBlock);
+    }
+  }
+
+  // 3. Insert row into table
+  const tableHeader = '| # | عنوان مقاله | اسلاگ (`slug`) | نویسنده | دسته‌بندی | کانسپت بصری تصویر کاور | تمرکز محتوایی و خلاصه پیام |\n| :--- | :--- | :--- | :--- | :--- | :--- | :--- |';
+  if (content.includes(tableHeader)) {
+    const summary = (payload.excerpt || payload.aiQuickAnswer || '').slice(0, 160).replace(/\n/g, ' ');
+    const visualConcept = (payload.visualConcept || payload.coverImageAlt || 'تصویر مفهومی').slice(0, 120).replace(/\n/g, ' ');
+    const newRow = `| ۱ | **${payload.title}** | \`${payload.slug}\` | ${authorName} | ${payload.categoryTitle || 'رشد فردی'} | ${visualConcept} | ${summary} |`;
+
+    const parts = content.split(tableHeader);
+    if (parts.length === 2) {
+      const lines = parts[1].split('\n');
+      const tableRows = [];
+      const remainingLines = [];
+      let inTable = true;
+      for (const line of lines) {
+        if (inTable) {
+          if (line.trim().startsWith('|') && !line.includes(':---')) {
+            tableRows.push(line);
+          } else if (line.trim() === '') {
+            if (tableRows.length > 0) inTable = false;
+            remainingLines.push(line);
+          } else {
+            inTable = false;
+            remainingLines.push(line);
+          }
+        } else {
+          remainingLines.push(line);
+        }
+      }
+
+      const allRows = [newRow, ...tableRows];
+      const renumberedRows = allRows.map((row, idx) => {
+        return row.replace(/^\|\s*\d+\s*\|/, `| ${idx + 1} |`);
+      });
+
+      content = parts[0] + tableHeader + '\n' + renumberedRows.join('\n') + '\n' + remainingLines.join('\n');
+    }
+  }
+
+  fs.writeFileSync(catalogPath, content, 'utf8');
+  console.log(`✅ BLOG_CATALOG.md successfully updated!`);
 }
 
 const targetJson = process.argv[2];

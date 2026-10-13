@@ -24,8 +24,11 @@ description: >-
 
 سند هر کوچ در Sanity شامل ساختار زیر است:
 
+فیلدهای پایه در زیر آمده است؛ فهرست کامل (شامل بخش‌های صفحه اختصاصی کوچ) در `sanity/schemas/coach.js` است. شناسه سند: `coach-profile-<slug>`.
+
 ```typescript
 {
+  _id: 'coach-profile-farzaneh-sharifi',
   _type: 'coach',
   name: 'فرزانه شریفی',
   slug: { _type: 'slug', current: 'farzaneh-sharifi' },
@@ -85,5 +88,8 @@ description: >-
      ```
 
 3. **ایجاد و انتشار سند کوچ:**
-   - با تابع `client.createOrReplace(...)` سند را با شناسه `coach-${slug}` منتشر کنید.
+   - با تابع `client.createIfNotExists(...)` (یا `createOrReplace` فقط برای بازنویسی عمدی) سند را با شناسه **`coach-profile-${slug}`** منتشر کنید.
+   - **هشدار:** شناسه `coach-${slug}` متعلق به سند نویسنده (`author`) وبلاگ است. هرگز سند کوچ را با آن شناسه نسازید، چون نوع سند نویسنده را بازنویسی می‌کند.
+   - فیلدهای اختیاری (`audience`, `method`, `services`, `packages`, `testimonials`, `credentials`, `events`, `faqs`, `experienceYears`, `languages`, `sessionMode`) فقط با داده واقعی پر شوند. چیزی از خودتان نسازید؛ بخش خالی در صفحه نمایش داده نمی‌شود. ساختار دقیق در `sanity/schemas/coach.js` است.
+   - نیازی به ساخت سند `author` یا کپی در Supabase نیست: وب‌هوک `/api/webhooks/sanity-coach` سند نویسنده را می‌سازد، کش صفحه را تازه می‌کند و بک‌آپ را در Supabase (`v2_coaches`) ذخیره می‌کند. اگر وب‌هوک فعال نیست: `node scripts/sanity/sync-coaches-to-supabase.mjs`.
    - بازگشت آدرس زنده پروفایل کوچ در وبسایت: `https://bloomiaclub.com/coaches/${slug}`.

@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+﻿import { supabase } from './supabase';
 import { sanityClient, coachesQuery, coachBySlugQuery } from './sanity';
 
 export interface Coach {
@@ -86,6 +86,7 @@ export const normalizeCoach = (coach: any): Coach => {
     description: coach.bio_short || coach.description || 'همراه شما در مسیر رشد و تحول فردی و حرفه‌ای.',
     longDescription: coach.bio_full || coach.longDescription || null,
     imageUrl: resolvePublicUrl(coach.avatar_url || coach.imageUrl, 'coaches_images'),
+    cutoutImageUrl: resolvePublicUrl(coach.cutout_image_url || coach.cutoutImageUrl, 'coaches_images'),
     coverImage: resolvePublicUrl(coach.hero_image_url || coach.coverImage, 'coaches_images'),
     specialties: Array.isArray(tags) && tags.length > 0 ? tags : (coach.specialties || []),
     rating: coach.average_rating != null ? Number(coach.average_rating) : (coach.rating || 5),
@@ -113,28 +114,238 @@ export const normalizeCoach = (coach: any): Coach => {
   };
 };
 
+const cleanList = <T,>(list: unknown, keep: (item: any) => boolean): T[] | undefined => {
+  if (!Array.isArray(list)) return undefined;
+  const items = list.filter((item) => item && keep(item)) as T[];
+  return items.length > 0 ? items : undefined;
+};
+
+const numberOrZero = (value: unknown): number =>
+  typeof value === 'number' && Number.isFinite(value) ? value : 0;
+
+const numericRecord = (value: unknown): Record<string, number | null> => {
+  if (!value || typeof value !== 'object') return {};
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).filter(([key, v]) => !key.startsWith('_') && typeof v === 'number')
+  ) as Record<string, number | null>;
+};
+
+/**
+ * Sanity `coach` document (shape of COACH_PROJECTION in coach-sync.mjs) -> CoachProfile.
+ * Unlike normalizeCoach this invents nothing: a missing stat stays 0 and the page hides it,
+ * a missing section stays undefined and the page does not render it.
+ */
+export const normalizeSanityCoach = (doc: any): CoachProfile => {
+  const description: string = doc.description || '';
+  const longDescription: string | null = doc.longDescription || null;
+
+  return {
+    id: doc._id || doc.id || doc.slug,
+    slug: doc.slug,
+    name: doc.name,
+    title: doc.title || 'کوچ حرفه‌ای بلومیا',
+    description,
+    shortBio: description || undefined,
+    longDescription,
+    longBio: longDescription || undefined,
+    imageUrl: doc.imageUrl || null,
+    cutoutImageUrl: doc.cutoutImageUrl || null,
+    coverImage: doc.coverImage || null,
+    aboutImage: doc.aboutImage || null,
+    specialties: Array.isArray(doc.specialties) ? doc.specialties.filter(Boolean) : [],
+    rating: numberOrZero(doc.rating),
+    totalReviews: numberOrZero(doc.totalReviews),
+    totalSessions: numberOrZero(doc.totalSessions) || numberOrZero(doc.coachingHours),
+    coachingHours: numberOrZero(doc.coachingHours),
+    satisfiedClients: numberOrZero(doc.satisfiedClients),
+    experienceYears: numberOrZero(doc.experienceYears) || undefined,
+    languages: cleanList<string>(doc.languages, Boolean),
+    location: doc.location || undefined,
+    sessionMode: doc.sessionMode || undefined,
+    videoUrl: doc.videoUrl || null,
+    videoCover: doc.videoCover || null,
+    videoTitle: doc.videoTitle || null,
+    videoDescription: doc.videoDescription || null,
+    packagePrices: numericRecord(doc.packagePrices),
+    packageDiscounts: numericRecord(doc.packageDiscounts),
+    instagramUrl: doc.instagramUrl || null,
+    linkedinUrl: doc.linkedinUrl || null,
+    bookingUrl: doc.bookingUrl || null,
+
+    audience: cleanList<AudienceItem>(doc.audience, (i) => i.title),
+    method: cleanList<MethodStep>(doc.method, (i) => i.title),
+    services: cleanList<Service>(doc.services, (i) => i.title),
+    packagesData: cleanList<Package>(doc.packages, (i) => i.title && typeof i.price === 'number'),
+    testimonials: cleanList<Testimonial>(doc.testimonials, (i) => i.quote),
+    events: cleanList<Event>(doc.events, (i) => i.title && i.date),
+    credentials: cleanList<Credential>(doc.credentials, (i) => i.title),
+    faqs: cleanList<FAQ>(doc.faqs, (i) => i.question && i.answer),
+  };
+};
+
+export type Specialty = string;
+
+export type AudienceItem = {
+  title: string;
+};
+
+export type MethodStep = {
+  id: string;
+  title: string;
+  description: string;
+};
+
+export type Service = {
+  id: string;
+  title: string;
+  duration: string;
+  description: string;
+  price?: number;
+  isFree?: boolean;
+};
+
+export type Package = {
+  id: string;
+  title: string;
+  sessions: number;
+  duration: string;
+  description: string;
+  price: number;
+  isPopular?: boolean;
+  /** Optional bullet list of what the package includes. */
+  features?: string[];
+};
+
+export type Testimonial = {
+  id: string;
+  quote: string;
+  author: string;
+  context: string;
+};
+
+export type Article = {
+  id: string;
+  title: string;
+  date: string;
+  readTime: string;
+  imageUrl?: string;
+  excerpt?: string;
+  /** Public URL of the article (blog post). */
+  href?: string;
+};
+
+export type Event = {
+  id: string;
+  title: string;
+  date: string;
+  type: string;
+  location: string;
+  href?: string;
+};
+
+export type Credential = {
+  id: string;
+  title: string;
+  organization: string;
+  year?: string;
+};
+
+export type FAQ = {
+  question: string;
+  answer: string;
+};
+
+export interface CoachProfile extends Coach {
+  eyebrow?: string;
+  shortBio?: string;
+  longBio?: string;
+  sessionMode?: "online" | "in-person" | "both";
+  /** Optional second editorial photo used in the About section. */
+  aboutImage?: string | null;
+  experienceYears?: number;
+  languages?: string[];
+  location?: string;
+
+  audience?: AudienceItem[];
+  method?: MethodStep[];
+  services?: Service[];
+  packagesData?: Package[];
+  testimonials?: Testimonial[];
+  articles?: Article[];
+  events?: Event[];
+  credentials?: Credential[];
+  faqs?: FAQ[];
+}
+
 // Fallback coaches for offline / zero latency SSR
-export const fallbackCoaches: Coach[] = [
+export const fallbackCoaches: CoachProfile[] = [
   {
     id: 'salomeh-fathijoo',
-    slug: 'salomeh-fathijoo',
+    slug: 'saloomeh_fathijou',
     name: 'سالومه فتحی‌جو',
-    title: 'کوچ حرفه‌ای و تسهیل‌گر تحول فردی',
-    description: 'همراه افراد در مسیر کشف توانایی‌ها، رشد درونی و ساختن زندگی آگاهانه و اصیل بر پایه ارزش‌های فردی.',
+    title: 'کوچ توسعه فردی و تحول شغلی',
+    eyebrow: 'کوچ حرفه‌ای بلومیا',
+    shortBio: 'همراهت هستم تا با شناخت بهتر خودت، تصمیم‌های روشن‌تری بگیری و مسیر مناسب خودت را بسازی.',
+    description: 'همراهت هستم تا با شناخت بهتر خودت، تصمیم‌های روشن‌تری بگیری و مسیر مناسب خودت را بسازی.',
+    longBio: 'بیش از ۱۰ سال است که در زمینه تسهیل‌گری تحول فردی، خودشناسی و بازیابی انگیزه درونی فعالیت می‌کنم.\n\nرویکرد من مبتنی بر گفتگوهای عمیق، شفافیت ذهنی و کدهای اخلاقی فدراسیون بین‌المللی کوچینگ (ICF) است. در جلسات کوچینگ، فضایی امن و سرشار از همدلی می‌سازیم تا شما بتوانید با ارزش‌های اصیل خود همسو شده و تصمیماتی مقتدرانه برای زندگی و کارتان اتخاذ کنید.',
     longDescription: 'بیش از ۱۰ سال است که در زمینه تسهیل‌گری تحول فردی، خودشناسی و بازیابی انگیزه درونی فعالیت می‌کنم.\n\nرویکرد من مبتنی بر گفتگوهای عمیق، شفافیت ذهنی و کدهای اخلاقی فدراسیون بین‌المللی کوچینگ (ICF) است. در جلسات کوچینگ، فضایی امن و سرشار از همدلی می‌سازیم تا شما بتوانید با ارزش‌های اصیل خود همسو شده و تصمیماتی مقتدرانه برای زندگی و کارتان اتخاذ کنید.',
     imageUrl: '/images/the-modern-professional-coach.webp',
     cutoutImageUrl: '/images/coach-cutout-test.png',
+    sessionMode: 'online',
     specialties: ['خودشناسی عمیق', 'وضوح درونی', 'تحول آگاهانه', 'ارزش‌های فردی و رسالت'],
-    rating: 5,
-    totalReviews: 3,
+    rating: 4.9,
+    totalReviews: 310,
     totalSessions: 950,
     coachingHours: 950,
-    satisfiedClients: 210,
+    satisfiedClients: 310,
+    
+    // --- Phase 1 Mock Data (Editorial Spec) ---
+    audience: [
+      { title: 'می‌خواهید مسیر شغلی‌تان را روشن‌تر کنید' },
+      { title: 'در یک تصمیم مهم مانده‌اید' },
+      { title: 'می‌خواهید خودتان را بهتر بشناسید' },
+      { title: 'می‌خواهید تغییر را از آگاهی شروع کنید' }
+    ],
+    experienceYears: 10,
+    languages: ['فارسی'],
+    method: [
+      { id: '01', title: 'شناخت', description: 'ابتدا با هم مرور می‌کنیم که الان کجا ایستاده‌اید، چه چیزی برایتان مهم است و دقیقاً با چه چالشی روبه‌رو هستید.' },
+      { id: '02', title: 'وضوح', description: 'با پرسش‌های درست، گره‌های ذهنی را باز می‌کنیم تا گزینه‌ها و ارزش‌هایتان روشن‌تر دیده شوند.' },
+      { id: '03', title: 'اقدام', description: 'وضوح را به یک برنامه عملی تبدیل می‌کنیم؛ قدم‌هایی کوچک، مشخص و متناسب با زندگی واقعی شما.' },
+      { id: '04', title: 'همراهی', description: 'در مسیر اجرا کنار شما می‌مانم تا موانع را بشناسیم، مسیر را اصلاح کنیم و پیشرفت‌تان پایدار شود.' }
+    ],
+    services: [
+      { id: 's1', title: 'جلسه صفر', duration: '۳۰ دقیقه', description: 'یک گفتگوی کوتاه برای آشنایی، شنیدن چالش شما و بررسی اینکه کوچینگ و سبک کار من برایتان مناسب است یا نه.', isFree: true },
+      { id: 's2', title: 'جلسه کوچینگ', duration: '۶۰ دقیقه', description: 'یک جلسه فردی و متمرکز برای کار روی یک موضوع مشخص؛ از تصمیمی که معطل مانده تا مسیری که می‌خواهید روشن‌تر شود.' }
+    ],
+    packagesData: [
+      { id: 'p1', title: 'مسیر شروع', sessions: 1, duration: '۶۰ دقیقه', description: 'برای آشنایی با فرایند کوچینگ و گره‌گشایی از یک موضوع مشخص.', price: 4500000 },
+      { id: 'p2', title: 'مسیر تحول', sessions: 4, duration: '۶۰ دقیقه', description: 'برای ایجاد تغییرات پایدار و عمیق؛ با فرصت کافی برای تمرین، بازنگری و اصلاح مسیر بین جلسات.', price: 16000000, isPopular: true }
+    ],
+    testimonials: [
+      { id: 't1', quote: 'جلسات با سالومه باعث شد بعد از مدت‌ها سردرگمی، بالاخره بفهمم از شغلم چه می‌خواهم.', author: 'مریم', context: 'تغییر مسیر شغلی' },
+      { id: 't2', quote: 'فضای امن و بدون قضاوتی که در جلسات تجربه کردم، به من شجاعت گرفتن تصمیم‌های بزرگ را داد.', author: 'علی', context: 'توسعه فردی' }
+    ],
+    events: [
+      { id: 'e1', title: 'وبینار: چطور مسیر شغلی مناسب خود را پیدا کنیم؟', date: '۲۸ مهر ۱۴۰۵', type: 'وبینار', location: 'آنلاین' }
+    ],
+    credentials: [
+      { id: 'c1', title: 'مدرک بین‌المللی کوچینگ (PCC)', organization: 'ICF', year: '۲۰۲۲' },
+      { id: 'c2', title: 'کارشناسی ارشد روانشناسی', organization: 'دانشگاه تهران' }
+    ],
+    faqs: [
+      { question: 'جلسه صفر رایگان چیست؟', answer: 'یک گفتگوی ۳۰ دقیقه‌ای برای آشنایی با روش کار من و بررسی اینکه آیا کوچینگ برای چالش شما مناسب است یا خیر. هیچ تعهدی برای ادامه همکاری ندارد.' },
+      { question: 'آیا جلسات فقط آنلاین برگزار می‌شوند؟', answer: 'بله، در حال حاضر تمام جلسات به صورت آنلاین (تصویری) برگزار می‌شوند و لینک جلسه پس از هماهنگی زمان برای شما ارسال می‌شود.' },
+      { question: 'هر جلسه کوچینگ چقدر طول می‌کشد؟', answer: 'جلسه‌های کوچینگ ۶۰ دقیقه‌ای هستند و جلسه صفر حدود ۳۰ دقیقه طول می‌کشد.' },
+      { question: 'چطور پکیج مناسب خودم را انتخاب کنم؟', answer: 'اگر برای اولین بار است که کوچینگ را تجربه می‌کنید، با جلسه صفر شروع کنید. در همان گفتگو با هم بررسی می‌کنیم که یک جلسه کافی است یا مسیر چندجلسه‌ای برای هدف شما مناسب‌تر است.' }
+    ],
+    // ------------------------------------------
+    
     packagePrices: {
-      start: 4800000,
-      discovery: 7200000,
-      transformation: 9500000,
-      excellence: 14000000,
+      start: 4500000,
+      discovery: 6800000,
+      transformation: 8900000,
+      excellence: 13500000,
     },
     packageDiscounts: {
       discovery: 15,
@@ -238,56 +449,62 @@ export function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-export async function getRandomCoaches(count = 6): Promise<Coach[]> {
+export async function getRandomCoaches(count = 6): Promise<CoachProfile[]> {
   const all = await getAllCoaches();
   return shuffleArray(all).slice(0, count);
 }
 
-export async function getAllCoaches(): Promise<Coach[]> {
-  // ۱. اولویت اول: بررسی و دریافت کوچ‌ها از Sanity CMS
+/**
+ * Coaches live in Sanity (document type `coach`). Supabase `v2_coaches` is a read-only backup that is
+ * kept in sync by the Sanity webhook (see src/lib/coach-sync.mjs). Read order:
+ *   1. Sanity  2. Supabase backup  3. local fallback data (offline / emergency only).
+ */
+
+async function fetchSanityCoaches(): Promise<CoachProfile[] | null> {
   try {
-    const sanityCoaches = await sanityClient.fetch(coachesQuery);
-    if (Array.isArray(sanityCoaches) && sanityCoaches.length > 0) {
-      const normalized = sanityCoaches.map(normalizeCoach);
-      return shuffleArray(normalized);
-    }
-  } catch (sanityErr) {
-    console.warn('Could not fetch coaches from Sanity, falling back to Supabase:', sanityErr);
+    const docs = await sanityClient.fetch(coachesQuery);
+    if (Array.isArray(docs) && docs.length > 0) return docs.map(normalizeSanityCoach);
+  } catch (error) {
+    console.warn('Could not fetch coaches from Sanity, falling back to Supabase:', error);
+  }
+  return null;
+}
+
+/** Supabase row -> profile. Rows written by the sync carry the full Sanity snapshot; older rows only the basics. */
+function coachFromBackupRow(row: any): CoachProfile {
+  const snapshot = parseJsonField(row?.sanity_snapshot, null);
+  if (snapshot && typeof snapshot === 'object' && snapshot.slug) return normalizeSanityCoach(snapshot);
+  return normalizeCoach(row) as CoachProfile;
+}
+
+export async function getAllCoaches(): Promise<CoachProfile[]> {
+  const fromSanity = await fetchSanityCoaches();
+  if (fromSanity) return shuffleArray(fromSanity);
+
+  try {
+    const { data, error } = await supabase.from('v2_coaches').select('*').eq('is_active', true);
+    if (!error && data && data.length > 0) return shuffleArray(data.map(coachFromBackupRow));
+  } catch (error) {
+    console.warn('Could not fetch coaches from Supabase:', error);
   }
 
-  // ۲. اولویت دوم: دریافت از دیتابیس Supabase
-  try {
-    const { data, error } = await supabase
-      .from('v2_coaches')
-      .select('*')
-      .eq('is_active', true);
-
-    if (!error && data && data.length > 0) {
-      const shuffled = shuffleArray(data);
-      return shuffled.map(normalizeCoach);
-    }
-  } catch (supabaseErr) {
-    console.warn('Could not fetch coaches from Supabase:', supabaseErr);
-  }
-
-  // ۳. فال‌بک آفلاین تضمین‌شده
   return shuffleArray(fallbackCoaches);
 }
 
-export async function getCoachBySlug(slug: string): Promise<Coach | null> {
+export async function getCoachBySlug(slug: string): Promise<CoachProfile | null> {
   if (!slug) return null;
 
-  // ۱. اولویت اول: جستجو در Sanity CMS
+  // The local fallback is for outages only. If a source answered "no such coach" (or "hidden"), trust it.
+  let reachable = false;
+
   try {
-    const sanityCoach = await sanityClient.fetch(coachBySlugQuery, { slug });
-    if (sanityCoach) {
-      return normalizeCoach(sanityCoach);
-    }
-  } catch (sanityErr) {
-    console.warn(`Could not fetch coach [${slug}] from Sanity:`, sanityErr);
+    const doc = await sanityClient.fetch(coachBySlugQuery, { slug });
+    reachable = true;
+    if (doc) return normalizeSanityCoach(doc);
+  } catch (error) {
+    console.warn(`Could not fetch coach [${slug}] from Sanity:`, error);
   }
 
-  // ۲. اولویت دوم: جستجو در Supabase
   try {
     const { data, error } = await supabase
       .from('v2_coaches')
@@ -295,15 +512,13 @@ export async function getCoachBySlug(slug: string): Promise<Coach | null> {
       .eq('slug', slug)
       .eq('is_active', true)
       .maybeSingle();
-
-    if (!error && data) {
-      return normalizeCoach(data);
+    if (!error) {
+      reachable = true;
+      if (data) return coachFromBackupRow(data);
     }
-  } catch (supabaseErr) {
-    console.warn(`Could not fetch coach [${slug}] from Supabase:`, supabaseErr);
+  } catch (error) {
+    console.warn(`Could not fetch coach [${slug}] from Supabase:`, error);
   }
 
-  // ۳. فال‌بک لوکال
-  const fallback = fallbackCoaches.find((c) => c.slug === slug);
-  return fallback || null;
+  return reachable ? null : (fallbackCoaches.find((c) => c.slug === slug) ?? null);
 }

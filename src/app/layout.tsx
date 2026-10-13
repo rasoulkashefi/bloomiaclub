@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Vazirmatn } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { ConditionalGlobalLayout } from '@/components/layout/ConditionalGlobalLayout';
 
 const vazirmatn = Vazirmatn({
   subsets: ['arabic', 'latin'],
@@ -110,21 +112,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fa" dir="rtl" className={vazirmatn.variable}>
+    <html lang="fa" dir="rtl" className={vazirmatn.variable} suppressHydrationWarning>
       <head>
-        <script
+        <Script
+          id="jsonld-org"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg) }}
+          strategy="beforeInteractive"
         />
-        <script
+        <Script
+          id="jsonld-website"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+          strategy="beforeInteractive"
         />
       </head>
-      <body className="min-h-screen bg-brand-surface font-sans text-brand-neutral-900 antialiased flex flex-col selection:bg-brand-teal-900 selection:text-white">
-        <Navbar />
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-brand-surface font-sans text-brand-neutral-900 antialiased flex flex-col selection:bg-brand-teal-900 selection:text-white"
+      >
+        <ConditionalGlobalLayout>
+          <Navbar />
+        </ConditionalGlobalLayout>
+        
         <main className="flex-1 w-full flex flex-col">{children}</main>
-        <Footer />
+        
+        <ConditionalGlobalLayout>
+          <Footer />
+        </ConditionalGlobalLayout>
       </body>
     </html>
   );

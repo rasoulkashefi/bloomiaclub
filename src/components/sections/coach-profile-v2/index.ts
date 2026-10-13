@@ -1,0 +1,11 @@
+export { CoachHeroV2 } from './CoachHeroV2';
+export { CoachAboutV2 } from './CoachAboutV2';
+export { CoachSpecialtiesV2 } from './CoachSpecialtiesV2';
+export { CoachFitV2 } from './CoachFitV2';
+export { CoachApproachV2 } from './CoachApproachV2';
+export { CoachServicesV2 } from './CoachServicesV2';
+export { CoachTestimonialsV2 } from './CoachTestimonialsV2';
+export { CoachCredentialsV2 } from './CoachCredentialsV2';
+export { CoachArticlesV2 } from './CoachArticlesV2';
+export { CoachFinalCtaV2 } from './CoachFinalCtaV2';
+export { StickyBookingBarV2 } from './StickyBookingBarV2';
