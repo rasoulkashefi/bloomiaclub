@@ -50,7 +50,12 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
                 className="group flex flex-col bg-brand-surface rounded-3xl overflow-hidden border border-brand-neutral-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
               >
                 {/* Image & Category */}
-                <div className="relative aspect-16/10 w-full overflow-hidden bg-brand-neutral-100">
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="relative aspect-[16/10] w-full overflow-hidden bg-brand-neutral-100 block"
+                  tabIndex={-1}
+                  aria-hidden="true"
+                >
                   <Image
                     src={post.imageUrl}
                     alt={post.title}
@@ -63,7 +68,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
                       {post.category}
                     </span>
                   )}
-                </div>
+                </Link>
 
                 {/* Content */}
                 <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">

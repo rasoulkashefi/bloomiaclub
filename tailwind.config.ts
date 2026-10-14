@@ -9,6 +9,14 @@ const config: Config = {
   darkMode: ['class', 'class'],
   theme: {
   	extend: {
+  		aspectRatio: {
+  			'16/10': '16 / 10',
+  			'16/9': '16 / 9',
+  			'4/3': '4 / 3',
+  			'3/2': '3 / 2',
+  			'4/5': '4 / 5',
+  			'5/6': '5 / 6',
+  		},
   		colors: {
   			brand: {
   				teal: {

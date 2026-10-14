@@ -23,34 +23,40 @@ export const BlogFeaturedSection: React.FC<BlogFeaturedSectionProps> = ({ post }
         <div className="relative overflow-hidden rounded-3xl bg-brand-surface-paper border border-brand-neutral-200 shadow-soft hover:shadow-elevated transition-all duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
             {/* Image Col (7 cols on lg, top on mobile) */}
-            <div className="relative aspect-16/10 lg:aspect-auto lg:col-span-7 min-h-[260px] sm:min-h-[360px] lg:min-h-[440px] overflow-hidden bg-brand-neutral-100">
+            <Link
+              href={`/blog/${post.slug}`}
+              className="relative aspect-[16/10] lg:aspect-auto lg:col-span-7 min-h-[260px] sm:min-h-[360px] lg:min-h-[460px] overflow-hidden bg-brand-neutral-100 block group/featimg"
+              tabIndex={-1}
+              aria-hidden="true"
+            >
               <Image
                 src={post.imageUrl}
                 alt={post.imageAlt || post.title}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover transition-transform duration-700 hover:scale-103"
+                className="object-cover transition-transform duration-700 ease-out group-hover/featimg:scale-104"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 opacity-40 group-hover/featimg:opacity-20 transition-opacity duration-500 pointer-events-none" />
               <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-teal-900 text-white shadow-soft">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-brand-teal-900 text-white shadow-soft">
                   <Bookmark className="w-3.5 h-3.5 text-brand-teal-300" />
                   <span>مقاله ویژه تحریریه</span>
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* Content Col (5 cols on lg) */}
             <div className="p-6 sm:p-8 lg:p-10 lg:col-span-5 flex flex-col justify-between gap-6">
               <div className="space-y-4">
                 {/* Meta */}
                 <div className="flex flex-wrap items-center gap-3 text-xs text-brand-neutral-500">
-                  <span className="px-2.5 py-1 rounded-full bg-brand-teal-50 text-brand-teal-900 font-bold border border-brand-teal-200/60">
+                  <span className="px-3 py-1 rounded-full bg-brand-teal-50 text-brand-teal-900 font-bold border border-brand-teal-200/60">
                     {post.category}
                   </span>
                   <span>{formattedDate}</span>
                   <span className="w-1 h-1 rounded-full bg-brand-neutral-300" />
-                  <div className="flex items-center gap-1 font-medium text-brand-neutral-600">
+                  <div className="flex items-center gap-1.5 font-medium text-brand-neutral-600">
                     <Clock className="w-3.5 h-3.5 text-brand-teal-700" />
                     <span>{post.estimatedReadTime} دقیقه مطالعه</span>
                   </div>
@@ -72,33 +78,36 @@ export const BlogFeaturedSection: React.FC<BlogFeaturedSectionProps> = ({ post }
               {/* Author & Action */}
               <div className="pt-5 border-t border-brand-neutral-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden bg-brand-neutral-200 shrink-0 border border-brand-neutral-200">
+                  <div className="relative w-11 h-11 rounded-full overflow-hidden bg-brand-neutral-100 shrink-0 border border-brand-neutral-200 shadow-soft-sm">
                     <Image
                       src={post.authorImage || '/images/default-avatar.png'}
                       alt={post.authorName}
                       fill
-                      sizes="40px"
+                      sizes="44px"
                       className="object-cover"
                     />
                   </div>
                   <div className="text-xs">
-                    <div className="text-brand-neutral-500">نویسنده:</div>
                     {post.coachSlug ? (
                       <Link
                         href={`/coaches/${post.coachSlug}`}
-                        className="font-bold text-brand-neutral-800 hover:text-brand-teal-800 transition-colors"
+                        className="font-bold text-brand-neutral-900 hover:text-brand-teal-800 transition-colors block"
+                        title={`مشاهده پروفایل کوچ ${post.authorName}`}
                       >
                         {post.authorName}
                       </Link>
                     ) : (
-                      <span className="font-bold text-brand-neutral-800">{post.authorName}</span>
+                      <span className="font-bold text-brand-neutral-900 block">{post.authorName}</span>
                     )}
+                    <span className="text-[11px] text-brand-teal-700 font-medium block">
+                      {post.isCoach ? 'کوچ تخصصی بلومیا' : 'تحریریه بلومیا'}
+                    </span>
                   </div>
                 </div>
 
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 text-white font-bold text-sm shadow-soft transition-all min-h-[44px]"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 text-white font-bold text-sm shadow-soft transition-all min-h-[44px]"
                 >
                   <span>مطالعه مقاله</span>
                   <ArrowLeft className="w-4 h-4" />

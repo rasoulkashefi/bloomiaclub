@@ -669,9 +669,17 @@ export async function getRandomCoaches(count = 6): Promise<CoachProfile[]> {
  *   1. Sanity  2. Supabase backup  3. local fallback data (offline / emergency only).
  */
 
+function withTimeout<T>(promise: Promise<T> | PromiseLike<T>, ms = 2500): Promise<T> {
+  let timer: NodeJS.Timeout;
+  const timeoutPromise = new Promise<T>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms);
+  });
+  return Promise.race([Promise.resolve(promise), timeoutPromise]).finally(() => clearTimeout(timer));
+}
+
 async function fetchSanityCoaches(): Promise<CoachProfile[] | null> {
   try {
-    const docs = await sanityClient.fetch(coachesQuery);
+    const docs = await withTimeout(sanityClient.fetch(coachesQuery), 3000);
     if (Array.isArray(docs) && docs.length > 0) return docs.map(normalizeSanityCoach);
   } catch (error) {
     console.warn('Could not fetch coaches from Sanity, falling back to Supabase:', error);
@@ -691,7 +699,10 @@ export async function getAllCoaches(): Promise<CoachProfile[]> {
   if (fromSanity) return shuffleArray(fromSanity);
 
   try {
-    const { data, error } = await supabase.from('v2_coaches').select('*').eq('is_active', true);
+    const { data, error } = await withTimeout<any>(
+      supabase.from('v2_coaches').select('*').eq('is_active', true),
+      2500
+    );
     if (!error && data && data.length > 0) return shuffleArray(data.map(coachFromBackupRow));
   } catch (error) {
     console.warn('Could not fetch coaches from Supabase:', error);
@@ -703,28 +714,24 @@ export async function getAllCoaches(): Promise<CoachProfile[]> {
 export async function getCoachBySlug(slug: string): Promise<CoachProfile | null> {
   if (!slug) return null;
 
-  // The local fallback is for outages only. If a source answered "no such coach" (or "hidden"), trust it.
-  let reachable = false;
-
   try {
-    const doc = await sanityClient.fetch(coachBySlugQuery, { slug });
-    reachable = true;
+    const doc = await withTimeout(sanityClient.fetch(coachBySlugQuery, { slug }), 3000);
     if (doc) return normalizeSanityCoach(doc);
   } catch (error) {
     console.warn(`Could not fetch coach [${slug}] from Sanity:`, error);
   }
 
   try {
-    const { data, error } = await supabase
-      .from('v2_coaches')
-      .select('*')
-      .eq('slug', slug)
-      .eq('is_active', true)
-      .maybeSingle();
-    if (!error) {
-      reachable = true;
-      if (data) return coachFromBackupRow(data);
-    }
+    const { data, error } = await withTimeout<any>(
+      supabase
+        .from('v2_coaches')
+        .select('*')
+        .eq('slug', slug)
+        .eq('is_active', true)
+        .maybeSingle(),
+      2500
+    );
+    if (!error && data) return coachFromBackupRow(data);
   } catch (error) {
     console.warn(`Could not fetch coach [${slug}] from Supabase:`, error);
   }

@@ -14,22 +14,33 @@ const dateFormatter = new Intl.DateTimeFormat('fa-IR', {
  * Real articles written by this coach in the Sanity blog.
  * Authors of coach articles are stored as `coach-<slug>` documents, so we match on the author slug.
  */
+function withTimeout<T>(promise: Promise<T>, ms = 3000): Promise<T> {
+  let timer: NodeJS.Timeout;
+  const timeoutPromise = new Promise<T>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms);
+  });
+  return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timer));
+}
+
 export async function getCoachArticles(slug: string, limit = 3): Promise<Article[]> {
   if (!slug) return [];
 
   try {
-    const posts = await sanityClient.fetch(
-      `*[_type == "post" && status == "published" && author->slug.current == $slug]
-        | order(publishedAt desc)[0...$limit] {
-        _id,
-        title,
-        "slug": slug.current,
-        excerpt,
-        mainImage,
-        estimatedReadTime,
-        publishedAt
-      }`,
-      { slug, limit }
+    const posts = await withTimeout(
+      sanityClient.fetch(
+        `*[_type == "post" && status == "published" && author->slug.current == $slug]
+          | order(publishedAt desc)[0...$limit] {
+          _id,
+          title,
+          "slug": slug.current,
+          excerpt,
+          mainImage,
+          estimatedReadTime,
+          publishedAt
+        }`,
+        { slug, limit }
+      ),
+      3000
     );
 
     if (!Array.isArray(posts)) return [];

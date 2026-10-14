@@ -34,7 +34,7 @@ export const BlogNewsletterCtaSection: React.FC = () => {
               </Link>
               <Link
                 href="/coaches"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-850 text-white font-bold text-sm border border-brand-teal-700 transition-all min-h-[44px]"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 text-white font-bold text-sm border border-brand-teal-700 transition-all min-h-[44px]"
               >
                 <Users className="w-4 h-4 text-brand-teal-300" />
                 <span>مشاهده کوچ‌های تأییدشده</span>

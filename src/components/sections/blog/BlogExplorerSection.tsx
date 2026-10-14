@@ -66,18 +66,18 @@ export const BlogExplorerSection: React.FC<BlogExplorerSectionProps> = ({ posts,
           </div>
 
           {/* Category Tabs (Horizontal scroll on mobile) */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
             <button
               type="button"
               onClick={() => setSelectedCategory('all')}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all min-h-[40px] flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all min-h-[44px] flex items-center gap-2 ${
                 selectedCategory === 'all'
                   ? 'bg-brand-teal-900 text-white shadow-soft'
-                  : 'bg-brand-surface-paper text-brand-neutral-700 hover:bg-brand-surface-muted border border-brand-neutral-200'
+                  : 'bg-brand-surface-paper text-brand-neutral-700 hover:bg-brand-surface-muted hover:border-brand-neutral-300 border border-brand-neutral-200/90'
               }`}
             >
               <span>همه مقالات</span>
-              <span className={`text-xs px-1.5 py-0.2 rounded-full ${selectedCategory === 'all' ? 'bg-brand-teal-800 text-white' : 'bg-brand-neutral-200 text-brand-neutral-600'}`}>
+              <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${selectedCategory === 'all' ? 'bg-brand-teal-800 text-white' : 'bg-brand-neutral-200 text-brand-neutral-600'}`}>
                 {posts.length}
               </span>
             </button>
@@ -89,15 +89,15 @@ export const BlogExplorerSection: React.FC<BlogExplorerSectionProps> = ({ posts,
                   key={cat.slug}
                   type="button"
                   onClick={() => setSelectedCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all min-h-[40px] flex items-center gap-1.5 ${
+                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all min-h-[44px] flex items-center gap-2 ${
                     isSelected
                       ? 'bg-brand-teal-900 text-white shadow-soft'
-                      : 'bg-brand-surface-paper text-brand-neutral-700 hover:bg-brand-surface-muted border border-brand-neutral-200'
+                      : 'bg-brand-surface-paper text-brand-neutral-700 hover:bg-brand-surface-muted hover:border-brand-neutral-300 border border-brand-neutral-200/90'
                   }`}
                 >
                   <span>{cat.title}</span>
                   {typeof cat.count === 'number' && (
-                    <span className={`text-xs px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-brand-teal-800 text-white' : 'bg-brand-neutral-200 text-brand-neutral-600'}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${isSelected ? 'bg-brand-teal-800 text-white' : 'bg-brand-neutral-200 text-brand-neutral-600'}`}>
                       {cat.count}
                     </span>
                   )}
@@ -108,7 +108,7 @@ export const BlogExplorerSection: React.FC<BlogExplorerSectionProps> = ({ posts,
         </div>
 
         {/* Status Counter */}
-        <div className="flex items-center justify-between text-xs sm:text-sm text-brand-neutral-500 pt-1 border-t border-brand-neutral-200/50">
+        <div className="flex items-center justify-between text-xs sm:text-sm text-brand-neutral-500 pt-1 border-t border-brand-neutral-200/60">
           <div>
             نمایش <strong className="text-brand-neutral-900 font-bold">{filteredPosts.length}</strong> مقاله از مجموع {posts.length} مقاله
           </div>
@@ -119,7 +119,7 @@ export const BlogExplorerSection: React.FC<BlogExplorerSectionProps> = ({ posts,
                 setSearchQuery('');
                 setSelectedCategory('all');
               }}
-              className="text-brand-teal-900 hover:underline font-bold"
+              className="text-brand-teal-900 hover:text-brand-teal-700 hover:underline font-bold"
             >
               بازنشانی فیلترها
             </button>
@@ -144,13 +144,13 @@ export const BlogExplorerSection: React.FC<BlogExplorerSectionProps> = ({ posts,
                 setSearchQuery('');
                 setSelectedCategory('all');
               }}
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-brand-teal-900 text-white text-sm font-bold shadow-soft hover:bg-brand-teal-800 transition-colors"
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-brand-teal-900 text-white text-sm font-bold shadow-soft hover:bg-brand-teal-800 transition-colors min-h-[44px]"
             >
               نمایش همه مقالات
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
             {filteredPosts.map((post) => (
               <BlogCard key={post.id} post={post} />
             ))}
