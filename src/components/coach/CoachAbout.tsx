@@ -31,7 +31,7 @@ export function CoachAbout({ coach, tone }: { coach: CoachProfile; tone?: Sectio
 
   return (
     <Section id="about" labelledBy="about-title" tone={tone}>
-      <div className="grid gap-12 md:gap-16 lg:grid-cols-12 lg:gap-12">
+      <div className="grid gap-8 md:gap-12 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-32">
             <Reveal>
@@ -89,7 +89,7 @@ export function CoachAbout({ coach, tone }: { coach: CoachProfile; tone?: Sectio
 
           {facts.length > 0 && (
             <Reveal delay={0.1}>
-              <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-0 border-t border-brand-surface-border md:mt-16 md:grid-cols-4">
+              <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-0 border-t border-brand-surface-border md:mt-12 md:grid-cols-4">
                 {facts.map((fact) => (
                   <div key={fact.label} className="flex flex-col gap-1.5 border-b border-brand-surface-border py-5 md:border-b-0 md:py-6">
                     <dt className="text-sm text-brand-neutral-600">{fact.label}</dt>

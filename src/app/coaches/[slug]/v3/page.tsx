@@ -79,7 +79,8 @@ export default async function CoachProfileV3Page({ params }: PageProps) {
   const base = await getCoach(slug);
   if (!base) notFound();
 
-  const articles = await getCoachArticles(base.slug);
+  const fetchedArticles = await getCoachArticles(base.slug);
+  const articles = fetchedArticles.length > 0 ? fetchedArticles : (base.articles ?? []);
   const coach: CoachProfile = { ...base, articles };
   const flags = getSectionFlags(coach);
 

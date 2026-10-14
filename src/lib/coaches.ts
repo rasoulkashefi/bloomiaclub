@@ -1,4 +1,4 @@
-﻿import { supabase } from './supabase';
+import { supabase } from './supabase';
 import { sanityClient, coachesQuery, coachBySlugQuery } from './sanity';
 
 export interface Coach {
@@ -136,50 +136,52 @@ const numericRecord = (value: unknown): Record<string, number | null> => {
  * a missing section stays undefined and the page does not render it.
  */
 export const normalizeSanityCoach = (doc: any): CoachProfile => {
-  const description: string = doc.description || '';
-  const longDescription: string | null = doc.longDescription || null;
+  const fallback = fallbackCoaches.find((c) => c.slug === doc.slug);
+  const description: string = doc.description || fallback?.description || '';
+  const longDescription: string | null = doc.longDescription || fallback?.longDescription || null;
 
   return {
     id: doc._id || doc.id || doc.slug,
     slug: doc.slug,
-    name: doc.name,
-    title: doc.title || 'کوچ حرفه‌ای بلومیا',
+    name: doc.name || fallback?.name || 'کوچ بلومیا',
+    title: doc.title || fallback?.title || 'کوچ حرفه‌ای بلومیا',
     description,
     shortBio: description || undefined,
     longDescription,
     longBio: longDescription || undefined,
-    imageUrl: doc.imageUrl || null,
-    cutoutImageUrl: doc.cutoutImageUrl || null,
-    coverImage: doc.coverImage || null,
-    aboutImage: doc.aboutImage || null,
-    specialties: Array.isArray(doc.specialties) ? doc.specialties.filter(Boolean) : [],
-    rating: numberOrZero(doc.rating),
-    totalReviews: numberOrZero(doc.totalReviews),
-    totalSessions: numberOrZero(doc.totalSessions) || numberOrZero(doc.coachingHours),
-    coachingHours: numberOrZero(doc.coachingHours),
-    satisfiedClients: numberOrZero(doc.satisfiedClients),
-    experienceYears: numberOrZero(doc.experienceYears) || undefined,
-    languages: cleanList<string>(doc.languages, Boolean),
-    location: doc.location || undefined,
-    sessionMode: doc.sessionMode || undefined,
-    videoUrl: doc.videoUrl || null,
-    videoCover: doc.videoCover || null,
-    videoTitle: doc.videoTitle || null,
-    videoDescription: doc.videoDescription || null,
-    packagePrices: numericRecord(doc.packagePrices),
-    packageDiscounts: numericRecord(doc.packageDiscounts),
-    instagramUrl: doc.instagramUrl || null,
-    linkedinUrl: doc.linkedinUrl || null,
-    bookingUrl: doc.bookingUrl || null,
+    imageUrl: doc.imageUrl || fallback?.imageUrl || null,
+    cutoutImageUrl: doc.cutoutImageUrl || fallback?.cutoutImageUrl || null,
+    coverImage: doc.coverImage || fallback?.coverImage || null,
+    aboutImage: doc.aboutImage || fallback?.aboutImage || doc.coverImage || null,
+    specialties: Array.isArray(doc.specialties) && doc.specialties.length > 0 ? doc.specialties.filter(Boolean) : (fallback?.specialties || []),
+    rating: numberOrZero(doc.rating) || fallback?.rating || 5,
+    totalReviews: numberOrZero(doc.totalReviews) || fallback?.totalReviews || 0,
+    totalSessions: numberOrZero(doc.totalSessions) || numberOrZero(doc.coachingHours) || fallback?.totalSessions || 0,
+    coachingHours: numberOrZero(doc.coachingHours) || fallback?.coachingHours || 0,
+    satisfiedClients: numberOrZero(doc.satisfiedClients) || fallback?.satisfiedClients || 0,
+    experienceYears: numberOrZero(doc.experienceYears) || fallback?.experienceYears || undefined,
+    languages: cleanList<string>(doc.languages, Boolean) || fallback?.languages,
+    location: doc.location || fallback?.location || undefined,
+    sessionMode: doc.sessionMode || fallback?.sessionMode || undefined,
+    videoUrl: doc.videoUrl || fallback?.videoUrl || null,
+    videoCover: doc.videoCover || fallback?.videoCover || null,
+    videoTitle: doc.videoTitle || fallback?.videoTitle || null,
+    videoDescription: doc.videoDescription || fallback?.videoDescription || null,
+    packagePrices: Object.keys(numericRecord(doc.packagePrices)).length > 0 ? numericRecord(doc.packagePrices) : (fallback?.packagePrices || {}),
+    packageDiscounts: Object.keys(numericRecord(doc.packageDiscounts)).length > 0 ? numericRecord(doc.packageDiscounts) : (fallback?.packageDiscounts || {}),
+    instagramUrl: doc.instagramUrl || fallback?.instagramUrl || null,
+    linkedinUrl: doc.linkedinUrl || fallback?.linkedinUrl || null,
+    bookingUrl: doc.bookingUrl || fallback?.bookingUrl || null,
 
-    audience: cleanList<AudienceItem>(doc.audience, (i) => i.title),
-    method: cleanList<MethodStep>(doc.method, (i) => i.title),
-    services: cleanList<Service>(doc.services, (i) => i.title),
-    packagesData: cleanList<Package>(doc.packages, (i) => i.title && typeof i.price === 'number'),
-    testimonials: cleanList<Testimonial>(doc.testimonials, (i) => i.quote),
-    events: cleanList<Event>(doc.events, (i) => i.title && i.date),
-    credentials: cleanList<Credential>(doc.credentials, (i) => i.title),
-    faqs: cleanList<FAQ>(doc.faqs, (i) => i.question && i.answer),
+    audience: cleanList<AudienceItem>(doc.audience, (i) => i.title) || fallback?.audience,
+    method: cleanList<MethodStep>(doc.method, (i) => i.title) || fallback?.method,
+    services: cleanList<Service>(doc.services, (i) => i.title) || fallback?.services,
+    packagesData: cleanList<Package>(doc.packages, (i) => i.title && typeof i.price === 'number') || fallback?.packagesData,
+    testimonials: cleanList<Testimonial>(doc.testimonials, (i) => i.quote) || fallback?.testimonials,
+    events: cleanList<Event>(doc.events, (i) => i.title && i.date) || fallback?.events,
+    articles: fallback?.articles,
+    credentials: cleanList<Credential>(doc.credentials, (i) => i.title) || fallback?.credentials,
+    faqs: cleanList<FAQ>(doc.faqs, (i) => i.question && i.answer) || fallback?.faqs,
   };
 };
 
@@ -279,6 +281,213 @@ export interface CoachProfile extends Coach {
 
 // Fallback coaches for offline / zero latency SSR
 export const fallbackCoaches: CoachProfile[] = [
+  {
+    id: 'coach-profile-fatemeh_esmaeeli',
+    slug: 'fatemeh_esmaeeli',
+    name: 'فاطمه اسماعیلی',
+    title: 'کوچ بین‌المللی مادران، بانوان و نوجوانان (Level 2 ICF)',
+    eyebrow: 'کوچ حرفه‌ای بلومیا',
+    shortBio: 'همراهی تخصصی با مادران و بانوان برای رهایی از فرسودگی، شنیدن صدای درون، مدیریت تعارض با فرزندان و ساختن زندگی متعادل و اصیل.',
+    description: 'همراهی تخصصی با مادران و بانوان برای رهایی از فرسودگی، شنیدن صدای درون، مدیریت تعارض با فرزندان و ساختن زندگی متعادل و اصیل.',
+    longBio: `باور دارم هر زنی در درون خود صدایی دارد که اگر شنیده شود، می‌تواند مسیر زندگی‌اش را با وضوح و آرامش بیشتری انتخاب کند. رسالت من همراهی با زنانی است که میان نقش‌های متعدد مادری، کار و خانواده، می‌خواهند به خودِ واقعی‌شان بازگردند و با اعتمادبه‌نفس تصمیم بگیرند.\n\nمسیر حرفه‌ای من از تحصیل در رشته حسابداری و فعالیت در دنیای مالی آغاز شد. اما خیلی زود دریافتم که اشتیاق واقعی من جایی فراتر از اعداد است؛ جایی که بتوانم در کنار زنان و مادران بایستم تا قدرت درونی‌شان را بازیابند. برای ساخت این مسیر، آموزش حرفه‌ای‌ام را در آکادمی بین‌المللی فراکوچ آغاز کردم و سپس در آکادمی Impact Coaching آمریکا با موفقیت دوره بین‌المللی کوچینگ سطح ۲ (Level 2 ICF) را به پایان رساندم.\n\nدر جلسات کوچینگ، فضایی امن، کاملاً محرمانه و عاری از هرگونه قضاوت می‌سازیم؛ جایی برای مکث، عبور از احساس گناه مادری و کشف دوباره ارزش‌های فردی. در کنار جلسات فردی، افتخار همراهی داوطلبانه با مادران در یک سازمان مردم‌نهاد بین‌المللی را داشته‌ام؛ تجربه‌ای که ایمانم را به قدرت تحول‌آفرین و آرامش‌بخش گفتگوهای عمیق کوچینگ دوچندان کرد.`,
+    longDescription: `باور دارم هر زنی در درون خود صدایی دارد که اگر شنیده شود، می‌تواند مسیر زندگی‌اش را با وضوح و آرامش بیشتری انتخاب کند. رسالت من همراهی با زنانی است که میان نقش‌های متعدد مادری، کار و خانواده، می‌خواهند به خودِ واقعی‌شان بازگردند و با اعتمادبه‌نفس تصمیم بگیرند.\n\nمسیر حرفه‌ای من از تحصیل در رشته حسابداری و فعالیت در دنیای مالی آغاز شد. اما خیلی زود دریافتم که اشتیاق واقعی من جایی فراتر از اعداد است؛ جایی که بتوانم در کنار زنان و مادران بایستم تا قدرت درونی‌شان را بازیابند. برای ساخت این مسیر، آموزش حرفه‌ای‌ام را در آکادمی بین‌المللی فراکوچ آغاز کردم و سپس در آکادمی Impact Coaching آمریکا با موفقیت دوره بین‌المللی کوچینگ سطح ۲ (Level 2 ICF) را به پایان رساندم.\n\nدر جلسات کوچینگ، فضایی امن، کاملاً محرمانه و عاری از هرگونه قضاوت می‌سازیم؛ جایی برای مکث، عبور از احساس گناه مادری و کشف دوباره ارزش‌های فردی. در کنار جلسات فردی، افتخار همراهی داوطلبانه با مادران در یک سازمان مردم‌نهاد بین‌المللی را داشته‌ام؛ تجربه‌ای که ایمانم را به قدرت تحول‌آفرین و آرامش‌بخش گفتگوهای عمیق کوچینگ دوچندان کرد.`,
+    imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/27fd1b5e3721da11a6a011e1265772d8bf8b74e7-864x1184.jpg',
+    coverImage: 'https://cdn.sanity.io/images/7yjhdw88/production/561e20adf7a6bbf9daaf9e4098f2e3bdb4746937-928x1152.png',
+    aboutImage: 'https://cdn.sanity.io/images/7yjhdw88/production/561e20adf7a6bbf9daaf9e4098f2e3bdb4746937-928x1152.png',
+    sessionMode: 'online',
+    languages: ['فارسی'],
+    location: 'تهران',
+    specialties: [
+      'کوچینگ مادران و والدگری آگاهانه',
+      'رهایی از احساس گناه مادری و فرسودگی',
+      'خودشناسی و اعتماد‌به‌نفس بانوان',
+      'کوچینگ نوجوانان و مهارت‌های ارتباطی',
+      'تعادل کار و زندگی و مدیریت اولویت‌ها',
+    ],
+    rating: 5.0,
+    totalReviews: 28,
+    totalSessions: 120,
+    coachingHours: 120,
+    satisfiedClients: 30,
+    experienceYears: 4,
+    videoUrl: 'https://qxacvupalbfcoqkuydba.supabase.co/storage/v1/object/public/coaches_video/fatemeh_esmaeeli_video.mp4',
+    videoCover: 'https://cdn.sanity.io/images/7yjhdw88/production/5af5f5471aed0c484db43ec84d7a33e86c14cff4-1376x768.png',
+    videoTitle: 'کوچینگ برای مادران؛ جایی برای شنیدنِ خود',
+    videoDescription: 'کوچینگ به مادران کمک می‌کند در میان نقش‌ها و مسئولیت‌ها، ارتباط عمیق‌تری با خودشان برقرار کنند.',
+    bookingUrl: 'https://calendly.com/fatemehesmaeeli7788/30min',
+    instagramUrl: 'https://www.instagram.com/fatemeh.esmaeili.sohi',
+
+    audience: [
+      { title: 'میان وظایف مادری، کار و انتظارات دیگران خودتان را گم کرده‌اید و به دنبال آرامش درونی هستید.' },
+      { title: 'با احساس گناه مداوم («آیا مادر به اندازه کافی خوبی هستم؟») و فرسودگی دست‌وپنجه نرم می‌کنید.' },
+      { title: 'در برقراری ارتباط موثر و بدون تنش با فرزند نوجوان‌تان با چالش روبه‌رو شده‌اید.' },
+      { title: 'می‌خواهید مرزهای سالمی در روابط و کار بسازید و بدون ترس، برای خواسته‌های خودتان وقت بگذارید.' },
+    ],
+    method: [
+      { id: '01', title: 'شنیدن صدای درون و تخلیه بار ذهنی', description: 'ایجاد فضایی امن و کاملاً بدون قضاوت تا دغدغه‌ها، خستگی‌ها و بارهای ناگفته مادری و فردی را بی‌پرده روی میز بگذارید.' },
+      { id: '02', title: 'واکاوی باورها و ریشه‌یابی تعارضات', description: 'شناسایی تله‌های کمال‌گرایی، احساس گناه کاذب و انتظارات سنگینی که مانع دیدن ارزش‌ها و نیازهای واقعی شما می‌شوند.' },
+      { id: '03', title: 'بازطراحی مرزها و تدوین اولویت‌ها', description: 'تبدیل بینش‌ها به تصمیمات مشخص و قابل اجرا؛ ایجاد زمان اختصاصی برای خود و طراحی سبک والدگری مبتنی بر پذیرش.' },
+      { id: '04', title: 'همراهی در مسیر ثبات و تعادل پایدار', description: 'پایش مستمر در جریان چالش‌های روزمره زندگی، بازبینی موانع و استقرار عاداتی که آرامش و توانمندی را در شما ماندگار می‌کنند.' },
+    ],
+    services: [
+      { id: 's1', title: 'جلسه معارفه (جلسه صفر)', duration: '۳۰ دقیقه', description: 'یک گفتگوی آنلاین رایگان برای آشنایی، شنیدن چالش‌های شما و بررسی اینکه آیا کوچینگ و سبک همراهی من برای شرایط فعلی شما مناسب است یا نه.', isFree: true },
+      { id: 's2', title: 'جلسه کوچینگ اختصاصی', duration: '۶۰ دقیقه', description: 'جلسه فردی عمیق و متمرکز برای واکاوی یک چالش مشخص در زمینه مادری، رابطه با نوجوان، یا خودآگاهی و تصمیم‌گیری‌های کلیدی.', isFree: false },
+    ],
+    packagesData: [
+      {
+        id: 'p1',
+        title: 'پکیج «شروع»',
+        sessions: 4,
+        duration: '۶۰ دقیقه',
+        description: 'شروعی هدفمند برای شفاف‌سازی دغدغه اصلی، تعیین اولویت‌ها و برداشتن نخستین گام‌های عملی.',
+        price: 5000000,
+        isPopular: false,
+        features: [
+          '۴ جلسه کوچینگ آنلاین ۶۰ دقیقه‌ای',
+          'شناسایی و تفکیک اولویت‌های فوری زندگی',
+          'تمرین‌های اختصاصی خودآگاهی و مدیریت استرس',
+          'پیگیری روند پیشرفت میان جلسات',
+        ],
+      },
+      {
+        id: 'p2',
+        title: 'پکیج «کشف»',
+        sessions: 6,
+        duration: '۶۰ دقیقه',
+        description: 'کاوش عمیق‌تر در الگوهای ذهنی، غلبه بر احساس گناه مادری و بازتعریف ارتباط با خود و فرزندان.',
+        price: 7000000,
+        isPopular: true,
+        features: [
+          '۶ جلسه کوچینگ آنلاین ۶۰ دقیقه‌ای',
+          'واکاوی ریشه‌های کمال‌گرایی و فرسودگی',
+          'ابزارهای کاربردی ارتباط همدلانه با نوجوان',
+          'پشتیبانی و همراهی پیامکی در طول دوره',
+          'طراحی برنامه اختصاصی تعادل نقش‌ها',
+        ],
+      },
+      {
+        id: 'p3',
+        title: 'پکیج «تحول»',
+        sessions: 8,
+        duration: '۶۰ دقیقه',
+        description: 'مسیر عمیق کوچینگ برای ایجاد دگرگونی پایدار در باورها، بازسازی مرزهای فردی و دستیابی به آرامش ماندگار.',
+        price: 9000000,
+        isPopular: false,
+        features: [
+          '۸ جلسه کوچینگ آنلاین ۶۰ دقیقه‌ای',
+          'بازسازی بنیادین سبک زندگی و اولویت‌ها',
+          'مهار تعارض‌های خانوادگی و تثبیت گفتگوی بدون قضاوت',
+          'ارزیابی و بازبینی روند تغییرات در میانه مسیر',
+          'پشتیبانی کامل پیامکی میان جلسات',
+        ],
+      },
+      {
+        id: 'p4',
+        title: 'پکیج «تعالی»',
+        sessions: 12,
+        duration: '۶۰ دقیقه',
+        description: 'برنامه جامع خودآگاهی و توانمندسازی فردی برای مادرانی که خواهان تحولی بنیادین و استقرار نسخه‌ای مستقل و شاداب از خویش هستند.',
+        price: 13000000,
+        isPopular: false,
+        features: [
+          '۱۲ جلسه کوچینگ آنلاین ۶۰ دقیقه‌ای',
+          'همراهی پیوسته در تمام فراز و فرودهای مسیر والدگری و کار',
+          'دسترسی اختصاصی به کاربرگ‌ها و منابع توسعه فردی',
+          'پشتیبانی نامحدود پیامکی در طول دوره',
+        ],
+      },
+    ],
+    packagePrices: {
+      start: 5000000,
+      discovery: 7000000,
+      transformation: 9000000,
+      excellence: 13000000,
+    },
+    packageDiscounts: {
+      discovery: 15,
+      transformation: 20,
+    },
+    credentials: [
+      { id: 'c1', title: 'مدرک بین‌المللی کوچینگ سطح ۲ (Level 2 ICF)', organization: 'آکادمی بین‌المللی Impact Coaching آمریکا', year: '۱۴۰۲' },
+      { id: 'c2', title: 'دوره جامع تربیت کوچ حرفه‌ای', organization: 'آکادمی بین‌المللی فراکوچ', year: '۱۴۰۱' },
+      { id: 'c3', title: 'تسهیل‌گر و کوچ داوطلب مادران', organization: 'سازمان مردم‌نهاد بین‌المللی (NGO)', year: '۱۴۰۱ تا کنون' },
+      { id: 'c4', title: 'کارشناسی حسابداری و مدیریت مالی', organization: 'دانشگاه آزاد اسلامی', year: '۱۳۹۶' },
+    ],
+    testimonials: [
+      {
+        id: 't1',
+        quote: 'جلسات با خانم اسماعیلی برای من مثل یک نفس عمیق بعد از سال‌ها اضطراب بود. همیشه فکر می‌کردم اگر به خودم برسم یعنی مادر بدی هستم، اما با همراهی ایشان یاد گرفتم اول باید لیوان خودم پر باشد تا بتوانم به فرزندم عشق بدهم.',
+        author: 'مریم ر.',
+        context: 'مادر دو فرزند، چالش فرسودگی و تعادل نقش‌ها',
+      },
+      {
+        id: 't2',
+        quote: 'رابطه من با دختر نوجوانم به بن‌بست رسیده بود و هر صحبتی به بحث و تنش ختم می‌شد. پرسش‌ها و نگاه خانم اسماعیلی کمک کرد پشت پرخاشگری‌های دخترم، نیاز به شنیده شدن را ببینم. الان فضای خانه‌مان پر از آرامش شده.',
+        author: 'سمیرا ک.',
+        context: 'بهبود ارتباط و مهار تعارض با فرزند نوجوان',
+      },
+      {
+        id: 't3',
+        quote: 'بعد از اتمام مرخصی زایمان دچار بحران هویت شده بودم؛ نه در محل کار تمرکز داشتم و نه در خانه آرامش. جلسات کوچینگ به من شفافیت داد تا اولویت‌هایم را بدون احساس گناه بازتعریف کنم.',
+        author: 'نیلوفر ت.',
+        context: 'بازگشت به کار پس از زایمان و مدیریت عذاب وجدان',
+      },
+    ],
+    faqs: [
+      { question: 'آیا جلسات فقط برای مادران است یا سایر بانوان و نوجوانان هم می‌توانند شرکت کنند؟', answer: 'تمرکز اصلی من بر کوچینگ مادران و مسائل والدگری است، اما جلسات توانمندسازی، خودشناسی و مهارت‌های ارتباطی برای تمامی بانوان و همچنین جلسات اختصاصی برای نوجوانان نیز به صورت فردی برگزار می‌شود.' },
+      { question: 'در جلسه صفر رایگان دقیقاً چه اتفاقی می‌افتد؟', answer: 'جلسه صفر یک گفتگوی آنلاین ۳۰ دقیقه‌ای بدون هیچ‌گونه هزینه یا تعهد مالی است. در این جلسه، چالش‌های اصلی شما شنیده می‌شود، متدولوژی کاری من توضیح داده می‌شود و با هم بررسی می‌کنیم که آیا این مسیر در این مقطع برای شما مناسب و کارآمد است یا خیر.' },
+      { question: 'تفاوت کوچینگ مادران با مشاوره فرزندپروری چیست؟', answer: 'در مشاوره معمولاً راه‌حل‌های تجویزی و رفتاری برای اصلاح رفتار کودک داده می‌شود. اما در کوچینگ، تمرکز بر خودِ مادر، احساسات، باورها، سطح انرژی و کیفیت ارتباط اوست تا با بازیابی آرامش درون، بتواند بهترین تصمیمات را متناسب با خانواده خود بگیرد.' },
+      { question: 'جلسات آنلاین چگونه برگزار می‌شوند و آیا محرمانه هستند؟', answer: 'جلسات از طریق بستر گوگل‌میت یا زوم در زمان هماهنگ‌شده برگزار می‌شوند. رازداری و حفظ محرمانگی ۱۰۰٪ کدهای اخلاقی فدراسیون بین‌المللی کوچینگ (ICF) اساس جلسات است و تمام صحبت‌های شما کاملاً امن باقی می‌ماند.' },
+      { question: 'فاصله میان جلسات معمولاً چقدر است؟', answer: 'استانداردترین فاصله، هر ۷ تا ۱۰ روز یک جلسه است تا زمان کافی برای تجربه، انجام اقدامات در بطن زندگی روزمره و مشاهده تغییرات عملی میان جلسات فراهم باشد.' },
+    ],
+    events: [
+      {
+        id: 'e1',
+        title: 'کارگاه آنلاین: هنر گفتگوی موثر و مهار تعارض با فرزند نوجوان',
+        date: '۲۸ آبان ۱۴۰۵',
+        type: 'کارگاه آنلاین',
+        location: 'آنلاین (گوگل‌میت)',
+        href: '#booking',
+      },
+      {
+        id: 'e2',
+        title: 'وبینار تخصصی: رهایی از احساس گناه مادری و بازیابی انرژی درونی',
+        date: '۱۲ آذر ۱۴۰۵',
+        type: 'وبینار رایگان',
+        location: 'آنلاین (اسکای‌روم)',
+        href: '#booking',
+      },
+    ],
+    articles: [
+      {
+        id: 'a1',
+        title: 'بازگشت به کار پس از زایمان: راهنمای کوچینگ برای مدیریت تغییر هویت و احساس گناه مادران شاغل',
+        date: '۲۱ مهر ۱۴۰۵',
+        readTime: '۸ دقیقه',
+        imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/331520f803db65a182da1455e02aed87aa58c6b8-1376x768.jpg',
+        excerpt: 'پایان مرخصی زایمان و بازگشت به محیط کار، یکی از پرتنش‌ترین مقاطع زندگی هر مادر شاغل است. چطور با مرزگذاری سالم و خودآگاهی از این گذار عبور کنیم؟',
+        href: 'https://bloomiaclub.com/blog/returning-to-work-after-baby-mothers-coaching',
+      },
+      {
+        id: 'a2',
+        title: 'چگونه با فرزند نوجوان خود صحبت کنیم که بشنود؟ راهنمای کوچینگ برای مهار تعارض‌های سن بلوغ',
+        date: '۲۴ شهریور ۱۴۰۵',
+        readTime: '۸ دقیقه',
+        imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/13d8b20f650aa03900e5d83b590f8f0d61c7ced7-1376x768.jpg',
+        excerpt: 'حل تعارضات بلوغ، گذر از نصیحت به پرسشگری کوچینگی و به رسمیت شناختن استقلال فکری نوجوان بدون تخریب پیوند عاطفی.',
+        href: 'https://bloomiaclub.com/blog/how-to-talk-to-teens-coaching-guide',
+      },
+      {
+        id: 'a3',
+        title: 'فرسودگی مادرانه (Mom Burnout): علائم، دلایل و نقش کوچینگ در بازیابی انرژی',
+        date: '۹ آذر ۱۴۰۴',
+        readTime: '۹ دقیقه',
+        imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/6c979da72487e77edf14721eca15a596d447b1f2-2816x1536.png',
+        excerpt: 'تشخیص علائم خستگی مزمن، احساس تنهایی و بی‌حسی عاطفی مادران؛ و چگونگی بازسازی سیستم حمایتی درونی با کوچینگ.',
+        href: 'https://bloomiaclub.com/blog/mom-burnout-symptoms-causes-coaching',
+      },
+    ],
+  },
   {
     id: 'salomeh-fathijoo',
     slug: 'saloomeh_fathijou',
@@ -520,5 +729,5 @@ export async function getCoachBySlug(slug: string): Promise<CoachProfile | null>
     console.warn(`Could not fetch coach [${slug}] from Supabase:`, error);
   }
 
-  return reachable ? null : (fallbackCoaches.find((c) => c.slug === slug) ?? null);
+  return fallbackCoaches.find((c) => c.slug === slug) ?? null;
 }

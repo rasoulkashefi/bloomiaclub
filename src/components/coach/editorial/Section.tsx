@@ -23,7 +23,7 @@ type SectionProps = {
 
 /**
  * Shared section shell: vertical rhythm, container width and background tone.
- * Mobile 72px, tablet 112px, desktop 160px of vertical padding.
+ * Refined vertical rhythm: Mobile 56px, tablet 80px, desktop 96px.
  */
 export function Section({
   id,
@@ -37,7 +37,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={cn('relative py-[72px] md:py-28 lg:py-40', toneClasses[tone], className)}
+      className={cn('relative py-14 md:py-20 lg:py-24', toneClasses[tone], className)}
     >
       <div className={cn('mx-auto w-full max-w-[1280px] px-5 md:px-8', containerClassName)}>{children}</div>
     </section>

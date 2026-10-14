@@ -37,7 +37,7 @@ export function CoachArticles({ coach, tone }: { coach: CoachProfile; tone?: Sec
         )}
       </div>
 
-      <div className="mt-12 grid gap-10 md:mt-16 lg:grid-cols-12 lg:gap-14">
+      <div className="mt-8 grid gap-8 md:mt-12 lg:grid-cols-12 lg:gap-10">
         <Reveal className={rest.length > 0 ? 'lg:col-span-7' : 'lg:col-span-8 lg:col-start-3'}>
           <ArticleCard article={featured} variant="featured" />
         </Reveal>

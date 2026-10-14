@@ -10,7 +10,7 @@ export function CoachFinalCTA({ coach }: { coach: CoachProfile }) {
   const freeSession = coach.services?.find((s) => s.isFree);
 
   return (
-    <Section id="booking" labelledBy="final-cta-title" tone="dark" className="overflow-hidden py-24 md:py-36 lg:py-48">
+    <Section id="booking" labelledBy="final-cta-title" tone="dark" className="overflow-hidden py-16 md:py-24 lg:py-28">
       {/* Organic shapes, purely atmospheric */}
       <div
         aria-hidden="true"

@@ -59,13 +59,13 @@ export function CoachServices({ coach, tone }: { coach: CoachProfile; tone?: Sec
         </EditorialHeading>
       </Reveal>
 
-      <ul className="mt-12 md:mt-20">
+      <ul className="mt-8 md:mt-12">
         {rows.map((row, index) => (
           <Reveal
             as="li"
             key={row.id}
             delay={index * 0.07}
-            className="grid gap-5 border-b border-brand-surface-border py-9 first:border-t md:grid-cols-12 md:items-center md:gap-8 md:py-12"
+            className="grid gap-5 border-b border-brand-surface-border py-6 first:border-t md:grid-cols-12 md:items-center md:gap-8 md:py-8"
           >
             <div className="flex flex-col items-start gap-3 md:col-span-4">
               <h3 className="text-[1.75rem] font-extrabold leading-[1.5] text-brand-neutral-900 md:text-3xl">{row.title}</h3>

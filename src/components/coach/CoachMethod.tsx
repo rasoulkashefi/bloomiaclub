@@ -64,7 +64,7 @@ function CoachMethodTimeline({ steps }: { steps: NonNullable<CoachProfile['metho
               </EditorialHeading>
             </Reveal>
 
-            <div className="mt-14 hidden items-end gap-6 lg:flex" aria-hidden="true">
+            <div className="mt-8 hidden items-end gap-6 lg:flex" aria-hidden="true">
               <div className="relative h-[9.5rem] w-[15rem]">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
@@ -105,7 +105,7 @@ function CoachMethodTimeline({ steps }: { steps: NonNullable<CoachProfile['metho
                     stepRefs.current[index] = el;
                   }}
                   data-active={isActive}
-                  className="relative flex flex-col justify-center pb-16 transition-[opacity,transform] duration-700 ease-out last:pb-0 lg:min-h-[56vh] lg:pb-0 lg:data-[active=false]:translate-y-2 lg:data-[active=false]:opacity-30"
+                  className="relative flex flex-col justify-center pb-10 transition-[opacity,transform] duration-700 ease-out last:pb-0 lg:min-h-[36vh] lg:pb-0 lg:data-[active=false]:translate-y-2 lg:data-[active=false]:opacity-30"
                 >
                   <span
                     aria-hidden="true"

@@ -23,7 +23,7 @@ export function CoachEvents({ coach, tone }: { coach: CoachProfile; tone?: Secti
         <EditorialHeading id="events-title">رویدادهای پیش رو</EditorialHeading>
       </Reveal>
 
-      <ul className="mt-12 md:mt-16">
+      <ul className="mt-8 md:mt-12">
         {events.map((event, index) => {
           const { day, rest } = splitDate(event.date);
           return (
@@ -31,7 +31,7 @@ export function CoachEvents({ coach, tone }: { coach: CoachProfile; tone?: Secti
               as="li"
               key={event.id}
               delay={index * 0.07}
-              className="grid grid-cols-[auto_1fr] items-start gap-x-6 gap-y-5 border-b border-brand-surface-border py-8 first:border-t md:grid-cols-[180px_1fr_auto] md:items-center md:gap-x-12 md:py-11"
+              className="grid grid-cols-[auto_1fr] items-start gap-x-6 gap-y-5 border-b border-brand-surface-border py-6 first:border-t md:grid-cols-[180px_1fr_auto] md:items-center md:gap-x-12 md:py-8"
             >
               <div className="flex flex-col leading-none">
                 <span className="text-[3rem] font-extrabold text-brand-teal-900 md:text-[4rem]">{day}</span>

@@ -19,7 +19,7 @@ export function CoachTrustStrip({ coach }: { coach: CoachProfile }) {
   if (metrics.length < 2) return null;
 
   return (
-    <section aria-label="آمار و سوابق" className="bg-brand-surface pb-[72px] md:pb-28 lg:pb-36">
+    <section aria-label="آمار و سوابق" className="bg-brand-surface pb-10 md:pb-14 lg:pb-16">
       <Reveal className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <dl
           className={`grid gap-px overflow-hidden border-y border-brand-surface-border bg-brand-surface-border ${
@@ -29,7 +29,7 @@ export function CoachTrustStrip({ coach }: { coach: CoachProfile }) {
           {metrics.map((metric) => (
             <div
               key={metric.label}
-              className="flex flex-col-reverse items-start gap-2 bg-brand-surface px-1 py-8 md:px-6 md:py-12 lg:px-8"
+              className="flex flex-col-reverse items-start gap-2 bg-brand-surface px-1 py-6 md:px-6 md:py-8 lg:px-8"
             >
               <dt className="text-sm font-medium text-brand-neutral-600 md:text-base">{metric.label}</dt>
               <dd className="flex items-baseline gap-0.5 text-[2.5rem] font-extrabold leading-none text-brand-teal-900 md:text-6xl">

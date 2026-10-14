@@ -55,7 +55,7 @@ export function CoachAudience({ coach, tone }: { coach: CoachProfile; tone?: Sec
         </EditorialHeading>
       </Reveal>
 
-      <div className="relative mt-12 md:mt-20">
+      <div className="relative mt-8 md:mt-12">
         <ul
           ref={listRef}
           onPointerMove={onPointerMove}

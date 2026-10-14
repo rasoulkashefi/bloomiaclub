@@ -18,7 +18,11 @@ export function CoachPackages({ coach, tone }: { coach: CoachProfile; tone?: Sec
   const hasFreeSession = Boolean(coach.services?.some((s) => s.isFree));
 
   const columns =
-    packages.length === 2 ? 'md:grid-cols-2' : packages.length === 3 ? 'lg:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4';
+    packages.length === 2
+      ? 'md:grid-cols-2 max-w-[860px]'
+      : packages.length === 3
+        ? 'md:grid-cols-2 lg:grid-cols-3 max-w-[1140px]'
+        : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4 max-w-[1280px]';
 
   return (
     <Section id="packages" labelledBy="packages-title" tone={tone}>
@@ -32,7 +36,7 @@ export function CoachPackages({ coach, tone }: { coach: CoachProfile; tone?: Sec
         </EditorialHeading>
       </Reveal>
 
-      <div className={cn('mx-auto mt-14 grid gap-5 md:mt-20 md:gap-6', single ? 'max-w-[1040px]' : cn('max-w-[1040px]', columns))}>
+      <div className={cn('mx-auto mt-10 grid gap-5 sm:gap-6 md:mt-14', single ? 'max-w-[760px]' : columns)}>
         {packages.map((pkg, index) => (
           <Reveal key={pkg.id} delay={index * 0.08} className="h-full">
             <PackageCard pkg={pkg} featured={single || pkg.isPopular} wide={single} />

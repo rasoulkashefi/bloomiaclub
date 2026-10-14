@@ -41,7 +41,7 @@ export function CoachHero({ coach }: { coach: CoachProfile }) {
     <section
       id="top"
       aria-labelledby="coach-name"
-      className="relative overflow-hidden bg-brand-surface pb-14 pt-24 md:pb-24 md:pt-32 lg:pt-36"
+      className="relative overflow-hidden bg-brand-surface pb-8 pt-20 sm:pt-24 md:pb-14 md:pt-28 lg:pb-16 lg:pt-32"
     >
       <div className="mx-auto grid w-full max-w-[1280px] items-center gap-12 px-5 md:grid-cols-[45fr_55fr] md:gap-10 md:px-8 lg:gap-16">
         {/* ---------------------------- Text ---------------------------- */}
