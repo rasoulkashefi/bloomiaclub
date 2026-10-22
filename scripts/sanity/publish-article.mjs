@@ -331,7 +331,7 @@ function updateBlogCatalog(payload) {
   // 2. Update author count
   const authorName = payload.authorName || 'آکادمی بلومیا';
   const escapedName = authorName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const authorRegex = new RegExp(`(\\b${escapedName}[^:]*\\: )([۰-۹\\d]+)( مقاله)`);
+  const authorRegex = new RegExp(`(- \\*\\*${escapedName}[^:]*\\: )([۰-۹\\d]+)( مقاله)`);
   if (authorRegex.test(content)) {
     content = content.replace(authorRegex, (match, prefix, count, suffix) => {
       const num = parseInt(toEnglishDigits(count), 10) + 1;

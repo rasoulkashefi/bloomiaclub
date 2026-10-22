@@ -34,3 +34,6 @@ scripts/sanity/supabase-posts-dump.json
 .idea/
 .DS_Store
 Thumbs.db
+
+scratch/
+tmp/
