@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, Clock, Calendar } from 'lucide-react';
+import { Clock, Calendar } from 'lucide-react';
 import { BlogPostDetail } from '@/lib/posts';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
 interface BlogPostHeaderSectionProps {
   post: BlogPostDetail;
@@ -17,20 +18,15 @@ export const BlogPostHeaderSection: React.FC<BlogPostHeaderSectionProps> = ({ po
 
   return (
     <header className="pt-8 sm:pt-12 pb-6 max-w-4xl mx-auto px-4 sm:px-6">
-      {/* Breadcrumbs */}
-      <nav aria-label="مسیریابی" className="flex flex-wrap items-center gap-1.5 text-xs text-brand-neutral-500 mb-6">
-        <Link href="/" className="hover:text-brand-teal-800 transition-colors">
-          صفحه اصلی
-        </Link>
-        <ChevronLeft className="w-3.5 h-3.5 text-brand-neutral-400 shrink-0" />
-        <Link href="/blog" className="hover:text-brand-teal-800 transition-colors">
-          وبلاگ
-        </Link>
-        <ChevronLeft className="w-3.5 h-3.5 text-brand-neutral-400 shrink-0" />
-        <span className="text-brand-neutral-800 font-semibold truncate max-w-[200px] sm:max-w-md" aria-current="page">
-          {post.title}
-        </span>
-      </nav>
+      {/* Breadcrumbs (Strictly single line) */}
+      <Breadcrumbs
+        className="mb-6"
+        items={[
+          { label: 'صفحه اصلی', href: '/' },
+          { label: 'وبلاگ', href: '/blog' },
+          { label: post.title },
+        ]}
+      />
 
       {/* Category Pill */}
       <div className="mb-4">

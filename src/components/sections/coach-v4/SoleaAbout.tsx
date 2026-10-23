@@ -10,9 +10,115 @@ interface SoleaAboutProps {
 }
 
 export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
-  const coachName = coach?.name || 'فاطمه اسماعیلی';
-  const coachTitle = coach?.title || 'کوچ بین‌المللی مادران، بانوان و نوجوانان';
-  const aboutImage = coach?.aboutImage || coach?.coverImage || coach?.imageUrl || '/images/solea/fatemeh_about.jpg';
+  const slug = (coach?.slug || '').toLowerCase();
+  const coachName = coach?.name || 'کوچ بلومیا';
+  const coachTitle = coach?.title || 'کوچ حرفه‌ای بین‌المللی';
+  
+  const aboutImage =
+    coach?.aboutImage ||
+    coach?.coverImage ||
+    coach?.imageUrl ||
+    (slug.includes('mahya') ? '/images/solea/mahya_about.jpg' : '/images/solea/fatemeh_about.jpg');
+
+  const defaultParagraphs = [
+    coach?.shortBio || 'همراهی تخصصی در مسیر خودشناسی، وضوح و ساختن زندگی متعادل و اصیل.',
+    'در جلسات کوچینگ، فضایی امن، کاملاً محرمانه و عاری از هرگونه قضاوت مهیاست؛ جایی برای مکث، کشف باورهای محدودکننده و نهادینه‌سازی تصمیم‌های شجاعانه در تاروپود زندگی روزمره.',
+  ];
+
+  const bioParagraphs = coach?.longBio
+    ? coach.longBio.split('\n\n').filter(Boolean).slice(0, 2)
+    : defaultParagraphs;
+
+  const getAboutHeading = () => {
+    if (slug.includes('mahya')) {
+      return (
+        <>
+          همراهی با شما برای کشف خود،
+          <br />
+          صلح با منتقد درون
+          <br />
+          و آرامش ماندگار
+        </>
+      );
+    }
+    if (slug.includes('arezoo') && slug.includes('ghaffari')) {
+      return (
+        <>
+          همراهی تخصصی با رویکرد ACT،
+          <br />
+          برای عبور از اضطراب
+          <br />
+          و زیستن با ارزش‌ها
+        </>
+      );
+    }
+    if (slug.includes('saloomeh') || slug.includes('salomeh')) {
+      return (
+        <>
+          همراهی در تحول شغلی و فردی،
+          <br />
+          تصمیم‌گیری در دوراهی‌ها
+          <br />
+          و ساختن مسیر دلخواه
+        </>
+      );
+    }
+    if (slug.includes('derakhsh')) {
+      return (
+        <>
+          همراهی تخصصی در کارراهه،
+          <br />
+          تصمیم‌گیری استراتژیک
+          <br />
+          و خروج از سردرگمی شغلی
+        </>
+      );
+    }
+    if (slug.includes('nemati')) {
+      return (
+        <>
+          همراهی در رشد فردی و عادات،
+          <br />
+          تقویت خودباوری اصیل
+          <br />
+          و وضوح در اهداف
+        </>
+      );
+    }
+    if (slug.includes('johari')) {
+      return (
+        <>
+          همراهی با شما برای کشف خود،
+          <br />
+          شفقت در روزهای دشوار
+          <br />
+          و صلح با جهان درون
+        </>
+      );
+    }
+    if (slug.includes('esmi')) {
+      return (
+        <>
+          تلفیق دانش MBA و کوچینگ،
+          <br />
+          برای مهار اهمال‌کاری
+          <br />
+          و بهره‌وری بالا با آرامش
+        </>
+      );
+    }
+    return (
+      <>
+        همراهی با شما برای رشد،
+        <br />
+        با وضوح، اعتمادبه‌نفس
+        <br />
+        و آرامش ماندگار
+      </>
+    );
+  };
+
+  const aboutHeading = getAboutHeading();
 
   return (
     <section id="about" className="w-full bg-[#fafaf8] py-20 lg:py-[120px] text-[#1e1e1e] overflow-hidden">
@@ -37,11 +143,7 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
               <h2 className="font-serif text-[32px] sm:text-[44px] lg:text-[52px] font-normal leading-[1.38] sm:leading-[1.34] lg:leading-[1.32] text-[#1e1e1e] max-w-[720px]">
-                همراهی با شما برای رشد،
-                <br />
-                با وضوح، اعتمادبه‌نفس
-                <br />
-                و آرامش ماندگار
+                {aboutHeading}
               </h2>
             </motion.div>
 
@@ -77,12 +179,14 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
                 className="flex-1 max-w-[480px] flex flex-col justify-start pt-1 lg:pt-2"
               >
                 <p className="text-[17px] sm:text-[19px] lg:text-[20px] leading-[1.85] text-[#1e1e1e] font-normal">
-                  باور دارم هر زنی در درون خود صدایی دارد که اگر شنیده شود، می‌تواند مسیر زندگی‌اش را با وضوح و آرامش بیشتری انتخاب کند. رسالت من همراهی با زنانی است که میان نقش‌های متعدد مادری، کار و خانواده، می‌خواهند به خودِ واقعی‌شان بازگردند.
+                  {bioParagraphs[0]}
                 </p>
 
-                <p className="mt-6 lg:mt-7 text-[16px] sm:text-[18px] lg:text-[19px] leading-[1.85] text-[#4a4a4a] font-normal">
-                  در جلسات کوچینگ، فضایی امن، کاملاً محرمانه و عاری از هرگونه قضاوت می‌سازیم؛ جایی برای مکث، عبور از احساس گناه مادری، بازیابی اعتمادبه‌نفس و ساختن تعادل پایدار در زندگی روزمره.
-                </p>
+                {bioParagraphs[1] && (
+                  <p className="mt-6 lg:mt-7 text-[16px] sm:text-[18px] lg:text-[19px] leading-[1.85] text-[#4a4a4a] font-normal">
+                    {bioParagraphs[1]}
+                  </p>
+                )}
 
                 {/* Author Name and Title */}
                 <div className="mt-8 lg:mt-10 flex flex-col gap-1.5">

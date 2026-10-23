@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Phone, Globe } from 'lucide-react';
-import type { CoachProfile } from '@/lib/coaches';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Phone, Globe, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { getCanonicalSlug, type CoachProfile } from '@/lib/coaches';
 
 const InstagramIcon = () => (
   <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -21,18 +21,131 @@ const LinkedinIcon = () => (
 
 interface SoleaContactProps {
   coach?: CoachProfile;
+  onOpenBooking?: (offeringTitle?: string) => void;
 }
 
-export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
-  const [submitted, setSubmitted] = useState(false);
-  const coachName = coach?.name || 'فاطمه اسماعیلی';
-  const bookingLink = coach?.bookingUrl || 'https://atyno.com/fatemeh/zero';
-  const contactAvatar = coach?.aboutImage || coach?.imageUrl || '/images/solea/fatemeh_about.jpg';
+export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking }) => {
+  const canonical = getCanonicalSlug(coach?.slug || '');
+  const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
+  const coachName = coach?.name || 'کوچ بلومیا';
+  const bookingLink = coach?.bookingUrl || '#contact';
+  const contactAvatar =
+    coach?.aboutImage ||
+    coach?.imageUrl ||
+    coach?.coverImage ||
+    (canonical === 'mahya_shakouri' ? '/images/solea/mahya_about.jpg' : '/images/solea/fatemeh_about.jpg');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Form states
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [topic, setTopic] = useState('جلسه معارفه رایگان (جلسه صفر ۳۰ دقیقه‌ای)');
+  const [message, setMessage] = useState('');
+  const [honeypot, setHoneypot] = useState('');
+
+  // Dynamic topic options based on coach profile
+  const topicOptions = [
+    'جلسه معارفه رایگان (جلسه صفر ۳۰ دقیقه‌ای)',
+    ...(coach?.services?.filter((s) => !s.isFree).map((s) => `${s.title} (${s.duration || '۶۰ دقیقه'})`) || []),
+    ...(coach?.packagesData?.map((p) => p.title) || []),
+    ...(coach?.specialties?.slice(0, 3) || []),
+    'سایر سوالات و درخواست‌ها',
+  ].filter((val, idx, self) => self.indexOf(val) === idx);
+
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
+
+  // Digits normalization
+  const normalizeDigits = (val: string) => {
+    return val
+      .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 1776))
+      .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 1632));
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    const digitsOnly = normalizeDigits(raw).replace(/\D/g, '');
+
+    if (digitsOnly.length <= 11) {
+      setPhone(digitsOnly);
+
+      if (digitsOnly.length > 0) {
+        if (!digitsOnly.startsWith('09') && digitsOnly.length >= 2) {
+          setPhoneError('شماره موبایل باید با ۰۹ شروع شود.');
+        } else if (digitsOnly.length === 11 && !/^09\d{9}$/.test(digitsOnly)) {
+          setPhoneError('شماره موبایل ۱۱ رقمی معتبر نیست.');
+        } else {
+          setPhoneError(null);
+        }
+      } else {
+        setPhoneError(null);
+      }
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    if (isSubmitting) return;
+
+    // Validate name
+    const cleanName = fullName.trim();
+    if (cleanName.length < 3) {
+      setNameError('لطفاً نام و نام خانوادگی خود را کامل وارد کنید.');
+      return;
+    }
+    setNameError(null);
+
+    // Validate phone
+    const cleanPhone = normalizeDigits(phone).replace(/\D/g, '');
+    if (!/^09\d{9}$/.test(cleanPhone)) {
+      setPhoneError('لطفاً شماره موبایل ۱۱ رقمی معتبر با ۰۹ وارد کنید.');
+      return;
+    }
+    setPhoneError(null);
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setStatusMessage('');
+
+    try {
+      const response = await fetch('/api/lead/free-intro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: cleanName,
+          phone: cleanPhone,
+          email: '',
+          topic,
+          preferredCoach: coachName,
+          message: message.trim(),
+          subject: honeypot,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || result.error) {
+        throw new Error(result.error || 'خطایی در ثبت درخواست رخ داد.');
+      }
+
+      setSubmitStatus('success');
+      setStatusMessage(
+        result.message ||
+          'درخواست شما با موفقیت ثبت شد. ظرف ۲۴ ساعت برای هماهنگی زمان با شما تماس می‌گیریم.'
+      );
+      setFullName('');
+      setPhone('');
+      setMessage('');
+    } catch (err: any) {
+      setSubmitStatus('error');
+      setStatusMessage(err.message || 'خطا در ثبت درخواست. لطفاً مجدداً تلاش فرمایید.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -79,10 +192,10 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
                 خدمات
               </Link>
               <Link
-                href="#projects"
+                href="#events"
                 className="inline-flex items-center justify-center leading-none transition-colors hover:text-[#1f3d3a]"
               >
-                داستان‌ها
+                رویدادها
               </Link>
               <Link
                 href="#pricing"
@@ -93,14 +206,24 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
             </nav>
 
             {/* Action CTA Button */}
-            <a
-              href={bookingLink}
-              target={coach?.bookingUrl ? '_blank' : undefined}
-              rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-white leading-none hover:bg-[#2b544e] transition-colors shadow-sm"
-            >
-              رزرو جلسه
-            </a>
+            {isAtynoCoach ? (
+              <a
+                href={bookingLink}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-white leading-none hover:bg-[#2b544e] transition-colors shadow-sm"
+              >
+                رزرو جلسه
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
+                className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-white leading-none hover:bg-[#2b544e] transition-colors shadow-sm cursor-pointer"
+              >
+                رزرو جلسه
+              </button>
+            )}
           </div>
         </motion.div>
 
@@ -129,45 +252,108 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
             className="lg:col-span-7"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Honeypot field */}
+              <input
+                type="text"
+                name="subject"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                className="hidden"
+                aria-hidden="true"
+              />
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <input
-                  type="text"
-                  required
-                  placeholder="نام و نام خانوادگی"
-                  className="w-full rounded-2xl border border-white/10 bg-[#162d2b] px-5 py-4 text-sm text-white placeholder-white/40 focus:border-[#dfece9] focus:outline-none transition-colors"
-                />
-                <input
-                  type="text"
-                  required
-                  placeholder="شماره تماس یا ایمیل"
-                  className="w-full rounded-2xl border border-white/10 bg-[#162d2b] px-5 py-4 text-sm text-white placeholder-white/40 focus:border-[#dfece9] focus:outline-none transition-colors"
-                />
+                <div>
+                  <input
+                    type="text"
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="نام و نام خانوادگی *"
+                    className="w-full rounded-2xl border border-white/10 bg-[#162d2b] px-5 py-4 text-sm text-white placeholder-white/40 focus:border-[#dfece9] focus:outline-none transition-colors"
+                  />
+                  {nameError && (
+                    <p className="mt-1 text-xs text-red-300 ps-2">{nameError}</p>
+                  )}
+                </div>
+
+                <div>
+                  <input
+                    type="tel"
+                    required
+                    dir="ltr"
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    placeholder="09123456789 *"
+                    className="w-full rounded-2xl border border-white/10 bg-[#162d2b] px-5 py-4 text-sm text-white placeholder-white/40 focus:border-[#dfece9] focus:outline-none transition-colors text-right"
+                  />
+                  {phoneError && (
+                    <p className="mt-1 text-xs text-red-300 ps-2">{phoneError}</p>
+                  )}
+                </div>
               </div>
 
               <select
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#162d2b] px-5 py-4 text-sm text-white/80 focus:border-[#dfece9] focus:outline-none transition-colors"
-                defaultValue="جلسه معارفه رایگان (جلسه صفر)"
               >
-                <option value="جلسه معارفه رایگان (جلسه صفر)">جلسه معارفه رایگان (جلسه صفر ۳۰ دقیقه‌ای)</option>
-                <option value="کوچینگ والدگری و آرامش مادران">کوچینگ والدگری و آرامش مادران</option>
-                <option value="کوچینگ نوجوان و مهارت ارتباطی">کوچینگ نوجوان و مهارت ارتباطی</option>
-                <option value="خودشناسی و تعادل کار و زندگی">خودشناسی و تعادل کار و زندگی</option>
-                <option value="سایر سوالات و درخواست‌ها">سایر سوالات و درخواست‌ها</option>
+                {topicOptions.map((opt) => (
+                  <option key={opt} value={opt} className="bg-[#162d2b] text-white">
+                    {opt}
+                  </option>
+                ))}
               </select>
 
               <textarea
                 rows={4}
-                required
-                placeholder="پیام یا دغدغه شما برای شروع گفتگو..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="پیام یا دغدغه شما برای شروع گفتگو (اختیاری)..."
                 className="w-full rounded-2xl border border-white/10 bg-[#162d2b] px-5 py-4 text-sm text-white placeholder-white/40 focus:border-[#dfece9] focus:outline-none transition-colors"
               />
 
               <button
                 type="submit"
-                className="w-full rounded-full bg-[#dfece9] py-4 text-center text-xs font-semibold tracking-wider text-[#1f3d3a] shadow-lg transition-all hover:bg-white active:scale-[0.99]"
+                disabled={isSubmitting}
+                className="w-full rounded-full bg-[#dfece9] py-4 text-center text-xs font-semibold tracking-wider text-[#1f3d3a] shadow-lg transition-all hover:bg-white active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
               >
-                {submitted ? 'درخواست شما با موفقیت ثبت شد!' : 'ارسال درخواست گفتگو'}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>در حال ارسال درخواست...</span>
+                  </>
+                ) : (
+                  <span>ارسال درخواست گفتگو</span>
+                )}
               </button>
+
+              <AnimatePresence>
+                {submitStatus === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="rounded-2xl bg-[#dfece9]/20 border border-[#dfece9]/40 p-4 text-sm text-[#dfece9] flex items-center gap-3"
+                  >
+                    <CheckCircle2 className="h-5 w-5 text-[#dfece9] shrink-0" />
+                    <span>{statusMessage}</span>
+                  </motion.div>
+                )}
+                {submitStatus === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="rounded-2xl bg-red-500/10 border border-red-500/30 p-4 text-sm text-red-200 flex items-center gap-3"
+                  >
+                    <AlertCircle className="h-5 w-5 text-red-300 shrink-0" />
+                    <span>{statusMessage}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </form>
           </motion.div>
 
@@ -201,15 +387,26 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
             </p>
 
             <div className="mt-8 border-t border-black/10 pt-6">
-              <a
-                href={bookingLink}
-                target={coach?.bookingUrl ? '_blank' : undefined}
-                rel="noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1f3d3a] py-4 text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#2b544e] active:scale-98"
-              >
-                <Phone className="h-4 w-4" />
-                <span>رزرو آنلاین جلسه معارفه</span>
-              </a>
+              {isAtynoCoach ? (
+                <a
+                  href={bookingLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1f3d3a] py-4 text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#2b544e] active:scale-98"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>رزرو آنلاین جلسه معارفه</span>
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1f3d3a] py-4 text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#2b544e] active:scale-98 cursor-pointer"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>رزرو آنلاین جلسه معارفه</span>
+                </button>
+              )}
             </div>
           </motion.div>
 
@@ -231,7 +428,10 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
               </div>
 
               <p className="text-sm leading-relaxed text-white/70 max-w-sm">
-                همراهی تخصصی و همدلانه با مادران و بانوان برای شنیدن صدای درون، عبور از احساس گناه، و ساختن تعادل پایدار میان نقش‌های مادری، فردی و شغلی.
+                {coach?.shortBio || coach?.description || (canonical === 'mahya_shakouri'
+                  ? 'همراهی تخصصی در مسیر خودشناسی عمیق، رهایی از قضاوت منتقد درون، مهارت مرزگذاری شفاف و بدون احساس گناه در روابط و ساختن زندگی اصیل و آرام.'
+                  : 'همراهی تخصصی و همدلانه برای شنیدن صدای درون، عبور از موانع فکری و احساس گناه، و ساختن تعادل پایدار در زندگی و کار.')
+                }
               </p>
 
               {/* Social Icons Row */}
@@ -242,7 +442,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
                     target="_blank"
                     rel="noreferrer"
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-all hover:border-white hover:bg-white hover:text-[#0f2220]"
-                    aria-label="صفحه اینستاگرام فاطمه اسماعیلی"
+                    aria-label={`صفحه اینستاگرام ${coachName}`}
                   >
                     <InstagramIcon />
                   </a>
@@ -253,7 +453,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
                     target="_blank"
                     rel="noreferrer"
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-all hover:border-white hover:bg-white hover:text-[#0f2220]"
-                    aria-label="پروفایل لینکدین فاطمه اسماعیلی"
+                    aria-label={`پروفایل لینکدین ${coachName}`}
                   >
                     <LinkedinIcon />
                   </a>
@@ -282,21 +482,33 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
                     جلسه معارفه رایگان (جلسه صفر ۳۰ دقیقه‌ای)
                   </Link>
                 </li>
-                <li>
-                  <Link href="#pricing" className="hover:text-white transition-colors">
-                    پکیج «شروع» (۴ جلسه کوچینگ فردی)
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#pricing" className="hover:text-white transition-colors">
-                    پکیج «کشف» (۶ جلسه کوچینگ فردی)
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#pricing" className="hover:text-white transition-colors">
-                    پکیج «تحول» (۸ جلسه کوچینگ فردی)
-                  </Link>
-                </li>
+                {coach?.packagesData && coach.packagesData.length > 0 ? (
+                  coach.packagesData.slice(0, 3).map((pkg) => (
+                    <li key={pkg.id}>
+                      <Link href="#pricing" className="hover:text-white transition-colors">
+                        {pkg.title}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <>
+                    <li>
+                      <Link href="#pricing" className="hover:text-white transition-colors">
+                        پکیج «شروع» (۴ جلسه کوچینگ فردی)
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="#pricing" className="hover:text-white transition-colors">
+                        پکیج «کشف» (۶ جلسه کوچینگ فردی)
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="#pricing" className="hover:text-white transition-colors">
+                        پکیج «تحول» (۸ جلسه کوچینگ فردی)
+                      </Link>
+                    </li>
+                  </>
+                )}
                 <li>
                   <Link href="#method" className="hover:text-white transition-colors">
                     متد ۴ مرحله‌ای رشد و همراهی
@@ -322,7 +534,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
                   <Link href="#services" className="hover:text-white transition-colors">حوزه‌های همراهی</Link>
                 </li>
                 <li>
-                  <Link href="#projects" className="hover:text-white transition-colors">داستان‌های موفقیت</Link>
+                  <Link href="#events" className="hover:text-white transition-colors">رویدادها و کارگاه‌ها</Link>
                 </li>
                 <li>
                   <Link href="#testimonials" className="hover:text-white transition-colors">نظرات مراجعان</Link>
@@ -350,14 +562,24 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach }) => {
                 <span className="mt-1 block font-serif text-lg font-bold text-white">
                   ۳۰ دقیقه گفتگوی رایگان
                 </span>
-                <a
-                  href={bookingLink}
-                  target={coach?.bookingUrl ? '_blank' : undefined}
-                  rel="noreferrer"
-                  className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-[#dfece9] py-2.5 text-xs font-semibold text-[#1f3d3a] transition-all hover:bg-white active:scale-98"
-                >
-                  ورود به تقویم رزرو آنلاین
-                </a>
+                {isAtynoCoach ? (
+                  <a
+                    href={bookingLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-[#dfece9] py-2.5 text-xs font-semibold text-[#1f3d3a] transition-all hover:bg-white active:scale-98"
+                  >
+                    ورود به تقویم رزرو آنلاین
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
+                    className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-[#dfece9] py-2.5 text-xs font-semibold text-[#1f3d3a] transition-all hover:bg-white active:scale-98 cursor-pointer"
+                  >
+                    درخواست آنلاین جلسه معارفه
+                  </button>
+                )}
               </div>
 
               <p className="text-xs leading-relaxed text-white/50 pt-1">

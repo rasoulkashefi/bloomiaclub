@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const title = post.metaTitle || `${post.title} | بلومیا کلاب`;
+  const title = post.metaTitle || post.title;
   const description = post.metaDescription || post.excerpt;
   const canonicalUrl = post.canonicalUrl || `https://bloomiaclub.com/blog/${slug}`;
 

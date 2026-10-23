@@ -39,8 +39,10 @@ interface SoleaSupportProps {
 }
 
 export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
-  const bookingLink = coach?.bookingUrl || 'https://atyno.com/fatemeh/zero';
-  const coachName = coach?.name || 'فاطمه اسماعیلی';
+  const isMahya = coach?.slug?.includes('mahya');
+  const isFatemeh = coach?.slug === 'fatemeh_esmaeeli';
+  const bookingLink = coach?.bookingUrl || (isMahya ? '#contact' : 'https://atyno.com/fatemeh/zero');
+  const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
 
   const persianNumbers = ['۰۱', '۰۲', '۰۳', '۰۴'];
 
@@ -54,16 +56,23 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
     : defaultSteps;
 
   // Welcome Packet Configuration (Dynamic with elegant fallback)
-  const isFatemeh = coach?.slug === 'fatemeh_esmaeeli';
-  const hasWelcomePacket = Boolean(coach?.welcomePacket?.fileUrl || isFatemeh);
+  const hasWelcomePacket = Boolean(coach?.welcomePacket?.fileUrl || isFatemeh || isMahya);
 
   const packetFile =
     coach?.welcomePacket?.fileUrl ||
-    (isFatemeh ? '/documents/welcome-packets/fatemeh_esmaeeli_welcome_packet.pdf' : null);
+    (isMahya
+      ? '/documents/welcome-packets/mahya_shakouri_welcome_packet.pdf'
+      : isFatemeh
+        ? '/documents/welcome-packets/fatemeh_esmaeeli_welcome_packet.pdf'
+        : null);
 
   const packetCover =
     coach?.welcomePacket?.coverImageUrl ||
-    (isFatemeh ? '/images/solea/fatemeh_welcome_packet_cover.png' : '/images/solea/ebook_book.png');
+    (isMahya
+      ? '/images/solea/mahya_welcome_packet_cover.png'
+      : isFatemeh
+        ? '/images/solea/fatemeh_welcome_packet_cover.png'
+        : '/images/solea/ebook_book.png');
 
   const packetTitle =
     coach?.welcomePacket?.title ||

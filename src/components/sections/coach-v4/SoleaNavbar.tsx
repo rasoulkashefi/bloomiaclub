@@ -10,9 +10,11 @@ import { SoleaMenuCard } from './SoleaMenuCard';
 interface SoleaNavbarProps {
   coach?: any;
   onOpenMenu?: () => void;
+  onOpenBooking?: (offeringTitle?: string) => void;
 }
 
-export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu }) => {
+export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu, onOpenBooking }) => {
+  const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
   const [scrolled, setScrolled] = useState(false);
   const [pagesDropdownOpen, setPagesDropdownOpen] = useState(false);
   const [internalMenuOpen, setInternalMenuOpen] = useState(false);
@@ -72,7 +74,9 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu }) =
     }
   };
 
-  const coachName = coach?.name || 'فاطمه اسماعیلی';
+  const isMahya = coach?.slug?.includes('mahya');
+  const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
+  const coachSubtitle = coach?.title || (isMahya ? 'کوچ رشد فردی و خودآگاهی' : 'کوچ بین‌المللی ICF');
 
   return (
     <>
@@ -92,7 +96,7 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu }) =
                   {coachName}
                 </span>
                 <span className="text-xs text-[#6b6b6b] hidden sm:inline border-s border-[#e5e5e2] ps-2.5 leading-none">
-                  کوچ بین‌المللی ICF
+                  {coachSubtitle}
                 </span>
               </Link>
 
@@ -183,11 +187,11 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu }) =
                               خدمات کوچینگ
                             </Link>
                             <Link
-                              href="#projects"
+                              href="#events"
                               onClick={() => setPagesDropdownOpen(false)}
                               className="text-white/85 transition-colors hover:text-white"
                             >
-                              روایت تحول
+                              رویدادها و کارگاه‌ها
                             </Link>
                           </div>
 
@@ -231,12 +235,22 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu }) =
 
               {/* Right CTA Button */}
               <div className="hidden md:block">
-                <Link
-                  href="#contact"
-                  className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-[14px] font-medium text-white transition-all hover:bg-[#2b544e] hover:shadow-sm"
-                >
-                  رزرو جلسه معارفه
-                </Link>
+                {isAtynoCoach ? (
+                  <Link
+                    href="#contact"
+                    className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-[14px] font-medium text-white transition-all hover:bg-[#2b544e] hover:shadow-sm"
+                  >
+                    رزرو جلسه معارفه
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
+                    className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-[14px] font-medium text-white transition-all hover:bg-[#2b544e] hover:shadow-sm cursor-pointer"
+                  >
+                    رزرو جلسه معارفه
+                  </button>
+                )}
               </div>
 
               {/* Mobile Hamburger Button */}
@@ -258,6 +272,8 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu }) =
         <SoleaMenuCard
           isOpen={internalMenuOpen}
           onClose={() => setInternalMenuOpen(false)}
+          coach={coach}
+          onOpenBooking={onOpenBooking}
         />
       )}
     </>

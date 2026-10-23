@@ -9,9 +9,10 @@ import { toFa } from '@/lib/format';
 
 interface SoleaPricingProps {
   coach?: CoachProfile;
+  onOpenBooking?: (offeringTitle?: string, bookingUrl?: string) => void;
 }
 
-export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
+export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach, onOpenBooking }) => {
   const [activeTab, setActiveTab] = useState<'packages' | 'single'>('packages');
   const [modalConfig, setModalConfig] = useState<{
     isOpen: boolean;
@@ -23,10 +24,19 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
     bookingUrl: '',
   });
 
-  const coachName = coach?.name || 'فاطمه اسماعیلی';
+  const isMahya = coach?.slug?.includes('mahya');
+  const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
 
   // Zero / Discovery session
-  const zeroService = coach?.services?.find((s) => s.isFree) || {
+  const zeroService = coach?.services?.find((s) => s.isFree) || (isMahya ? {
+    id: 'zero',
+    title: 'جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)',
+    duration: '۳۰ دقیقه',
+    description:
+      'یک گفتگوی آنلاین ۳۰ دقیقه‌ای رایگان برای آشنایی صمیمانه، شنیدن دغدغه‌های شما و بررسی اینکه آیا کوچینگ رشد فردی و خودآگاهی برای اهداف شما مناسب است یا خیر.',
+    isFree: true,
+    bookingUrl: '#contact',
+  } : {
     id: 'zero',
     title: 'جلسه صفر (معارفه رایگان)',
     duration: '۴۵ دقیقه',
@@ -35,10 +45,19 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
     isFree: true,
     bookingUrl:
       'https://atyno.com/fa/embed/934b33a2-9888-4209-9901-b9632e812e6c?meeting=zero',
-  };
+  });
 
   // Single Coaching Session
-  const singleService = coach?.services?.find((s) => !s.isFree) || {
+  const singleService = coach?.services?.find((s) => !s.isFree) || (isMahya ? {
+    id: 'coaching',
+    title: 'کوچینگ رشد فردی و خودآگاهی: وضوح و صلح درون',
+    duration: '۶۰ دقیقه',
+    description:
+      'یک فضای متمرکز، امن و بدون قضاوت برای اینکه چالش فعلی، تعارض درونی، مسئله مرزگذاری یا تصمیم مهم‌تان را روی میز بگذارید، از زاویه‌ای شفاف به آن نگاه کنید و به سمت تعادل و آرامش قدم بردارید.',
+    price: 850000,
+    isFree: false,
+    bookingUrl: '#contact',
+  } : {
     id: 'coaching',
     title: 'کوچینگ بانوان و مادران: وضوح و تعادل',
     duration: '۶۰ دقیقه',
@@ -48,7 +67,7 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
     isFree: false,
     bookingUrl:
       'https://atyno.com/fa/embed/934b33a2-9888-4209-9901-b9632e812e6c?meeting=coaching',
-  };
+  });
 
   // Packages
   const packages: Package[] =
@@ -144,7 +163,18 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
           },
         ];
 
+  const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
+
   const openBooking = (title: string, bookingUrl?: string) => {
+    if (onOpenBooking) {
+      onOpenBooking(title, bookingUrl);
+      return;
+    }
+    if (!isAtynoCoach) {
+      const contactEl = document.getElementById('contact');
+      if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
     const url =
       bookingUrl ||
       coach?.bookingUrl ||
@@ -220,11 +250,11 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
                 type="button"
                 onClick={() =>
                   openBooking(
-                    'رزرو جلسه معارفه رایگان (جلسه صفر)',
+                    zeroService.title,
                     zeroService.bookingUrl
                   )
                 }
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-xs sm:text-sm font-bold text-[#1f3d3a] shadow-lg transition-all hover:bg-[#dfece9] hover:shadow-xl active:scale-98"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-xs sm:text-sm font-bold text-[#1f3d3a] shadow-lg transition-all hover:bg-[#dfece9] hover:shadow-xl active:scale-98 cursor-pointer"
               >
                 <Calendar className="h-4 w-4 text-[#1f3d3a]" />
                 <span>رزرو جلسه صفر رایگان</span>
@@ -383,9 +413,9 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
                         <button
                           type="button"
                           onClick={() =>
-                            openBooking(`رزرو ${pkg.title}`, pkg.bookingUrl)
+                            openBooking(pkg.title, pkg.bookingUrl)
                           }
-                          className="inline-flex w-full items-center justify-center rounded-full border border-black/15 bg-transparent py-3 text-xs sm:text-sm font-semibold tracking-wide text-[#1f3d3a] transition-all hover:border-[#1f3d3a] hover:bg-[#1f3d3a] hover:text-white active:scale-98"
+                          className="inline-flex w-full items-center justify-center rounded-full border border-black/15 bg-transparent py-3 text-xs sm:text-sm font-semibold tracking-wide text-[#1f3d3a] transition-all hover:border-[#1f3d3a] hover:bg-[#1f3d3a] hover:text-white active:scale-98 cursor-pointer"
                         >
                           رزرو و شروع مسیر
                         </button>
@@ -468,11 +498,11 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
                     type="button"
                     onClick={() =>
                       openBooking(
-                        'رزرو تک‌جلسه کوچینگ فردی',
+                        singleService.title,
                         singleService.bookingUrl
                       )
                     }
-                    className="inline-flex w-full items-center justify-center rounded-full bg-[#1f3d3a] py-4 text-xs sm:text-sm font-semibold tracking-wider text-white transition-all hover:bg-[#2b544e] active:scale-98 shadow-lg"
+                    className="inline-flex w-full items-center justify-center rounded-full bg-[#1f3d3a] py-4 text-xs sm:text-sm font-semibold tracking-wider text-white transition-all hover:bg-[#2b544e] active:scale-98 shadow-lg cursor-pointer"
                   >
                     رزرو تک‌جلسه کوچینگ
                   </button>
@@ -503,14 +533,16 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach }) => {
         </motion.div>
       </div>
 
-      {/* Embedded Atyno Booking Modal */}
-      <AtynoBookingModal
-        isOpen={modalConfig.isOpen}
-        onClose={() => setModalConfig((prev) => ({ ...prev, isOpen: false }))}
-        title={modalConfig.title}
-        bookingUrl={modalConfig.bookingUrl}
-        coachName={coachName}
-      />
+      {/* Embedded Atyno Booking Modal (Fallback when onOpenBooking is not provided) */}
+      {!onOpenBooking && isAtynoCoach && (
+        <AtynoBookingModal
+          isOpen={modalConfig.isOpen}
+          onClose={() => setModalConfig((prev) => ({ ...prev, isOpen: false }))}
+          title={modalConfig.title}
+          bookingUrl={modalConfig.bookingUrl}
+          coachName={coachName}
+        />
+      )}
     </section>
   );
 };

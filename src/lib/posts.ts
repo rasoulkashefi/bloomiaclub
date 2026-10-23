@@ -77,22 +77,7 @@ const resolveAuthorImageUrl = (source: any): string => {
   return 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop';
 };
 
-export const fallbackPosts: BlogPostSummary[] = [
-  {
-    id: 'p1',
-    slug: 'what-is-coaching-guide',
-    title: 'کوچینگ چیست و چرا برای هر فرد شاغل ضروری است؟',
-    excerpt: 'بررسی تفاوت‌های کلیدی کوچینگ، مشاوره و روان‌درمانی و نحوه استفاده از آن برای پیشرفت شغلی.',
-    imageUrl: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1200&auto=format&fit=crop',
-    publishedAt: '2025-01-15T12:00:00Z',
-    estimatedReadTime: 6,
-    category: 'مفاهیم کوچینگ',
-    categorySlug: 'coaching-concepts',
-    authorName: 'آکادمی بلومیا',
-    authorImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop',
-    isCoach: false,
-  },
-];
+export const fallbackPosts: BlogPostSummary[] = [];
 
 const POST_SUMMARY_PROJECTION = `
   _id,

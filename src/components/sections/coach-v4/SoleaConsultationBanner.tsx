@@ -4,24 +4,132 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ShieldCheck } from 'lucide-react';
-import type { CoachProfile } from '@/lib/coaches';
-
-const checklistItems = [
-  'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای شفاف‌سازی دغدغه شما',
-  'شنیدن بدون قضاوت چالش‌های مادری و فردی',
-  'بررسی تناسب سبک همراهی با نیاز و اهداف کنونی شما',
-  'فضایی کاملاً امن، محرمانه و بدون هرگونه تعهد مالی',
-];
+import { getCanonicalSlug, type CoachProfile } from '@/lib/coaches';
 
 interface SoleaConsultationBannerProps {
   coach?: CoachProfile;
+  onOpenBooking?: (offeringTitle?: string) => void;
 }
 
-export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = ({ coach }) => {
-  const coachName = coach?.name || 'فاطمه اسماعیلی';
-  const coachTitle = coach?.title || 'کوچ بین‌المللی مادران، بانوان و نوجوانان';
-  const bookingLink = coach?.bookingUrl || 'https://atyno.com/fatemeh/zero';
-  const bannerCutoutImage = coach?.cutoutImageUrl || '/images/solea/fatemeh_hero.png';
+const getChecklist = (canonical: string): string[] => {
+  switch (canonical) {
+    case 'fatemeh_esmaeeli':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای شفاف‌سازی دغدغه‌های مادری و فردی',
+        'شنیدن عمیق و بدون قضاوت چالش‌های تعادل کار، والدگری و روابط',
+        'بررسی تناسب رویکرد کوچینگ مادران و بانوان با اهداف کنونی شما',
+        'فضایی کاملاً امن، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
+      ];
+    case 'mahya_shakouri':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای شفاف‌سازی دغدغه و اهداف رشد فردی',
+        'شنیدن بدون قضاوت چالش‌های فردی، تعارضات درونی و مرزگذاری در روابط',
+        'بررسی تناسب متدولوژی کوچینگ خودآگاهی با نیاز کنونی شما',
+        'فضایی کاملاً امن، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
+      ];
+    case 'arezoo_ghaffari':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای شفاف‌سازی موانع تفکر و تصمیم‌گیری',
+        'شناسایی سوگیری‌های شناختی و پیش‌فرض‌های تکراری بازدارنده',
+        'بررسی تناسب فلسفه کوچینگ عقلانی و استدلال نقادانه با اهداف شما',
+        'فضایی آرامش‌بخش، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
+      ];
+    case 'saloomeh_fathijou':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای شناسایی موانع ذهنیت مالی و ثروت',
+        'تحلیل عمیق الگوهای ناخودآگاه ارتباط با پول و ارزش‌گذاری فردی',
+        'ترسیم افق شفاف برای استقلال مالی و توسعه مهارت‌های درآمدزایی',
+        'فضایی کاملاً امن، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
+      ];
+    case 'fatemeh_derakhsh':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای ارزیابی تاب‌آوری و فشارهای فرسودگی شغلی',
+        'ریشه‌یابی چالش‌های استرس، بحران‌های گذار و تعادل سلامت روان',
+        'ترسیم نقشه راه علمی و همدلانه جهت بازگشت به وضوح و توانمندی',
+        'فضایی کاملاً تخصصی، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
+      ];
+    case 'shabnam_nematimalek':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای واکاوی الگوهای ارتباطی و روابط عاطفی',
+        'شناسایی ریشه‌های عدم مرزگذاری سالم و تکرار تعارضات فرساینده',
+        'سنجش آمادگی فردی برای بازسازی پیوندهای خانوادگی و صمیمیت',
+        'فضایی کاملاً پذیرا، بدون قضاوت، محرمانه طبق منشور ICF و بدون تعهد مالی',
+      ];
+    case 'maryam_johari':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای شفاف‌سازی رسالت فردی و مسیر شغلی',
+        'ارزیابی استعدادهای نهفته، مهارت‌ها و نقاط قوت در فضای کسب‌وکار',
+        'تعیین گام‌های عملیاتی برای گذار شغلی یا ارتقای جایگاه حرفه‌ای',
+        'فضایی حرفه‌ای، پرانرژی، هدایتگر، محرمانه و بدون تعهد مالی',
+      ];
+    case 'payam_esmi':
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای عارضه‌یابی عملکرد رهبری و بهره‌وری سازمانی',
+        'شناسایی موانع تصمیم‌گیری استراتژیک، تفویض اختیار و مدیریت تیم',
+        'سنجش تناسب مدل‌های اجرایی کوچینگ سیستماتیک با چالش‌های تجاری شما',
+        'گفتگویی تخصصی، نتیجه‌گرا، با استانداردهای ICF و محرمانه',
+      ];
+    default:
+      return [
+        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای شفاف‌سازی دغدغه و اهداف شما',
+        'شنیدن بدون قضاوت چالش‌ها، تعارضات و اولویت‌های پیش رو',
+        'بررسی تناسب متدولوژی کوچینگ با نیاز و افق پیشرفت شما',
+        'فضایی کاملاً امن، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
+      ];
+  }
+};
+
+const getQuote = (canonical: string): string => {
+  switch (canonical) {
+    case 'fatemeh_esmaeeli':
+      return 'همراه شما هستم تا بدون ترس و احساس گناه، با شفافیت و آرامش، تعادلی پایدار میان مادری، کار و آرزوهای فردی‌تان بسازید.';
+    case 'mahya_shakouri':
+      return 'همراه شما هستم تا با صلح درونی و مرزگذاری شفاف، بدون ترس و احساس گناه مسیر اصیل‌تان را بسازید.';
+    case 'arezoo_ghaffari':
+      return 'همراه شما هستم تا با تفکر نقادانه و شفافیت عقلانی، تصمیم‌هایی استوار و متعهدانه در زندگی شخصی و حرفه‌ای بگیرید.';
+    case 'saloomeh_fathijou':
+      return 'همراه شما هستم تا باورهای محدودکننده مالی را کنار بگذارید و با ذهنیت فراوانی، آینده مالی مطمئن و عزت‌نفس‌تان را بسازید.';
+    case 'fatemeh_derakhsh':
+      return 'در میان فشارهای پرشتاب زندگی، همراه شما هستم تا تاب‌آوری اصیل درونی‌تان را بیدار کرده و با وضوح و اقتدار حرکت کنید.';
+    case 'shabnam_nematimalek':
+      return 'همراه شما هستم تا با شناخت عمیق نیازها و مرزها، روابطی سرشار از امنیت، احترام متقابل و شفقت بسازید.';
+    case 'maryam_johari':
+      return 'همراه شما هستم تا رسالت اصیل‌تان را بیابید و با شجاعت و تمرکز، کسب‌وکار یا مسیر حرفه‌ای اثرگذارتان را پایه‌ریزی کنید.';
+    case 'payam_esmi':
+      return 'همراه مدیران و کارآفرینان هستم تا با رهبری خودآگاه و سیستماتیک، تیم‌هایی چابک، الهام‌بخش و پایدار خلق کنند.';
+    default:
+      return 'همراه شما هستم تا بدون ترس و با شفافیت، گام‌های استوار و معنادار به سوی اهداف ارزشمندتان بردارید.';
+  }
+};
+
+const getBannerImage = (coach?: CoachProfile, canonical?: string) => {
+  if (coach?.cutoutImageUrl) return coach.cutoutImageUrl;
+  if (canonical === 'fatemeh_esmaeeli') return '/images/solea/fatemeh_hero_v4.png';
+  if (canonical === 'mahya_shakouri') return '/images/solea/mahya_hero_v4.png';
+  if (canonical === 'arezoo_ghaffari') return '/images/solea/arezoo_hero.png';
+  if (coach?.coverImage) return coach.coverImage;
+  if (coach?.aboutImage) return coach.aboutImage;
+  if (coach?.imageUrl) return coach.imageUrl;
+  return '/images/solea/fatemeh_hero_v4.png';
+};
+
+export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = ({ coach, onOpenBooking }) => {
+  const canonical = getCanonicalSlug(coach?.slug || '');
+  const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
+  const coachName = coach?.name || 'کوچ بلومیا';
+  const coachTitle = coach?.title || 'کوچ حرفه‌ای و بین‌المللی ICF';
+  const bookingLink = coach?.bookingUrl || '#contact';
+
+  const isCutout = Boolean(
+    coach?.cutoutImageUrl ||
+    canonical === 'fatemeh_esmaeeli' ||
+    canonical === 'mahya_shakouri' ||
+    canonical === 'arezoo_ghaffari'
+  );
+
+  const bannerImage = getBannerImage(coach, canonical);
+  const checklistItems = getChecklist(canonical);
+  const quoteText = getQuote(canonical);
 
   return (
     <motion.div
@@ -75,14 +183,24 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
             </ul>
 
             <div className="mt-8 sm:mt-10">
-              <a
-                href={bookingLink}
-                target={coach?.bookingUrl ? '_blank' : undefined}
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-7 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#2b544e]"
-              >
-                رزرو وقت در آتینو
-              </a>
+              {isAtynoCoach ? (
+                <a
+                  href={bookingLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-7 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#2b544e]"
+                >
+                  رزرو وقت در آتینو
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
+                  className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-7 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#2b544e] cursor-pointer"
+                >
+                  درخواست جلسه معارفه رایگان
+                </button>
+              )}
             </div>
           </div>
 
@@ -98,17 +216,30 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
               />
             </div>
 
-            {/* Cutout Photo */}
-            <div className="relative z-10 w-[240px] sm:w-[270px] lg:w-[285px] h-[310px] sm:h-[350px] lg:h-[380px]">
-              <Image
-                src={bannerCutoutImage}
-                alt={coachName}
-                fill
-                className="object-contain object-bottom"
-                sizes="(max-width: 768px) 270px, 285px"
-                priority
-              />
-            </div>
+            {/* Cutout or Framed Portrait Photo */}
+            {isCutout ? (
+              <div className="relative z-10 w-[240px] sm:w-[270px] lg:w-[285px] h-[310px] sm:h-[350px] lg:h-[380px]">
+                <Image
+                  src={bannerImage}
+                  alt={coachName}
+                  fill
+                  className="object-contain object-bottom"
+                  sizes="(max-width: 768px) 270px, 285px"
+                  priority
+                />
+              </div>
+            ) : (
+              <div className="relative z-10 w-[210px] sm:w-[240px] lg:w-[255px] h-[260px] sm:h-[300px] lg:h-[320px] overflow-hidden rounded-[24px] ring-4 ring-[#dfece9] shadow-xl bg-[#f2f7f6] mb-4">
+                <Image
+                  src={bannerImage}
+                  alt={coachName}
+                  fill
+                  className="object-cover object-[center_20%]"
+                  sizes="(max-width: 768px) 240px, 255px"
+                  priority
+                />
+              </div>
+            )}
           </div>
 
           {/* End Column: Quote, Signature, ICF accreditation (w-[365px]) */}
@@ -126,7 +257,7 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
 
               {/* Quote Text */}
               <p className="mt-3 font-serif text-[18px] sm:text-[20px] lg:text-[22px] font-bold leading-[1.4] text-[#1e1e1e] pb-6 border-b border-[#e5e5e2] max-w-[340px]">
-                همراه شما هستم تا بدون ترس و احساس گناه، با شفافیت و آرامش مسیر دلخواه‌تان را بسازید.
+                {quoteText}
               </p>
 
               {/* Signature and Designation */}

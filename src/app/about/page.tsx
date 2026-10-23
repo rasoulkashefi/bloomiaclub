@@ -13,7 +13,7 @@ export const revalidate = 86400; // 24 hours ISR
 const CANONICAL_URL = 'https://bloomiaclub.com/about';
 
 export const metadata: Metadata = {
-  title: 'درباره بلومیا کلاب | پلتفرم تخصصی کوچینگ و رشد فردی',
+  title: 'درباره ما | پلتفرم تخصصی کوچینگ و رشد فردی',
   description:
     'بلومیا فضایی امن و حرفه‌ای برای گفتگوهای عمیق، شفافیت ذهنی و رشد اصیل است. آشنایی با داستان، ارزش‌ها، مأموریت و کوچ‌های تأییدشده ICF در بلومیا کلاب.',
   alternates: {

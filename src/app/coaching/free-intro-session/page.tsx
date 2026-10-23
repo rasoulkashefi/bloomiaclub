@@ -15,7 +15,7 @@ export const revalidate = 3600; // Revalidate every hour
 const CANONICAL_URL = 'https://bloomiaclub.com/coaching/free-intro-session';
 
 export const metadata: Metadata = {
-  title: 'رزرو جلسه معارفه رایگان کوچینگ | بلومیا کلاب',
+  title: 'رزرو جلسه معارفه رایگان کوچینگ (جلسه صفر)',
   description:
     'یک جلسه ۴۵ دقیقه‌ای کاملاً رایگان با کوچ‌های تأییدشده بین‌المللی بلومیا؛ بدون تعهد مالی و با حفظ ۱۰۰٪ محرمانگی گفتگوها برای شفاف‌سازی مسیر فردی و شغلی شما.',
   alternates: {
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/coaching-free-intro-session.webp',
-        width: 1408,
-        height: 768,
+        url: '/images/og-coaching.jpg',
+        width: 1200,
+        height: 630,
         alt: 'جلسه معارفه رایگان بلومیا کلاب',
       },
     ],
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title: 'رزرو جلسه معارفه رایگان کوچینگ | بلومیا کلاب',
     description:
       'یک جلسه ۴۵ دقیقه‌ای کاملاً رایگان با کوچ‌های تأییدشده بین‌المللی بلومیا؛ بدون تعهد مالی و با حفظ ۱۰۰٪ محرمانگی گفتگوها.',
-    images: ['/images/coaching-free-intro-session.webp'],
+    images: ['/images/og-coaching.jpg'],
   },
 };
 

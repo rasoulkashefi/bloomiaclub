@@ -9,7 +9,7 @@ export const revalidate = 86400; // 24 hours ISR
 const CANONICAL_URL = 'https://bloomiaclub.com/legal';
 
 export const metadata: Metadata = {
-  title: 'قوانین و شرایط استفاده | منشور محرمانگی و حریم خصوصی | بلومیا کلاب',
+  title: 'قوانین و شرایط استفاده | منشور محرمانگی و حریم خصوصی',
   description:
     'قوانین و مقررات رسمی بلومیا کلاب؛ شرایط استفاده از جلسات کوچینگ، منشور محرمانگی بر پایه استانداردهای ICF، سیاست لغو و بازپرداخت، و حفاظت از حریم خصوصی مراجعان.',
   alternates: {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/og-about.jpg',
+        url: '/images/og-legal.jpg',
         width: 1200,
         height: 630,
         alt: 'قوانین و حریم خصوصی بلومیا کلاب',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'قوانین و حریم خصوصی | بلومیا کلاب',
     description: 'منشور اخلاقی و قوانین رسمی ارائه خدمات کوچینگ در بلومیا کلاب.',
-    images: ['/images/og-about.jpg'],
+    images: ['/images/og-legal.jpg'],
   },
 };
 

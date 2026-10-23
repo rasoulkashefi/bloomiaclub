@@ -58,12 +58,14 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+    if (cleanEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
       return NextResponse.json(
-        { error: 'لطفاً یک آدرس ایمیل معتبر وارد کنید.' },
+        { error: 'لطفاً یک آدرس ایمیل معتبر وارد کنید یا این فیلد را خالی بگذارید.' },
         { status: 400 }
       );
     }
+
+    const finalEmail = cleanEmail || `${cleanPhone}@lead.bloomiaclub.com`;
 
     // Construct unified message payload with metadata
     const messageParts: string[] = [];
@@ -74,7 +76,7 @@ export async function POST(request: Request) {
     const payload = {
       full_name: cleanName,
       phone: cleanPhone,
-      email: cleanEmail,
+      email: finalEmail,
       message: messageParts.length > 0 ? messageParts.join('\n\n') : null,
       subject: '',
     };

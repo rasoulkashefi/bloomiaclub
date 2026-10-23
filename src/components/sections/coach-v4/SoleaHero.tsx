@@ -25,21 +25,124 @@ const InstagramIcon = () => (
 interface SoleaHeroProps {
   coach?: CoachProfile;
   onOpenMenu?: () => void;
+  onOpenBooking?: (offeringTitle?: string) => void;
 }
 
-export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu }) => {
-  const coachName = coach?.name || 'فاطمه اسماعیلی';
-  const coachTitle = coach?.title || 'کوچ بین‌المللی مادران، بانوان و نوجوانان';
-  const coachBio =
-    coach?.shortBio ||
-    'همراهی تخصصی با مادران و بانوان برای رهایی از فرسودگی، شنیدن صدای درون و ساختن زندگی متعادل و اصیل.';
-  const bookingLink = coach?.bookingUrl || 'https://atyno.com/fatemeh/zero';
+export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenBooking }) => {
+  const slug = (coach?.slug || '').toLowerCase();
+  const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
+  const coachName = coach?.name || 'کوچ بلومیا';
+  const coachTitle = coach?.title || 'کوچ حرفه‌ای بین‌المللی';
+  const bookingLink = coach?.bookingUrl || '#contact';
 
-  // Use the tightly cropped, grounded portrait
-  const heroImage =
-    coach?.slug === 'fatemeh_esmaeeli' || !coach?.cutoutImageUrl
-      ? '/images/solea/fatemeh_hero_v4.png'
-      : coach.cutoutImageUrl;
+  // Smart concise bio strictly under 70-80 chars (2 lines max) to prevent hero vertical overflow
+  const getHeroBio = () => {
+    if (slug.includes('mahya')) {
+      return 'همراهی در مسیر خودشناسی عمیق، مرزگذاری شفاف و ساختن زندگی اصیل.';
+    }
+    if (slug.includes('arezoo') && slug.includes('ghaffari')) {
+      return 'کوچینگ مبتنی بر ACT برای مهار نشخوار ذهنی، پذیرش و اقدام متعهدانه.';
+    }
+    if (slug.includes('saloomeh') || slug.includes('salomeh')) {
+      return 'همراهی در گذار شغلی، توسعه فردی و تصمیم‌گیری شجاعانه در دوراهی‌ها.';
+    }
+    if (slug.includes('derakhsh')) {
+      return 'تلفیق تفکر تحلیلی و کوچینگ برای استراتژی کارراهه و تاب‌آوری حرفه‌ای.';
+    }
+    if (slug.includes('nemati')) {
+      return 'پایه‌ریزی عادات روزمره پایدار، مهار اهمال‌کاری و تقویت اعتمادبه‌نفس.';
+    }
+    if (slug.includes('johari')) {
+      return 'همراهی برای مواجهه مهربانانه با احساسات، ترمیم عزت‌نفس و آرامش درون.';
+    }
+    if (slug.includes('esmi')) {
+      return 'مهندسی زمان، مهار قطعی تعلل ذهنی و طراحی سیستم‌های پایدار بهره‌وری.';
+    }
+    if (slug.includes('fatemeh') && slug.includes('esmaeeli')) {
+      return 'همراهی با مادران برای عبور از احساس گناه و ساختن تعادل پایدار زندگی.';
+    }
+    return coach?.shortBio || coach?.description || 'همراهی تخصصی در مسیر رشد، وضوح و ساختن تعادل پایدار زندگی.';
+  };
+
+  const coachBio = getHeroBio();
+
+  // Determine coach specific hero portrait
+  const getHeroImage = () => {
+    if (slug.includes('mahya')) return '/images/solea/mahya_hero_v4.png';
+    if (slug.includes('fatemeh') && slug.includes('esmaeeli')) return '/images/solea/fatemeh_hero_v4.png';
+    if (slug.includes('arezoo') && slug.includes('ghaffari')) return '/images/solea/arezoo_hero.png';
+    if (slug.includes('esmi') || slug.includes('payam')) return '/images/solea/payam_hero_v4.png';
+    if (slug.includes('derakhsh')) return '/images/solea/fatemeh_derakhsh_hero_v4.png';
+    if (slug.includes('saloomeh') || slug.includes('salomeh')) return '/images/solea/saloomeh_hero_v4.png';
+    return (
+      coach?.cutoutImageUrl ||
+      coach?.coverImage ||
+      coach?.imageUrl ||
+      '/images/solea/fatemeh_hero_v4.png'
+    );
+  };
+
+  const heroImage = getHeroImage();
+
+  // Dynamic tailor-made headline per coach (Strict 3 lines, max 10-12 chars per line, max 30 chars total)
+  const getHeroHeadline = () => {
+    if (slug.includes('mahya')) {
+      return {
+        line1: 'صلح با خود',
+        line2: 'و رهایی از',
+        line3: 'قضاوت درون',
+      };
+    }
+    if (slug.includes('arezoo') && slug.includes('ghaffari')) {
+      return {
+        line1: 'رهایی از فکر',
+        line2: 'و بازگشت به',
+        line3: 'زیست اصیل',
+      };
+    }
+    if (slug.includes('saloomeh') || slug.includes('salomeh')) {
+      return {
+        line1: 'کشف رسالت',
+        line2: 'و تصمیم‌های',
+        line3: 'مقتدرانه',
+      };
+    }
+    if (slug.includes('derakhsh')) {
+      return {
+        line1: 'تفکر تحلیلی',
+        line2: 'برای رشد و',
+        line3: 'رضایت شغلی',
+      };
+    }
+    if (slug.includes('nemati')) {
+      return {
+        line1: 'وضوح ذهنی',
+        line2: 'و خودباوری',
+        line3: 'برای تغییر',
+      };
+    }
+    if (slug.includes('johari')) {
+      return {
+        line1: 'آشتی با خود',
+        line2: 'و زیستن با',
+        line3: 'شفقت و معنا',
+      };
+    }
+    if (slug.includes('esmi')) {
+      return {
+        line1: 'از مشغله زیاد',
+        line2: 'تا تمرکز و',
+        line3: 'اثرگذاری بالا',
+      };
+    }
+    return {
+      line1: 'رشد و تحول',
+      line2: 'که طعم آرامش',
+      line3: 'می‌دهد',
+    };
+  };
+
+  const headline = getHeroHeadline();
 
   return (
     <section
@@ -69,19 +172,29 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu }) => {
       </div>
 
       {/* Desktop Top Micro-bar (>= lg) */}
-      <div className="hidden lg:flex w-full max-w-[1720px] mx-auto px-8 lg:px-14 xl:px-20 2xl:px-24 pt-6 sm:pt-8 pb-3 items-center justify-between z-30">
+      <div className="hidden lg:flex w-full max-w-[1720px] mx-auto px-8 lg:px-14 xl:px-20 2xl:px-24 pt-4 lg:pt-5 pb-2 items-center justify-between z-30">
         <div>
           <span className="block text-[11px] font-sans tracking-wider text-white/70">
             ارتباط مستقیم
           </span>
-          <a
-            href={bookingLink}
-            target={coach?.bookingUrl ? '_blank' : undefined}
-            rel="noreferrer"
-            className="font-sans font-medium text-sm sm:text-base text-white hover:text-[#dfece9] transition-colors"
-          >
-            رزرو آنلاین جلسه معارفه
-          </a>
+          {isAtynoCoach ? (
+            <a
+              href={bookingLink}
+              target="_blank"
+              rel="noreferrer"
+              className="font-sans font-medium text-sm sm:text-base text-white hover:text-[#dfece9] transition-colors"
+            >
+              رزرو آنلاین جلسه معارفه
+            </a>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
+              className="font-sans font-medium text-sm sm:text-base text-white hover:text-[#dfece9] transition-colors cursor-pointer text-start"
+            >
+              رزرو آنلاین جلسه معارفه
+            </button>
+          )}
         </div>
 
         {/* Two-Line Hamburger Button */}
@@ -98,63 +211,76 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu }) => {
 
       {/* Main Viewport Content — Three-Column Symmetrical Layout (Solea Frame) */}
       <div className="relative w-full max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14 xl:px-20 2xl:px-24 flex-1 flex flex-col justify-center z-20 pb-4 lg:pb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-center w-full relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch w-full relative min-h-[440px] lg:min-h-[460px] xl:min-h-[500px]">
           
           {/* Start Column (Right in RTL): Rating, Title, Description, CTA */}
-          <div className="flex flex-col items-start justify-center lg:col-span-5 xl:col-span-5 z-20 pt-6 pb-2 lg:py-0">
-            {/* Rating Stars with Underline Doodle */}
-            <div className="relative mb-5 sm:mb-6">
-              <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-white/95">
-                <div className="flex text-[#f59e0b] gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-[#f59e0b] stroke-none"
-                    />
-                  ))}
+          <div className="flex flex-col justify-between items-start lg:col-span-5 xl:col-span-5 z-20 self-stretch pt-6 pb-2 lg:py-2">
+            {/* Top Content: Rating + H1 + Bio */}
+            <div className="flex flex-col items-start w-full">
+              {/* Rating Stars with Underline Doodle */}
+              <div className="relative mb-3 sm:mb-4 lg:mb-4">
+                <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-white/95">
+                  <div className="flex text-[#f59e0b] gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-[#f59e0b] stroke-none"
+                      />
+                    ))}
+                  </div>
+                  <span className="font-semibold text-white ms-1">
+                    {coach?.rating
+                      ? `${coach.rating.toFixed(1).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)])}★`
+                      : '۵.۰★'}
+                  </span>
+                  <span className="text-white/80">رضایت مراجعان در بلومیا</span>
                 </div>
-                <span className="font-semibold text-white ms-1">
-                  {coach?.rating
-                    ? `${coach.rating.toFixed(1).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)])}★`
-                    : '۵.۰★'}
-                </span>
-                <span className="text-white/80">رضایت مراجعان در بلومیا</span>
+                {/* Doodle Underline */}
+                <div className="mt-1">
+                  <RatingUnderline className="h-1.5 w-36 sm:w-40 text-[#fff7a2]" />
+                </div>
               </div>
-              {/* Doodle Underline */}
-              <div className="mt-1.5">
-                <RatingUnderline className="h-1.5 w-36 sm:w-40 text-[#fff7a2]" />
+
+              {/* Main Headline (Strictly 3 lines, whitespace-nowrap, calibrated viewport font size) */}
+              <div className="relative">
+                <h1 className="font-serif text-[34px] sm:text-[42px] md:text-[48px] lg:text-[44px] xl:text-[54px] 2xl:text-[62px] font-normal leading-[1.22] sm:leading-[1.2] lg:leading-[1.18] text-white tracking-normal">
+                  <span className="inline-flex items-center gap-2 whitespace-nowrap">
+                    {headline.line1}
+                    <GrowthSlashes className="w-6 h-5 sm:w-7 sm:h-6 lg:w-8 lg:h-7 text-[#fff7a2] shrink-0" />
+                  </span>
+                  <br />
+                  <span className="whitespace-nowrap">{headline.line2}</span>
+                  <br />
+                  <span className="whitespace-nowrap">{headline.line3}</span>
+                </h1>
               </div>
+
+              {/* Description Subtitle (Strictly 2 lines maximum) */}
+              <p className="mt-3.5 sm:mt-4 lg:mt-4 max-w-[380px] xl:max-w-[420px] text-[14px] sm:text-[15px] xl:text-base text-white/85 leading-[1.7] font-sans line-clamp-2">
+                {coachBio}
+              </p>
             </div>
 
-            {/* Main Headline */}
-            <div className="relative">
-              <h1 className="font-serif text-[40px] sm:text-[48px] md:text-[54px] lg:text-[58px] xl:text-[68px] 2xl:text-[76px] font-normal leading-[1.3] sm:leading-[1.26] lg:leading-[1.24] text-white tracking-normal">
-                رشد و تحول
-                <span className="inline-block relative -top-2 sm:-top-3 me-2">
-                  <GrowthSlashes className="w-7 h-6 sm:w-8 sm:h-7 lg:w-9 lg:h-8 text-[#fff7a2]" />
-                </span>
-                <br />
-                که طعم آرامش
-                <br />
-                می‌دهد
-              </h1>
-            </div>
-
-            {/* Description Subtitle */}
-            <p className="mt-5 sm:mt-6 max-w-[400px] xl:max-w-[440px] text-[15px] sm:text-base xl:text-[17px] text-white/85 leading-[1.8] font-sans">
-              {coachBio}
-            </p>
-
-            {/* CTA Button */}
-            <div className="mt-6 sm:mt-8">
-              <a
-                href={bookingLink}
-                target={coach?.bookingUrl ? '_blank' : undefined}
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-8 py-4 text-sm sm:text-base font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98]"
-              >
-                رزرو جلسه معارفه رایگان
-              </a>
+            {/* Desktop CTA Button Container (Anchored to bottom line, matching social strip baseline) */}
+            <div className="mt-auto pt-6 lg:pt-8 w-full flex items-end">
+              {isAtynoCoach ? (
+                <a
+                  href={bookingLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-7 py-3 sm:py-3.5 text-sm sm:text-[15px] font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  رزرو جلسه معارفه رایگان
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
+                  className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-7 py-3 sm:py-3.5 text-sm sm:text-[15px] font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                >
+                  رزرو جلسه معارفه رایگان
+                </button>
+              )}
             </div>
 
             {/* Mobile-Only Coach Intro & Social Links */}

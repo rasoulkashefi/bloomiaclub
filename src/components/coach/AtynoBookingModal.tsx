@@ -79,7 +79,7 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                         <Calendar className="h-5 w-5 stroke-[2.2]" />
                       </div>
                       <div className="min-w-0">
-                        <Dialog.Title className="text-base sm:text-lg font-bold text-[#1f3d3a] truncate font-serif">
+                        <Dialog.Title className="text-base sm:text-lg font-bold text-[#1f3d3a] truncate">
                           {title}
                         </Dialog.Title>
                         <p className="text-xs text-[#6b6b6b] truncate mt-0.5">

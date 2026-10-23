@@ -22,11 +22,20 @@ interface SoleaMenuCardProps {
   coach?: CoachProfile;
   isOpen: boolean;
   onClose: () => void;
+  onOpenBooking?: (offeringTitle?: string) => void;
 }
 
-export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({ coach, isOpen, onClose }) => {
+export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({
+  coach,
+  isOpen,
+  onClose,
+  onOpenBooking,
+}) => {
   const [pagesExpanded, setPagesExpanded] = useState(false);
-  const bookingLink = coach?.bookingUrl || 'https://atyno.com/fatemeh/zero';
+  const isMahya = coach?.slug?.includes('mahya');
+  const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
+  const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
+  const bookingLink = coach?.bookingUrl || (isMahya ? '#contact' : 'https://atyno.com/fatemeh/zero');
 
   return (
     <AnimatePresence>
@@ -52,7 +61,7 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({ coach, isOpen, onC
             {/* Header: Close Button */}
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="font-serif text-lg font-bold text-white">
-                {coach?.name || 'فاطمه اسماعیلی'}
+                {coachName}
               </span>
               <button
                 onClick={onClose}
@@ -80,11 +89,11 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({ coach, isOpen, onC
                 حوزه‌های همراهی
               </Link>
               <Link
-                href="#projects"
+                href="#events"
                 onClick={onClose}
                 className="py-1 text-2xl font-normal leading-[1.6] text-white transition-colors hover:text-[#dfece9] sm:text-[28px]"
               >
-                داستان‌های موفقیت
+                رویدادها و کارگاه‌ها
               </Link>
               <Link
                 href="#testimonials"
@@ -176,14 +185,27 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({ coach, isOpen, onC
 
             {/* Booking Contact */}
             <div>
-              <a
-                href={bookingLink}
-                target={coach?.bookingUrl ? '_blank' : undefined}
-                rel="noreferrer"
-                className="inline-flex items-center justify-center w-full rounded-xl bg-[#dfece9] px-4 py-3 font-sans text-sm font-semibold text-[#1f3d3a] transition-all hover:bg-white"
-              >
-                رزرو آنلاین جلسه معارفه
-              </a>
+              {isAtynoCoach ? (
+                <a
+                  href={bookingLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center w-full rounded-xl bg-[#dfece9] px-4 py-3 font-sans text-sm font-semibold text-[#1f3d3a] transition-all hover:bg-white"
+                >
+                  رزرو آنلاین جلسه معارفه
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)');
+                  }}
+                  className="inline-flex items-center justify-center w-full rounded-xl bg-[#dfece9] px-4 py-3 font-sans text-sm font-semibold text-[#1f3d3a] transition-all hover:bg-white cursor-pointer"
+                >
+                  رزرو آنلاین جلسه معارفه
+                </button>
+              )}
             </div>
 
             {/* Social Icons */}

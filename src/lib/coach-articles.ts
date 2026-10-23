@@ -2,8 +2,6 @@ import { sanityClient, urlFor } from './sanity';
 import type { Article } from './coaches';
 import { toFa } from './format';
 
-const SITE_URL = 'https://bloomiaclub.com';
-
 const dateFormatter = new Intl.DateTimeFormat('fa-IR', {
   day: 'numeric',
   month: 'long',
@@ -22,13 +20,37 @@ function withTimeout<T>(promise: Promise<T>, ms = 3000): Promise<T> {
   return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timer));
 }
 
-export async function getCoachArticles(slug: string, limit = 3): Promise<Article[]> {
+export async function getCoachArticles(slug: string, limit = 6): Promise<Article[]> {
   if (!slug) return [];
+
+  const slugs = Array.from(
+    new Set(
+      [
+        slug,
+        slug.toLowerCase(),
+        slug.replace(/_/g, '-'),
+        slug.replace(/-/g, '_'),
+        slug.includes('mahya') ? 'mahya_shakoori' : null,
+        slug.includes('mahya') ? 'mahya_shakouri' : null,
+        slug.includes('arezoo') || slug.includes('Arezoo') ? 'Arezoo_Ghaffari' : null,
+        slug.includes('arezoo') || slug.includes('Arezoo') ? 'arezoo-ghaffari' : null,
+        slug.includes('derakhsh') ? 'fatemeh-derakhsh' : null,
+        slug.includes('derakhsh') ? 'fatemeh_derakhsh' : null,
+        slug.includes('payam') ? 'payam-esmi' : null,
+        slug.includes('payam') ? 'payam_esmi' : null,
+      ].filter(Boolean) as string[]
+    )
+  );
+
+  const refIds = [
+    ...slugs.map((s) => `coach-${s}`),
+    ...slugs.map((s) => `coach-profile-${s}`),
+  ];
 
   try {
     const posts = await withTimeout(
       sanityClient.fetch(
-        `*[_type == "post" && status == "published" && author->slug.current == $slug]
+        `*[_type == "post" && status == "published" && (author->slug.current in $slugs || author->coachSlug in $slugs || author._ref in $refIds)]
           | order(publishedAt desc)[0...$limit] {
           _id,
           title,
@@ -38,7 +60,7 @@ export async function getCoachArticles(slug: string, limit = 3): Promise<Article
           estimatedReadTime,
           publishedAt
         }`,
-        { slug, limit }
+        { slugs, refIds, limit }
       ),
       3000
     );
@@ -60,7 +82,7 @@ export async function getCoachArticles(slug: string, limit = 3): Promise<Article
         imageUrl,
         date: post.publishedAt ? dateFormatter.format(new Date(post.publishedAt)) : '',
         readTime: `${toFa(post.estimatedReadTime || 5)} دقیقه`,
-        href: `${SITE_URL}/blog/${post.slug}`,
+        href: `/blog/${post.slug}`,
       };
     });
   } catch (error) {

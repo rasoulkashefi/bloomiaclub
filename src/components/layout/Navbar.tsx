@@ -10,6 +10,7 @@ import { MobileDrawer } from './MobileDrawer';
 const mainNav = [
   { href: '/', label: 'صفحه اصلی' },
   { href: '/coaches', label: 'کوچ‌ها' },
+  { href: '/events', label: 'رویدادها' },
   { href: '/coaching/what-is-coaching', label: 'کوچینگ چیست؟' },
   { href: '/blog', label: 'وبلاگ' },
   { href: '/about', label: 'درباره ما' },

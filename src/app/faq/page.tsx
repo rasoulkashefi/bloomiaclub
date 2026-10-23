@@ -10,7 +10,7 @@ export const revalidate = 86400; // 24 hours ISR
 const CANONICAL_URL = 'https://bloomiaclub.com/faq';
 
 export const metadata: Metadata = {
-  title: 'پرسش‌های متداول کوچینگ | پاسخ جامع به تمام سوالات | بلومیا کلاب',
+  title: 'پرسش‌های متداول کوچینگ | پاسخ جامع به تمام سوالات',
   description:
     'پاسخ به سوالات متداول درباره کوچینگ در بلومیا کلاب؛ نحوه برگزاری جلسات آنلاین، جلسه معارفه رایگان، انتخاب کوچ مناسب، هزینه‌ها و استانداردهای رازداری ICF.',
   alternates: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/og-about.jpg',
+        url: '/images/og-faq.jpg',
         width: 1200,
         height: 630,
         alt: 'پرسش‌های متداول بلومیا کلاب',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'پرسش‌های متداول کوچینگ | بلومیا کلاب',
     description: 'پاسخ شفاف به تمام سوالات درباره فرآیند، جلسات و استانداردهای کوچینگ.',
-    images: ['/images/og-about.jpg'],
+    images: ['/images/og-faq.jpg'],
   },
 };
 

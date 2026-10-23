@@ -1,21 +1,19 @@
 import React from 'react';
-import Link from 'next/link';
-import { BookOpen, ChevronLeft } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
+import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 
 export const BlogHeroSection: React.FC = () => {
   return (
     <section className="relative pt-10 pb-12 sm:pt-14 sm:pb-16 bg-gradient-to-b from-brand-teal-50/50 via-brand-surface to-brand-surface border-b border-brand-neutral-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
-        <nav aria-label="مسیریابی" className="flex items-center gap-1.5 text-xs text-brand-neutral-500 mb-6">
-          <Link href="/" className="hover:text-brand-teal-800 transition-colors">
-            صفحه اصلی
-          </Link>
-          <ChevronLeft className="w-3.5 h-3.5 text-brand-neutral-400" />
-          <span className="text-brand-neutral-800 font-semibold" aria-current="page">
-            وبلاگ و مقالات
-          </span>
-        </nav>
+        {/* Breadcrumb (Strictly single line) */}
+        <Breadcrumbs
+          className="mb-6"
+          items={[
+            { label: 'صفحه اصلی', href: '/' },
+            { label: 'وبلاگ و مقالات' },
+          ]}
+        />
 
         {/* Header content */}
         <div className="max-w-3xl space-y-4">

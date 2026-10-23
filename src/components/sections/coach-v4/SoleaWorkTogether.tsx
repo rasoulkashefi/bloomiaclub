@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Flower2, Compass, Crown } from 'lucide-react';
+import { Flower2, Compass, Crown, HeartHandshake, ShieldCheck, Clock } from 'lucide-react';
 import type { CoachProfile } from '@/lib/coaches';
 
 interface ServiceItem {
@@ -14,31 +14,200 @@ interface ServiceItem {
 
 interface SoleaWorkTogetherProps {
   coach?: CoachProfile;
+  onOpenBooking?: (offeringTitle?: string) => void;
 }
 
-export const SoleaWorkTogether: React.FC<SoleaWorkTogetherProps> = ({ coach }) => {
-  const bookingLink = coach?.bookingUrl || 'https://atyno.com/fatemeh/zero';
+export const SoleaWorkTogether: React.FC<SoleaWorkTogetherProps> = ({ coach, onOpenBooking }) => {
+  const slug = (coach?.slug || '').toLowerCase();
+  const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
+  const bookingLink = coach?.bookingUrl || '#contact';
 
-  const services: ServiceItem[] = [
-    {
-      icon: <Flower2 className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
-      title: 'والدگری آگاهانه و آرامش مادری',
-      description: 'رهایی از کمال‌گرایی و احساس گناه، شناخت نیازهای واقعی خود و ساختن ارتباطی امن و بالنده با فرزندان.',
-      ctaText: 'رزرو جلسه معارفه',
-    },
-    {
-      icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
-      title: 'خودشناسی و آرامش درونی',
-      description: 'شنیدن صدای واقعی درون، تعیین مرزهای سالم در روابط و کار، و بازیابی اعتمادبه‌نفس و سرزندگی.',
-      ctaText: 'رزرو جلسه معارفه',
-    },
-    {
-      icon: <Crown className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
-      title: 'کوچینگ نوجوان و مهارت ارتباطی',
-      description: 'مهار تعارض‌های والد و فرزندی، درک زبان و احساسات نوجوان، و برقراری گفتگوی بدون قضاوت و تنش.',
-      ctaText: 'رزرو جلسه معارفه',
-    },
-  ];
+  const getServices = (): ServiceItem[] => {
+    if (slug.includes('mahya')) {
+      return [
+        {
+          icon: <HeartHandshake className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'صلح با منتقد درون و رهایی از سرزنش',
+          description: 'شناسایی صداهای سرزنشگر ناخودآگاه، عبور از کمال‌گرایی فرساینده و تبدیل قاضی درون به یک حامی آگاه و مشفق.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'هنر مرزگذاری سالم و مهارت قاطعیت',
+          description: 'یادگیری تکنیک‌های شفاف نه گفتن بدون احساس گناه، رهایی از باج‌دهی عاطفی و ساختن روابط محترمانه و اصیل.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'شکستن باورهای محدودکننده و رشد فردی',
+          description: 'شناسایی دیوارهای نامرئی ذهن، بازنویسی باورهای بازدارنده و بازیابی عزت‌نفس برای تصمیم‌گیری‌های مقتدرانه.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    if (slug.includes('arezoo') && slug.includes('ghaffari')) {
+      return [
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'مهار نشخوار ذهنی و فاصله‌گیری از افکار',
+          description: 'یادگیری تکنیک‌های علمی گسلش شناختی (Defusion) در رویکرد ACT برای رهایی از گیر افتادن در تله گفتگوهای فرساینده ذهن.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'مدیریت علمی اضطراب و پذیرش درونی',
+          description: 'پایان دادن به جنگ درونی با اضطراب و احساسات ناخوشایند، و ساختن تاب‌آوری روانی برای عبور از موقعیت‌های پرتنش.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <HeartHandshake className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'اقدام متعهدانه همسو با ارزش‌های اصیل',
+          description: 'شفاف‌سازی قطب‌نمای ارزش‌ها در روابط و کار، و تبدیل اهداف قلبی به رفتارهای شجاعانه روزمره در حضور ترس‌ها.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    if (slug.includes('saloomeh') || slug.includes('salomeh')) {
+      return [
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'وضوح شغلی و عبور از دوراهی‌های حرفه‌ای',
+          description: 'شفاف‌سازی استعدادها و انتخاب شجاعانه جهت حرکت در محیط کار، ارتقای موقعیت یا راه‌اندازی کسب‌وکار فردی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Crown className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'خودشناسی عمیق و بازیابی اقتدار شخصی',
+          description: 'خروج از سردرگمی میانسالی یا احساس فرسودگی، و بازآفرینی هویت اصیل بر مبنای ارزش‌های راستین فردی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'توسعه مهارت تصمیم‌گیری و استراتژی اقدام',
+          description: 'تبدیل چشم‌انداز مبهم ذهنی به نقشه راه گام‌به‌گام و شدنی در کار و زندگی متناسب با واقعیت روزمره.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    if (slug.includes('derakhsh')) {
+      return [
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'استراتژی کارراهه شغلی برای متخصصان',
+          description: 'تلفیق تفکر تحلیلی علمی و کوچینگ برای یافتن بهترین جایگاه شغلی متناسب با تحصیلات و پتانسیل‌های واقعی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <HeartHandshake className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'گذار شغلی و عبور از فرسودگی حرفه‌ای',
+          description: 'هدایت هوشمندانه متخصصان در تغییر مسیر شغلی، ارتقای جایگاه سازمانی و مدیریت استرس در محیط کار.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'توسعه فردی و مهارت‌های ارتباط سازمانی',
+          description: 'ارتقای هوش هیجانی، تقویت مذاکره، افزایش خودباوری در مصاحبه‌ها و مدیریت روابط در سطوح مدیریتی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    if (slug.includes('nemati')) {
+      return [
+        {
+          icon: <Clock className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'پایه‌ریزی عادات مثبت و مهار اهمال‌کاری',
+          description: 'ساختن روتین‌های روزمره عملی، عبور از تنبلی ناشی از کمال‌گرایی منفی و ایجاد انگیزه و نظم پایدار.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Crown className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'تقویت اعتمادبه‌نفس و خودباوری اصیل',
+          description: 'شناسایی و شکستن موانع درونی، افزایش حس شایستگی فردی و حضور مقتدرانه در موقعیت‌های اجتماعی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'طراحی سند اهداف شخصی و اولویت‌بندی',
+          description: 'تفکیک کارهای ضروری از حواس‌پرتی‌ها، رهایی از مقایسه خود با دیگران و دستیابی به خروجی‌های ملموس.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    if (slug.includes('johari')) {
+      return [
+        {
+          icon: <HeartHandshake className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'پرورش شفقت به خود در روزهای دشوار',
+          description: 'رهایی از قضاوت‌های بیرحمانه ذهن، مراقبت مهربانانه از احساسات و رفتار با خود مانند یک دوست مشفق.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Flower2 className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'تعادل احساسی و مدیریت بارهای عاطفی',
+          description: 'یادگیری مواجهه سالم با غم، خشم، ترس و ناامیدی بدون سرکوب و ایجاد تاب‌آوری در برابر تنش‌ها.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'خودشناسی اصیل و ترمیم عزت‌نفس',
+          description: 'کشف ارزش‌های اصیل فردی، افزایش پذیرش خود و ساختن ارتباطی عمیق، امن و محترمانه با دیگران.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    if (slug.includes('esmi')) {
+      return [
+        {
+          icon: <Clock className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'مهندسی زمان و مدیریت انرژی روزانه',
+          description: 'طراحی سیستم‌های مدیریت وظایف، اولویت‌بندی با متدهای MBA و ایجاد وقت آزاد واقعی برای زندگی شخصی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'مهار قطعی اهمال‌کاری و تعلل ذهنی',
+          description: 'ریشه‌یابی ترس از شروع یا کمال‌گرایی منفی و ساختن چارچوب‌های اقدام خرد و پیوسته در پروژه‌ها.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'تنظیم اهداف SMART و سیستم بازخورد',
+          description: 'تعریف اهداف شفاف فصلی، طراحی شاخص‌های پایش پیشرفت و ایجاد تعادل کار و استراحت بدون فرسودگی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    // Default: Fatemeh Esmaeeli
+    return [
+      {
+        icon: <Flower2 className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+        title: 'والدگری آگاهانه و آرامش مادری',
+        description: 'رهایی از کمال‌گرایی و احساس گناه، شناخت نیازهای واقعی خود و ساختن ارتباطی امن و بالنده با فرزندان.',
+        ctaText: 'رزرو جلسه معارفه',
+      },
+      {
+        icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+        title: 'خودشناسی و آرامش درونی',
+        description: 'شنیدن صدای واقعی درون، تعیین مرزهای سالم در روابط و کار، و بازیابی اعتمادبه‌نفس و سرزندگی.',
+        ctaText: 'رزرو جلسه معارفه',
+      },
+      {
+        icon: <Crown className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+        title: 'کوچینگ نوجوان و مهارت ارتباطی',
+        description: 'مهار تعارض‌های والد و فرزندی، درک زبان و احساسات نوجوان، و برقراری گفتگوی بدون قضاوت و تنش.',
+        ctaText: 'رزرو جلسه معارفه',
+      },
+    ];
+  };
+
+  const services = getServices();
 
   return (
     <section id="services" className="w-full bg-white py-20 lg:py-[120px] text-[#1e1e1e] overflow-hidden">
@@ -92,14 +261,24 @@ export const SoleaWorkTogether: React.FC<SoleaWorkTogetherProps> = ({ coach }) =
 
               {/* Action Button */}
               <div className="mt-8 sm:mt-10">
-                <a
-                  href={bookingLink}
-                  target={coach?.bookingUrl ? '_blank' : undefined}
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-full bg-[#1f3d3a] px-7 py-3 text-xs font-semibold tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-[#2b544e] hover:shadow-md"
-                >
-                  {item.ctaText}
-                </a>
+                {isAtynoCoach ? (
+                  <a
+                    href={bookingLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded-full bg-[#1f3d3a] px-7 py-3 text-xs font-semibold tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-[#2b544e] hover:shadow-md"
+                  >
+                    {item.ctaText}
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBooking?.(item.title)}
+                    className="inline-flex items-center justify-center rounded-full bg-[#1f3d3a] px-7 py-3 text-xs font-semibold tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-[#2b544e] hover:shadow-md cursor-pointer"
+                  >
+                    {item.ctaText}
+                  </button>
+                )}
               </div>
             </motion.div>
           ))}

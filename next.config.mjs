@@ -26,6 +26,30 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/coaches/:slug/v4',
+        destination: '/coaches/:slug',
+        permanent: true,
+      },
+      {
+        source: '/coaches/:slug/v3',
+        destination: '/coaches/:slug',
+        permanent: true,
+      },
+      {
+        source: '/coaches/:slug/v2',
+        destination: '/coaches/:slug',
+        permanent: true,
+      },
+      {
+        source: '/solea',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

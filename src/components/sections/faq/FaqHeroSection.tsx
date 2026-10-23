@@ -10,13 +10,13 @@ export const FaqHeroSection: React.FC = () => {
       <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-brand-teal-50/60 rounded-full blur-2xl pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="inline-flex items-center gap-1.5 text-xs text-brand-neutral-500 mb-6 bg-white px-3.5 py-1.5 rounded-full border border-brand-surface-border">
-          <Link href="/" className="hover:text-brand-teal-900 transition-colors">
+        {/* Breadcrumb (Strictly single line) */}
+        <nav aria-label="مسیریابی" className="inline-flex items-center gap-1.5 text-xs text-brand-neutral-500 mb-6 bg-white px-3.5 py-1.5 rounded-full border border-brand-surface-border whitespace-nowrap flex-nowrap">
+          <Link href="/" className="hover:text-brand-teal-900 transition-colors shrink-0">
             صفحه اصلی
           </Link>
-          <ChevronLeft className="w-3.5 h-3.5 text-brand-neutral-400" />
-          <span className="text-brand-teal-900 font-semibold">پرسش‌های متداول</span>
+          <ChevronLeft className="w-3.5 h-3.5 text-brand-neutral-400 shrink-0" />
+          <span className="text-brand-teal-900 font-semibold shrink-0">پرسش‌های متداول</span>
         </nav>
 
         {/* Semantic H1 (Strict Single H1) */}

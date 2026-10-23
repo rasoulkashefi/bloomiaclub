@@ -12,7 +12,7 @@ export const revalidate = 86400; // 24 hours ISR
 const CANONICAL_URL = 'https://bloomiaclub.com/contact';
 
 export const metadata: Metadata = {
-  title: 'تماس با بلومیا کلاب | پشتیبانی، مشاوره و کوچینگ سازمانی',
+  title: 'تماس با ما | پشتیبانی، مشاوره و کوچینگ سازمانی',
   description:
     'راه‌های ارتباط با بلومیا کلاب؛ تلفن مستقیم ۰۲۱۹۱۰۰۰۰۰۰، ایمیل info@bloomiaclub.com، هماهنگی جلسات حضوری در تهران، و ثبت درخواست کوچینگ سازمانی و رهبری.',
   alternates: {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/og-about.jpg',
+        url: '/images/og-contact.jpg',
         width: 1200,
         height: 630,
         alt: 'تماس با بلومیا کلاب',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'تماس با بلومیا کلاب | پشتیبانی و مشاوره',
     description: 'خط مستقیم ۰۲۱۹۱۰۰۰۰۰۰ و فرم آنلاین ارتباط با تیم بلومیا کلاب.',
-    images: ['/images/og-about.jpg'],
+    images: ['/images/og-contact.jpg'],
   },
 };
 

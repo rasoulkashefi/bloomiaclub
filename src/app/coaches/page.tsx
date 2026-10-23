@@ -9,7 +9,7 @@ import { coachFaqs } from '@/data/coachFaqs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'کوچ‌های بلومیا کلاب | تخصص‌های رشد فردی، شغلی و کسب‌وکار با مدرک ICF',
+  title: 'کوچ‌های مورد تایید ICF | تخصص‌های رشد فردی، شغلی و کسب‌وکار',
   description:
     'فهرست برترین کوچ‌های حرفه‌ای و دارای گواهینامه بین‌المللی ICF در بلومیا کلاب. بررسی سوابق، تخصص‌ها، نظرات مراجعین و رزرو آنلاین جلسه معارفه رایگان (جلسه صفر).',
   keywords: [
@@ -33,10 +33,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/images/og-coaches.jpg',
         width: 1200,
         height: 630,
-        alt: 'کوچ‌های بلومیا کلاب',
+        alt: 'کوچ‌های معتبر بین‌المللی بلومیا کلاب',
       },
     ],
   },

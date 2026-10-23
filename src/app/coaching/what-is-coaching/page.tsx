@@ -14,7 +14,7 @@ export const revalidate = 86400; // 24 hours ISR
 const CANONICAL_URL = 'https://bloomiaclub.com/coaching/what-is-coaching';
 
 export const metadata: Metadata = {
-  title: 'کوچینگ چیست؟ راهنمای جامع و استانداردهای ICF | بلومیا کلاب',
+  title: 'کوچینگ چیست؟ راهنمای جامع و استانداردهای بین‌المللی ICF',
   description:
     'کوچینگ چیست و چه تفاوتی با مشاوره و روان‌درمانی دارد؟ آشنایی با اصول علمی کوچینگ، استانداردهای بین‌المللی ICF و فرآیند تحول فردی و سازمانی در بلومیا کلاب.',
   alternates: {
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     type: 'article',
     images: [
       {
-        url: '/images/coaching-free-intro-session.webp',
-        width: 1408,
-        height: 768,
+        url: '/images/og-what-is-coaching.jpg',
+        width: 1200,
+        height: 630,
         alt: 'راهنمای جامع کوچینگ چیست در بلومیا کلاب',
       },
     ],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: 'کوچینگ چیست؟ راهنمای جامع | بلومیا کلاب',
     description:
       'آشنایی با اصول علمی کوچینگ، استانداردهای بین‌المللی ICF و مقایسه با مشاوره و روان‌درمانی.',
-    images: ['/images/coaching-free-intro-session.webp'],
+    images: ['/images/og-what-is-coaching.jpg'],
   },
 };
 
