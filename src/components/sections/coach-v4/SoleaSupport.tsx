@@ -55,8 +55,9 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
       }))
     : defaultSteps;
 
-  // Welcome Packet Configuration (Dynamic with elegant fallback)
-  const hasWelcomePacket = Boolean(coach?.welcomePacket?.fileUrl || isFatemeh || isMahya);
+  // Welcome Packet Configuration (Dynamic with elegant fallback to official ICF document)
+  const hasDedicatedPacket = Boolean(coach?.welcomePacket?.fileUrl || isFatemeh || isMahya);
+  const defaultIcfPdfUrl = 'https://coachingfederation.org/wp-content/uploads/2025/09/icf-cs-core-competencies-2025.pdf';
 
   const packetFile =
     coach?.welcomePacket?.fileUrl ||
@@ -64,7 +65,7 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
       ? '/documents/welcome-packets/mahya_shakouri_welcome_packet.pdf'
       : isFatemeh
         ? '/documents/welcome-packets/fatemeh_esmaeeli_welcome_packet.pdf'
-        : null);
+        : defaultIcfPdfUrl);
 
   const packetCover =
     coach?.welcomePacket?.coverImageUrl ||
@@ -72,32 +73,32 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
       ? '/images/solea/mahya_welcome_packet_cover.png'
       : isFatemeh
         ? '/images/solea/fatemeh_welcome_packet_cover.png'
-        : '/images/solea/ebook_book.png');
+        : '/images/solea/icf_competencies_cover.png');
 
   const packetTitle =
     coach?.welcomePacket?.title ||
-    (hasWelcomePacket ? `بسته راهنمای خدمات کوچینگ با ${coachName}` : 'راهنمای شروع مسیر کوچینگ');
+    (hasDedicatedPacket ? `بسته راهنمای خدمات کوچینگ با ${coachName}` : 'منشور شایستگی‌های بنیادین کوچینگ (ICF)');
 
   const packetSubtitle =
     coach?.welcomePacket?.subtitle ||
-    (hasWelcomePacket
+    (hasDedicatedPacket
       ? `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه رایگان با ${coachName}.`
-      : 'راهنمای جامع ورود به دنیای کوچینگ؛ استانداردهای بین‌المللی ICF، تفاوت با سایر رویکردها و نحوه آمادگی برای جلسات همراهی.');
+      : 'سند رسمی فدراسیون بین‌المللی کوچینگ؛ معرفی ۸ شایستگی محوری، منشور اخلاقی، تعهد رازداری و استانداردهای حرفه‌ای جلسات کوچینگ.');
 
-  const packetFeatures = coach?.welcomePacket?.features || (hasWelcomePacket
+  const packetFeatures = coach?.welcomePacket?.features || (hasDedicatedPacket
     ? [
         'آشنایی با متدولوژی و اصول ۴گانه جلسات کوچینگ',
         'شفافیت در شرایط، ضوابط همکاری و منشور محرمانگی',
         'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه رایگان (جلسه صفر)',
       ]
     : [
-        'آشنایی با اصول استاندارد و متدولوژی بین‌المللی ICF',
-        'منشور اخلاقی، تضمین رازداری و حفظ محرمانگی جلسات',
-        'راهنمای شفاف تدوین اهداف پیش از نخستین جلسه معارفه',
+        'معرفی ۸ شایستگی بنیادین و جهانی فدراسیون بین‌المللی کوچینگ',
+        'منشور اخلاقی، تعهد محرمانگی و چارچوب حقوق مراجع در جلسات',
+        'معیارهای شفاف تمایز کوچینگ حرفه‌ای با مشاوره و روان‌درمانی',
       ]);
 
-  const buttonText = coach?.welcomePacket?.buttonText || (hasWelcomePacket ? 'دریافت بسته راهنما (PDF)' : 'رزرو جلسه معارفه رایگان');
-  const isDownload = hasWelcomePacket && Boolean(packetFile);
+  const buttonText = coach?.welcomePacket?.buttonText || (hasDedicatedPacket ? 'دریافت بسته راهنما (PDF)' : 'دانلود سند رسمی ICF (PDF)');
+  const isDownload = true;
 
   return (
     <section id="method" className="w-full bg-white py-20 lg:py-28 text-[#1e1e1e]">
@@ -172,11 +173,11 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
               {/* Optional Eyebrow Tag */}
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm mb-5 sm:mb-6">
                 <FileText className="h-3.5 w-3.5" />
-                <span>{hasWelcomePacket ? 'بسته اختصاصی مراجعان' : 'راهنمای رسمی مراجعان'}</span>
+                <span>{hasDedicatedPacket ? 'بسته اختصاصی مراجعان' : 'سند رسمی شایستگی‌های ICF'}</span>
               </span>
 
               <h3 className="font-serif text-3xl font-normal leading-[1.4] sm:leading-[1.38] lg:leading-[1.35] text-white sm:text-4xl lg:text-[44px]">
-                {hasWelcomePacket ? (
+                {hasDedicatedPacket ? (
                   <>
                     بسته راهنمای خدمات
                     <br />
@@ -184,9 +185,9 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
                   </>
                 ) : (
                   <>
-                    راهنمای شروع مسیر
+                    منشور شایستگی‌های
                     <br />
-                    کوچینگ در بلومیا
+                    بنیادین کوچینگ (ICF)
                   </>
                 )}
               </h3>
@@ -259,10 +260,10 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
 
                 {/* 3D Book Cover Overlay (Links directly to the PDF file) */}
                 <a
-                  href={packetFile || bookingLink}
+                  href={packetFile}
                   target="_blank"
                   rel="noreferrer"
-                  title="کلیک برای مشاهده و دانلود بسته راهنما (PDF)"
+                  title={hasDedicatedPacket ? 'کلیک برای مشاهده و دانلود بسته راهنما (PDF)' : 'کلیک برای مشاهده و دانلود سند رسمی ICF (PDF)'}
                   className="group relative w-[65%] h-[84%] shadow-[0_24px_50px_rgba(0,0,0,0.38)] rounded-[12px] overflow-hidden transform rotate-2 transition-all duration-500 hover:rotate-0 hover:scale-[1.04] cursor-pointer block border border-white/10"
                 >
                   <Image
@@ -280,12 +281,10 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
                   <div className="pointer-events-none absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors" />
 
                   {/* PDF Badge */}
-                  {isDownload && (
-                    <div className="absolute bottom-3 start-3 z-10 flex items-center gap-1.5 rounded-full bg-[#1f3d3a]/85 backdrop-blur-md px-3 py-1 text-[11px] font-sans font-medium text-white border border-white/20 shadow-sm">
-                      <FileText className="h-3 w-3" />
-                      <span>فایل PDF • ۱۳ صفحه</span>
-                    </div>
-                  )}
+                  <div className="absolute bottom-3 start-3 z-10 flex items-center gap-1.5 rounded-full bg-[#1f3d3a]/85 backdrop-blur-md px-3 py-1 text-[11px] font-sans font-medium text-white border border-white/20 shadow-sm">
+                    <FileText className="h-3 w-3" />
+                    <span>{hasDedicatedPacket ? 'فایل PDF • اختصاصی' : 'سند رسمی ICF • PDF'}</span>
+                  </div>
                 </a>
               </div>
             </div>

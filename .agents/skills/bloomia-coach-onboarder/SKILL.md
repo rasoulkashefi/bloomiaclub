@@ -104,6 +104,11 @@ description: >-
 ### ۹. سوالات متداول (`faqs`)
 - ۳ الی ۵ پرسش مراجعین با پاسخ‌های مستقیم، کوتاه و مستند در جمله اول (بهینه‌شده برای Google AI Overviews و Perplexity).
 
+### ۱۰. بسته راهنما و دانلود سند رسمی ICF (Welcome Packet & Core Competencies)
+- برای کوچ‌هایی که فایل اختصاصی Welcome Packet دارند، سند PDF اختصاصی آن‌ها لود می‌شود.
+- **استاندارد فال‌بک رسمی ICF:** برای تمام کوچ‌هایی که هنوز بسته اختصاصی ندارند، سند رسمی **«شایستگی‌های بنیادین کوچینگ (ICF Core Competencies)»** به آدرس زیر به همراه کاور رسمی و توضیحات استاندارد قرار می‌گیرد:
+  `https://coachingfederation.org/wp-content/uploads/2025/09/icf-cs-core-competencies-2025.pdf`
+
 ---
 
 ## ۳. دارایی‌های بصری و پرتره کوچ (Visual Assets)
