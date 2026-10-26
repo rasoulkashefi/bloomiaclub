@@ -12,6 +12,7 @@ interface AtynoBookingModalProps {
   bookingUrl: string;
   coachName?: string;
   coachSlug?: string;
+  mode?: string;
 }
 
 export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
@@ -21,8 +22,18 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
   bookingUrl,
   coachName = 'کوچ',
   coachSlug,
+  mode,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+
+  // Normalize meeting mode for unambiguous display in Persian
+  const modeLabel = React.useMemo(() => {
+    if (!mode) return 'آنلاین';
+    const lower = mode.toLowerCase();
+    if (lower.includes('phone') || lower.includes('تلفن')) return 'تلفنی';
+    if (lower.includes('person') || lower.includes('حضوری')) return 'حضوری';
+    return 'آنلاین';
+  }, [mode]);
 
   // Reset loading spinner whenever bookingUrl or isOpen changes
   useEffect(() => {
@@ -93,11 +104,16 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                         <Calendar className="h-5 w-5 stroke-[2.2]" />
                       </div>
                       <div className="min-w-0">
-                        <Dialog.Title className="text-base sm:text-lg font-bold text-[#1f3d3a] truncate">
-                          {title}
-                        </Dialog.Title>
+                        <div className="flex items-center gap-2">
+                          <Dialog.Title className="text-base sm:text-lg font-bold text-[#1f3d3a] truncate">
+                            {title}
+                          </Dialog.Title>
+                          <span className="shrink-0 inline-flex items-center rounded-full bg-[#dfece9] px-2.5 py-0.5 text-[11px] font-semibold text-[#1f3d3a] border border-[#1f3d3a]/15">
+                            جلسه {modeLabel}
+                          </span>
+                        </div>
                         <p className="text-xs text-[#6b6b6b] truncate mt-0.5">
-                          انتخاب تاریخ و ساعت آنلاین · {coachName}
+                          انتخاب تاریخ و ساعت جلسه {modeLabel} · {coachName}
                         </p>
                       </div>
                     </div>

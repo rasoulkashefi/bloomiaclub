@@ -43,10 +43,12 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
     isOpen: boolean;
     title: string;
     bookingUrl: string;
+    mode?: string;
   }>({
     isOpen: false,
     title: '',
     bookingUrl: '',
+    mode: 'online',
   });
 
   // Dynamic introductory session directly from coach.services (synced from Atyno)
@@ -62,14 +64,20 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
     return introService.duration ? `${introService.title} (${introService.duration})` : introService.title;
   }, [introService]);
 
-  const handleOpenBooking = (offeringTitle?: string, bookingUrl?: string) => {
+  const handleOpenBooking = (offeringTitle?: string, bookingUrl?: string, mode?: string) => {
     const effectiveTitle = offeringTitle || defaultIntroTitle;
     const effectiveUrl = bookingUrl || introService?.bookingUrl || coach?.bookingUrl || '';
+    const effectiveMode =
+      mode ||
+      (introService as any)?.locationType ||
+      (introService as any)?.mode ||
+      (coach?.sessionMode === 'in-person' ? 'in-person' : 'online');
     if (isAtynoCoach) {
       setAtynoModalState({
         isOpen: true,
         title: effectiveTitle,
         bookingUrl: effectiveUrl,
+        mode: effectiveMode,
       });
     } else {
       setSelectedOffering(effectiveTitle);
@@ -174,6 +182,7 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
           bookingUrl={atynoModalState.bookingUrl}
           coachName={coachName}
           coachSlug={coach?.slug}
+          mode={atynoModalState.mode}
         />
       )}
     </SoleaScrollProvider>
