@@ -37,6 +37,9 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
 
   // Smart concise bio strictly under 70-80 chars (2 lines max) to prevent hero vertical overflow
   const getHeroBio = () => {
+    if (slug.includes('parmiss')) {
+      return 'همراهی برای مکث، زیر سوال بردن باورهای کهنه و کشف پاسخ‌های درونی.';
+    }
     if (slug.includes('mahya')) {
       return 'همراهی در مسیر خودشناسی عمیق، مرزگذاری شفاف و ساختن زندگی اصیل.';
     }
@@ -68,6 +71,7 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
 
   // Determine coach specific hero portrait
   const getHeroImage = () => {
+    if (slug.includes('parmiss')) return coach?.cutoutImageUrl || '/images/solea/parmiss_hero_v4.png';
     if (slug.includes('mahya')) return '/images/solea/mahya_hero_v4.png';
     if (slug.includes('fatemeh') && slug.includes('esmaeeli')) return '/images/solea/fatemeh_hero_v4.png';
     if (slug.includes('arezoo') && slug.includes('ghaffari')) return '/images/solea/arezoo_hero.png';
@@ -86,6 +90,13 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
 
   // Dynamic tailor-made headline per coach (Strict 3 lines, max 10-12 chars per line, max 30 chars total)
   const getHeroHeadline = () => {
+    if (slug.includes('parmiss')) {
+      return {
+        line1: 'قدرت پرسش',
+        line2: 'برای وضوح و',
+        line3: 'زیست اصیل',
+      };
+    }
     if (slug.includes('mahya')) {
       return {
         line1: 'صلح با خود',

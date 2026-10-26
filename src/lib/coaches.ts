@@ -2186,6 +2186,7 @@ export async function getAllCoaches(): Promise<CoachProfile[]> {
 export function getCanonicalSlug(rawSlug: string): string {
   if (!rawSlug) return rawSlug;
   const s = rawSlug.trim().toLowerCase().replace(/-/g, '_');
+  if (s.includes('parmiss')) return 'parmiss-yari';
   if (s.includes('mahya')) return 'mahya_shakoori';
   if (s.includes('arezoo') && s.includes('ghaffari')) return 'Arezoo_Ghaffari';
   if (s.includes('derakhsh')) return 'fatemeh-derakhsh';

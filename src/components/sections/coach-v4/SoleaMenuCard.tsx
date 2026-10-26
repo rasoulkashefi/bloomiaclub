@@ -33,9 +33,10 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({
 }) => {
   const [pagesExpanded, setPagesExpanded] = useState(false);
   const isMahya = coach?.slug?.includes('mahya');
+  const isFatemeh = coach?.slug === 'fatemeh_esmaeeli';
   const isAtynoCoach = Boolean(coach?.bookingUrl && coach.bookingUrl.includes('atyno.com'));
-  const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
-  const bookingLink = coach?.bookingUrl || (isMahya ? '#contact' : 'https://atyno.com/fatemeh/zero');
+  const coachName = coach?.name || (isFatemeh ? 'فاطمه اسماعیلی' : (isMahya ? 'محیا شکوری' : 'کوچ بلومیا'));
+  const bookingLink = coach?.bookingUrl || (isFatemeh ? 'https://atyno.com/fatemeh/zero' : '#contact');
 
   return (
     <AnimatePresence>

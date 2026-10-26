@@ -16,20 +16,20 @@ interface SupportStep {
 const defaultSteps: SupportStep[] = [
   {
     number: '۰۱',
-    title: 'شنیدن صدای درون و تخلیه بار ذهنی',
-    description: 'ایجاد فضایی امن و کاملاً بدون قضاوت تا دغدغه‌ها، خستگی‌ها و بارهای ناگفته مادری و فردی را بی‌پرده روی میز بگذارید.',
+    title: 'شنیدن صدای درون و وضوح ذهنی',
+    description: 'ایجاد فضایی امن و کاملاً بدون قضاوت تا دغدغه‌ها، موانع و بارهای ناگفته ذهنی و فردی را بی‌پرده شفاف کنیم.',
     image: '/images/solea/support_step_1.png',
   },
   {
     number: '۰۲',
-    title: 'واکاوی باورها و ریشه‌یابی تعارضات',
-    description: 'شناسایی تله‌های کمال‌گرایی، احساس گناه کاذب و انتظارات سنگینی که مانع دیدن ارزش‌ها و نیازهای واقعی شما می‌شوند.',
+    title: 'واکاوی باورها و ریشه‌یابی چالش‌ها',
+    description: 'شناسایی الگوهای تکراری، باورهای بازدارنده و پیش‌فرض‌هایی که مانع دیدن ارزش‌ها و توانمندی‌های واقعی شما می‌شوند.',
     image: '/images/solea/support_step_2.png',
   },
   {
     number: '۰۳',
-    title: 'بازطراحی مرزها و تدوین اولویت‌ها',
-    description: 'تبدیل بینش‌ها به تصمیمات مشخص و قابل اجرا؛ ایجاد زمان اختصاصی برای خود و طراحی سبک والدگری مبتنی بر پذیرش.',
+    title: 'طراحی برنامه اقدام و تحول پایدار',
+    description: 'تبدیل بینش‌ها و دستاوردهای جلسات به تصمیمات ملموس، اولویت‌بندی آگاهانه و اقدام شجاعانه در متن زندگی روزمره.',
     image: '/images/solea/support_step_3.png',
   },
 ];
@@ -41,8 +41,8 @@ interface SoleaSupportProps {
 export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
   const isMahya = coach?.slug?.includes('mahya');
   const isFatemeh = coach?.slug === 'fatemeh_esmaeeli';
-  const bookingLink = coach?.bookingUrl || (isMahya ? '#contact' : 'https://atyno.com/fatemeh/zero');
-  const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
+  const bookingLink = coach?.bookingUrl || (isFatemeh ? 'https://atyno.com/fatemeh/zero' : '#contact');
+  const coachName = coach?.name || (isFatemeh ? 'فاطمه اسماعیلی' : (isMahya ? 'محیا شکوری' : 'کوچ بلومیا'));
 
   const persianNumbers = ['۰۱', '۰۲', '۰۳', '۰۴'];
 

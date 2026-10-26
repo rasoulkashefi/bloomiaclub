@@ -57,6 +57,12 @@ const coaches = [
     title: 'کوچ هدفمندی، مدیریت زمان و انضباط فردی',
     imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/1a4eb3c4ddcec6f743bc75b65a299e237d2cb90b-928x1152.png',
   },
+  {
+    slug: 'parmiss-yari',
+    name: 'پارمیس یاری',
+    title: 'لایف کوچ و تسهیل‌گر خودآگاهی (ICF Level 1)',
+    imageUrl: 'public/images/solea/parmiss_hero_v4.png',
+  },
 ];
 
 async function fetchImageBuffer(urlOrPath) {

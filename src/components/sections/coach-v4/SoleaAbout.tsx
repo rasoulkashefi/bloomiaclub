@@ -30,6 +30,17 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
     : defaultParagraphs;
 
   const getAboutHeading = () => {
+    if (slug.includes('parmiss')) {
+      return (
+        <>
+          همراهی با شما برای دیدن خود،
+          <br />
+          پاسخ به پرسش‌های درون
+          <br />
+          و زیستن با اصالت
+        </>
+      );
+    }
     if (slug.includes('mahya')) {
       return (
         <>

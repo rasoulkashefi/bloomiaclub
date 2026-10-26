@@ -23,6 +23,29 @@ export const SoleaWorkTogether: React.FC<SoleaWorkTogetherProps> = ({ coach, onO
   const bookingLink = coach?.bookingUrl || '#contact';
 
   const getServices = (): ServiceItem[] => {
+    if (slug.includes('parmiss')) {
+      return [
+        {
+          icon: <HeartHandshake className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'دیدن خود و صلح با واقعیت درون',
+          description: 'ایجاد فضایی امن و آینه‌وار برای مکث، دیدن رنج‌ها و ترس‌ها، و پایان دادن به سرزنش و شتاب برای اصلاح ناآگاهانه خود.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'بازبینی باورها و الگوهای تکراری',
+          description: 'به‌چالش کشیدن پیش‌فرض‌های کهنه با پرسش‌های عمیق، شفاف‌سازی ریشه‌های سردرگمی و ایجاد وضوح فکری برای دیدن امکان‌های تازه.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'تصمیم‌گیری آگاهانه و مسئولانه',
+          description: 'خروج از تله انتظارات دیگران، اتصال به ارزش‌های راستین و برداشتن قدم‌های شجاعانه و متعهدانه برای ساختن زندگی اصیل.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
     if (slug.includes('mahya')) {
       return [
         {
@@ -184,24 +207,62 @@ export const SoleaWorkTogether: React.FC<SoleaWorkTogetherProps> = ({ coach, onO
       ];
     }
 
-    // Default: Fatemeh Esmaeeli
+    if (slug.includes('fatemeh') && slug.includes('esmaeeli')) {
+      return [
+        {
+          icon: <Flower2 className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'والدگری آگاهانه و آرامش مادری',
+          description: 'رهایی از کمال‌گرایی و احساس گناه، شناخت نیازهای واقعی خود و ساختن ارتباطی امن و بالنده با فرزندان.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'خودشناسی و آرامش درونی',
+          description: 'شنیدن صدای واقعی درون، تعیین مرزهای سالم در روابط و کار، و بازیابی اعتمادبه‌نفس و سرزندگی.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+        {
+          icon: <Crown className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+          title: 'کوچینگ نوجوان و مهارت ارتباطی',
+          description: 'مهار تعارض‌های والد و فرزندی، درک زبان و احساسات نوجوان، و برقراری گفتگوی بدون قضاوت و تنش.',
+          ctaText: 'رزرو جلسه معارفه',
+        },
+      ];
+    }
+
+    // Dynamic generation from coach methodology if available
+    if (coach?.method && coach.method.length >= 3) {
+      const dynamicIcons = [
+        <Compass key="1" className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+        <HeartHandshake key="2" className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+        <ShieldCheck key="3" className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+      ];
+      return coach.method.slice(0, 3).map((step, idx) => ({
+        icon: dynamicIcons[idx] || dynamicIcons[0],
+        title: step.title,
+        description: step.description,
+        ctaText: 'رزرو جلسه معارفه',
+      }));
+    }
+
+    // Universal professional fallback (Strictly neutral & non-maternal)
     return [
       {
-        icon: <Flower2 className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
-        title: 'والدگری آگاهانه و آرامش مادری',
-        description: 'رهایی از کمال‌گرایی و احساس گناه، شناخت نیازهای واقعی خود و ساختن ارتباطی امن و بالنده با فرزندان.',
-        ctaText: 'رزرو جلسه معارفه',
-      },
-      {
         icon: <Compass className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
-        title: 'خودشناسی و آرامش درونی',
-        description: 'شنیدن صدای واقعی درون، تعیین مرزهای سالم در روابط و کار، و بازیابی اعتمادبه‌نفس و سرزندگی.',
+        title: 'خودشناسی عمیق و وضوح ذهنی',
+        description: 'ایجاد فضایی امن و بدون قضاوت برای شنیدن صدای درون، واکاوی اولویت‌ها و درک شفاف موقعیت کنونی.',
         ctaText: 'رزرو جلسه معارفه',
       },
       {
-        icon: <Crown className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
-        title: 'کوچینگ نوجوان و مهارت ارتباطی',
-        description: 'مهار تعارض‌های والد و فرزندی، درک زبان و احساسات نوجوان، و برقراری گفتگوی بدون قضاوت و تنش.',
+        icon: <HeartHandshake className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+        title: 'بازنگری باورها و تصمیم‌گیری اصیل',
+        description: 'فاصله‌گیری از الگوهای بازدارنده، همسوسازی اهداف با ارزش‌های واقعی و انتخاب شجاعانه مسیر تازه.',
+        ctaText: 'رزرو جلسه معارفه',
+      },
+      {
+        icon: <ShieldCheck className="h-10 w-10 text-[#1f3d3a]" strokeWidth={1.5} />,
+        title: 'اقدام متعهدانه و همراهی تا تثبیت',
+        description: 'طراحی گام‌های عملیاتی ملموس، مهار موانع درونی و پایش مستمر پیشرفت برای خلق نتایج ماندگار.',
         ctaText: 'رزرو جلسه معارفه',
       },
     ];
