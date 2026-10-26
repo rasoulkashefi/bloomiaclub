@@ -28,7 +28,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
   coachName = 'کوچ بلومیا',
   coachTitle = 'کوچ رشد فردی و خودآگاهی',
   coachAvatar = '/images/solea/mahya_about.jpg',
-  initialOfferingTitle = 'جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)',
+  initialOfferingTitle = 'جلسه صفر (معارفه رایگان)',
   offerings = [],
 }) => {
   const [fullName, setFullName] = useState('');
@@ -146,7 +146,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
   };
 
   const defaultOfferings: BookingOfferingItem[] = [
-    { id: 'zero', title: 'جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)', priceLabel: 'رایگان' },
+    { id: 'zero', title: 'جلسه صفر (معارفه رایگان)', priceLabel: 'رایگان' },
     { id: 'coaching', title: 'تک‌جلسه کوچینگ رشد فردی و خودآگاهی (۶۰ دقیقه)', priceLabel: '۸۵۰٬۰۰۰ تومان' },
     { id: 'growth', title: 'پکیج ۴ جلسه‌ای «شروع»', priceLabel: '۲٬۵۰۰٬۰۰۰ تومان' },
     { id: 'self-discovery', title: 'پکیج ۶ جلسه‌ای «کشف»', priceLabel: '۳٬۶۰۰٬۰۰۰ تومان' },

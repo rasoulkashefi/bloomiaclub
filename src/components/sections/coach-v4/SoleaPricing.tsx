@@ -28,24 +28,15 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach, onOpenBooking
   const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
 
   // Zero / Discovery session
-  const zeroService = coach?.services?.find((s) => s.isFree) || (isMahya ? {
-    id: 'zero',
-    title: 'جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)',
-    duration: '۳۰ دقیقه',
-    description:
-      'یک گفتگوی آنلاین ۳۰ دقیقه‌ای رایگان برای آشنایی صمیمانه، شنیدن دغدغه‌های شما و بررسی اینکه آیا کوچینگ رشد فردی و خودآگاهی برای اهداف شما مناسب است یا خیر.',
-    isFree: true,
-    bookingUrl: '#contact',
-  } : {
+  const zeroService = coach?.services?.find((s) => s.isFree) || {
     id: 'zero',
     title: 'جلسه صفر (معارفه رایگان)',
-    duration: '۴۵ دقیقه',
+    duration: 'جلسه معارفه',
     description:
-      'یک گفتگوی آنلاین ۴۵ دقیقه‌ای رایگان برای آشنایی صمیمانه، شنیدن دغدغه‌های شما و بررسی اینکه آیا کوچینگ در این مقطع برای شرایط شما مناسب است یا خیر.',
+      'یک گفتگوی آنلاین رایگان برای آشنایی صمیمانه، شنیدن دغدغه‌های شما و بررسی اینکه آیا سبک همراهی من برای شرایط فعلی شما مناسب است یا خیر.',
     isFree: true,
-    bookingUrl:
-      'https://atyno.com/fa/embed/934b33a2-9888-4209-9901-b9632e812e6c?meeting=zero',
-  });
+    bookingUrl: coach?.bookingUrl || '#contact',
+  };
 
   // Single Coaching Session
   const singleService = coach?.services?.find((s) => !s.isFree) || (isMahya ? {

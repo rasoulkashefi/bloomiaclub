@@ -41,6 +41,8 @@
 - **تخصص‌ها:** کوچینگ مادران و والدگری آگاهانه | رهایی از احساس گناه مادری و فرسودگی | خودشناسی و اعتماد‌به‌نفس بانوان | کوچینگ نوجوانان و مهارت‌های ارتباطی | تعادل کار و زندگی و مدیریت اولویت‌ها
 - **خلاصه معرفی:** همراهی تخصصی با مادران و بانوان برای رهایی از فرسودگی، شنیدن صدای درون، مدیریت تعارض با فرزندان و ساختن زندگی متعادل و اصیل.
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/fatemeh_esmaeeli](https://bloomiaclub.com/coaches/fatemeh_esmaeeli)
+- **جلسه صفر (معارفه):** ۴۵ دقیقه (خوانده‌شده به صورت پویا از آتینو)
+- **لینک رزرواسیون امبد (Atyno Embed):** `https://atyno.com/fa/embed/934b33a2-9888-4209-9901-b9632e812e6c?meeting=zero` (پلن Pro، تم سبز #1f3d3a و بدون واترمارک)
 
 ### محیا شکوری (`mahya_shakoori`)
 - **عنوان:** کوچ رشد فردی و خودآگاهی
@@ -117,6 +119,7 @@
   2. [زندگی روی خلبان خودکار: چگونه با پرسشگری عمیق از الگوهای واکنشی و شرطی‌شده رها شویم؟](https://bloomiaclub.com/blog/breaking-mental-autopilot-powerful-questions-coaching) (۱ آبان ۱۴۰۵)
   3. [هنر مکث آگاهانه در دوراهی‌های مهم: چگونه بدون تعجیل و فشار اطرافیان، تصمیمی اصیل بگیریم؟](https://bloomiaclub.com/blog/the-sacred-pause-authentic-decision-making-coaching) (۵ آبان ۱۴۰۵)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/parmiss-yari](https://bloomiaclub.com/coaches/parmiss-yari)
+- **جلسه صفر (معارفه):** ۶۰ دقیقه (خوانده‌شده به صورت پویا از آتینو)
 - **لینک رزرواسیون امبد (Atyno Embed):** `https://atyno.com/fa/embed/62eb65e6-f7bc-4b8c-8ea0-e3a7c974a9bd?meeting=zero-coaching-session` (پلن Pro، تم سبز #1f3d3a و بدون واترمارک)
 
 

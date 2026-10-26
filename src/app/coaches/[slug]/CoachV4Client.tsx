@@ -49,15 +49,30 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
     bookingUrl: '',
   });
 
+  // Dynamic introductory session directly from coach.services (synced from Atyno)
+  const introService = useMemo(() => {
+    return (
+      coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه')) ||
+      coach?.services?.[0]
+    );
+  }, [coach]);
+
+  const defaultIntroTitle = useMemo(() => {
+    if (!introService) return 'رزرو آنلاین جلسه معارفه';
+    return introService.duration ? `${introService.title} (${introService.duration})` : introService.title;
+  }, [introService]);
+
   const handleOpenBooking = (offeringTitle?: string, bookingUrl?: string) => {
+    const effectiveTitle = offeringTitle || defaultIntroTitle;
+    const effectiveUrl = bookingUrl || introService?.bookingUrl || coach?.bookingUrl || '';
     if (isAtynoCoach) {
       setAtynoModalState({
         isOpen: true,
-        title: offeringTitle || 'رزرو آنلاین جلسه معارفه',
-        bookingUrl: bookingUrl || coach?.bookingUrl || '',
+        title: effectiveTitle,
+        bookingUrl: effectiveUrl,
       });
     } else {
-      setSelectedOffering(offeringTitle || 'جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)');
+      setSelectedOffering(effectiveTitle);
       setLeadModalOpen(true);
     }
   };

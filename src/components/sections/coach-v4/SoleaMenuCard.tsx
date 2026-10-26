@@ -195,7 +195,7 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({
                 onClick={() => {
                   onClose();
                   if (onOpenBooking) {
-                    onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)');
+                    onOpenBooking();
                   } else {
                     window.location.href = bookingLink;
                   }

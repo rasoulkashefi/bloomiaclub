@@ -237,7 +237,7 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu, onO
               <div className="hidden md:block">
                 <button
                   type="button"
-                  onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : undefined}
+                  onClick={() => onOpenBooking ? onOpenBooking() : undefined}
                   className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-[14px] font-medium text-white transition-all hover:bg-[#2b544e] hover:shadow-sm cursor-pointer"
                 >
                   رزرو جلسه معارفه

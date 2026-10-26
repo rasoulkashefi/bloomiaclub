@@ -39,17 +39,21 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
     coach?.coverImage ||
     (canonical === 'mahya_shakouri' ? '/images/solea/mahya_about.jpg' : '/images/solea/fatemeh_about.jpg');
 
+  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه')) || coach?.services?.[0];
+  const introDuration = introService?.duration || '';
+  const defaultTopicName = introService ? (introDuration ? `${introService.title} (${introDuration})` : introService.title) : 'جلسه معارفه رایگان (جلسه صفر)';
+
   // Form states
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
-  const [topic, setTopic] = useState('جلسه معارفه رایگان (جلسه صفر ۳۰ دقیقه‌ای)');
+  const [topic, setTopic] = useState(defaultTopicName);
   const [message, setMessage] = useState('');
   const [honeypot, setHoneypot] = useState('');
 
   // Dynamic topic options based on coach profile
   const topicOptions = [
-    'جلسه معارفه رایگان (جلسه صفر ۳۰ دقیقه‌ای)',
-    ...(coach?.services?.filter((s) => !s.isFree).map((s) => `${s.title} (${s.duration || '۶۰ دقیقه'})`) || []),
+    defaultTopicName,
+    ...(coach?.services?.filter((s) => !s.isFree).map((s) => `${s.title}${s.duration ? ` (${s.duration})` : ''}`) || []),
     ...(coach?.packagesData?.map((p) => p.title) || []),
     ...(coach?.specialties?.slice(0, 3) || []),
     'سایر سوالات و درخواست‌ها',
@@ -212,7 +216,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
             {/* Action CTA Button */}
             <button
               type="button"
-              onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+              onClick={() => onOpenBooking ? onOpenBooking() : (window.location.href = bookingLink)}
               className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-white leading-none hover:bg-[#2b544e] transition-colors shadow-sm cursor-pointer"
             >
               رزرو جلسه
@@ -376,13 +380,15 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
             </h3>
 
             <p className="mt-3.5 text-sm leading-[1.75] text-[#6b6b6b]">
-              یک گفتگوی ۳۰ دقیقه‌ای بدون قضاوت و آرامش‌بخش برای شنیدن دغدغه‌های شما و شفاف‌سازی مسیر رشد.
+              {introDuration
+                ? `یک گفتگوی ${introDuration} بدون قضاوت و آرامش‌بخش برای شنیدن دغدغه‌های شما و شفاف‌سازی مسیر رشد.`
+                : 'یک گفتگوی آرامش‌بخش و بدون قضاوت برای شنیدن دغدغه‌های شما و شفاف‌سازی مسیر رشد.'}
             </p>
 
             <div className="mt-8 border-t border-black/10 pt-6">
               <button
                 type="button"
-                onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+                onClick={() => onOpenBooking ? onOpenBooking() : (window.location.href = bookingLink)}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1f3d3a] py-4 text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#2b544e] active:scale-98 cursor-pointer"
               >
                 <Phone className="h-4 w-4" />
@@ -460,7 +466,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
               <ul className="space-y-2.5 text-sm text-white/75">
                 <li>
                   <Link href="#consultation" className="hover:text-white transition-colors">
-                    جلسه معارفه رایگان (جلسه صفر ۳۰ دقیقه‌ای)
+                    {defaultTopicName}
                   </Link>
                 </li>
                 {coach?.packagesData && coach.packagesData.length > 0 ? (
@@ -541,11 +547,11 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
                   رزرو گفتگوی آنلاین معارفه
                 </span>
                 <span className="mt-1 block font-serif text-lg font-bold text-white">
-                  ۳۰ دقیقه گفتگوی رایگان
+                  {introDuration ? `${introDuration} گفتگوی رایگان` : 'جلسه گفتگوی رایگان'}
                 </span>
                 <button
                   type="button"
-                  onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+                  onClick={() => onOpenBooking ? onOpenBooking() : (window.location.href = bookingLink)}
                   className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-[#dfece9] py-2.5 text-xs font-semibold text-[#1f3d3a] transition-all hover:bg-white active:scale-98 cursor-pointer"
                 >
                   ورود به تقویم رزرو آنلاین

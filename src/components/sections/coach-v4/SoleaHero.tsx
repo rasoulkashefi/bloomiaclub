@@ -270,7 +270,7 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
             <div className="mt-auto pt-6 lg:pt-8 w-full flex items-end">
               <button
                 type="button"
-                onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+                onClick={() => onOpenBooking ? onOpenBooking() : (window.location.href = bookingLink)}
                 className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-7 py-3 sm:py-3.5 text-sm sm:text-[15px] font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 رزرو جلسه معارفه رایگان

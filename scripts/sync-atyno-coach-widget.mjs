@@ -139,17 +139,30 @@ async function main() {
   if (pageErr) throw pageErr;
   console.log(`[Atyno Sync] Updated widget tokens on booking page (${pageRow.slug}):`, pageRow);
 
-  // 5. Query active session types
-  const { data: sessions, error: sessErr } = await atynoDb
-    .from('booking_session_types')
-    .select('id, slug, title, duration_min, is_active')
-    .eq('owner_user_id', userId)
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true });
+  // 5. Query active session types & packages directly from Atyno
+  const [{ data: sessions, error: sessErr }, { data: packages, error: pkgErr }] = await Promise.all([
+    atynoDb
+      .from('booking_session_types')
+      .select('id, slug, title, duration_min, description, is_active, price_type, price_amount, sort_order')
+      .eq('owner_user_id', userId)
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: true }),
+    atynoDb
+      .from('session_packages')
+      .select('id, slug, title, session_count, total_price, is_active, description')
+      .eq('coach_id', userId)
+      .eq('is_active', true)
+      .order('created_at', { ascending: true }),
+  ]);
 
   if (sessErr) throw sessErr;
+  if (pkgErr) console.warn('[Atyno Sync] Warning fetching packages:', pkgErr.message);
 
-  const zeroSession = sessions?.find((s) => s.slug.includes('zero')) || sessions?.[0];
+  const FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
+  const toFa = (val) => String(val).replace(/\d/g, (d) => FA_DIGITS[Number(d)]);
+
+  const zeroSession = sessions?.find((s) => s.slug.includes('zero') || s.title?.includes('صفر')) || sessions?.[0];
   const meetingSlug = zeroSession ? zeroSession.slug : null;
 
   const embedUrl = meetingSlug
@@ -157,6 +170,37 @@ async function main() {
     : `https://atyno.com/fa/embed/${userId}`;
 
   console.log(`[Atyno Sync] Generated Seamless Embed URL: ${embedUrl}`);
+  console.log(`[Atyno Sync] Found ${sessions?.length || 0} session type(s) and ${packages?.length || 0} package(s) in Atyno.`);
+
+  // Map Atyno sessions to dynamic Sanity services
+  const dynamicServices = (sessions || []).map((sess, idx) => {
+    const isFree = sess.price_type !== 'paid' || !sess.price_amount || Number(sess.price_amount) === 0;
+    const durMin = Number(sess.duration_min) || 60;
+    const durText = `${toFa(durMin)} دقیقه`;
+    return {
+      _key: `srv_${sess.slug || idx}_${Math.random().toString(36).slice(2, 6)}`,
+      id: sess.slug || `srv_${idx}`,
+      title: sess.title,
+      duration: durText,
+      description: sess.description || '',
+      isFree,
+      price: isFree ? 0 : Number(sess.price_amount),
+      bookingUrl: `https://atyno.com/fa/embed/${userId}?meeting=${sess.slug}`,
+    };
+  });
+
+  // Map Atyno packages to dynamic Sanity packages (if any defined in Atyno)
+  const dynamicPackages = (packages || []).map((pkg, idx) => ({
+    _key: `pkg_${pkg.slug || idx}_${Math.random().toString(36).slice(2, 6)}`,
+    id: pkg.slug || `pkg_${idx}`,
+    title: pkg.title,
+    sessions: Number(pkg.session_count) || 4,
+    duration: '۶۰ دقیقه',
+    description: pkg.description || '',
+    price: Number(pkg.total_price) || 0,
+    isPopular: idx === 1,
+    bookingUrl: `https://atyno.com/fa/embed/${userId}?package=${pkg.slug}`,
+  }));
 
   // 6. If coachSlug is provided, update Bloomia Sanity CMS and Supabase
   if (coachSlug) {
@@ -178,8 +222,22 @@ async function main() {
     if (!coachDoc) {
       console.warn(`[Atyno Sync] Coach ${coachSlug} not found in Sanity. Skipping Sanity patch.`);
     } else {
-      await sanity.patch(coachDoc._id).set({ bookingUrl: embedUrl }).commit();
-      console.log(`[Atyno Sync] Successfully patched bookingUrl in Sanity doc: ${coachDoc._id}`);
+      const patchData = {
+        bookingUrl: embedUrl,
+      };
+
+      if (dynamicServices.length > 0) {
+        patchData.services = dynamicServices;
+        console.log(`[Atyno Sync] Syncing ${dynamicServices.length} dynamic services from Atyno:`, dynamicServices.map(s => `${s.title} (${s.duration})`));
+      }
+
+      if (dynamicPackages.length > 0) {
+        patchData.packages = dynamicPackages;
+        console.log(`[Atyno Sync] Syncing ${dynamicPackages.length} dynamic packages from Atyno:`, dynamicPackages.map(p => `${p.title} (${p.price} T)`));
+      }
+
+      await sanity.patch(coachDoc._id).set(patchData).commit();
+      console.log(`[Atyno Sync] Successfully patched coach in Sanity: ${coachDoc._id}`);
 
       // 7. Sync to Bloomia Supabase
       if (bloomiaEnv.supabaseServiceKey) {
