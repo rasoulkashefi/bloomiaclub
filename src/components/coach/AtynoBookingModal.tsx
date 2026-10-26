@@ -11,6 +11,7 @@ interface AtynoBookingModalProps {
   title: string;
   bookingUrl: string;
   coachName?: string;
+  coachSlug?: string;
 }
 
 export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
@@ -19,6 +20,7 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
   title,
   bookingUrl,
   coachName = 'کوچ',
+  coachSlug,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,15 +38,27 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
       if (url.pathname.includes('/fa/embed/')) {
         const meeting = url.searchParams.get('meeting');
         const pkg = url.searchParams.get('package');
-        if (meeting) return `https://atyno.com/fatemeh/${meeting}`;
-        if (pkg) return `https://atyno.com/fatemeh/packages/${pkg}`;
-        return 'https://atyno.com/fatemeh';
+        const parts = url.pathname.split('/').filter(Boolean);
+        const uuid = parts[parts.length - 1];
+
+        const UUID_MAP: Record<string, string> = {
+          '62eb65e6-f7bc-4b8c-8ea0-e3a7c974a9bd': 'parmiss',
+          '934b33a2-9888-4209-9901-b9632e812e6c': 'fatemeh',
+        };
+
+        const username =
+          UUID_MAP[uuid] ||
+          (coachSlug ? coachSlug.replace(/-.*/, '').toLowerCase() : 'parmiss');
+
+        if (meeting) return `https://atyno.com/${username}/${meeting}`;
+        if (pkg) return `https://atyno.com/${username}/packages/${pkg}`;
+        return `https://atyno.com/${username}`;
       }
       return bookingUrl;
     } catch {
       return bookingUrl;
     }
-  }, [bookingUrl]);
+  }, [bookingUrl, coachSlug]);
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>

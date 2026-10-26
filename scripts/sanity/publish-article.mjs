@@ -282,7 +282,7 @@ async function publishArticle(jsonFilePath) {
 
     // Workflow
     status: 'published',
-    publishedAt: new Date().toISOString(),
+    publishedAt: payload.publishedAt ? new Date(payload.publishedAt).toISOString() : new Date().toISOString(),
     isFeatured: payload.isFeatured || false,
   };
 

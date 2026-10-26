@@ -158,6 +158,7 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
           title={atynoModalState.title}
           bookingUrl={atynoModalState.bookingUrl}
           coachName={coachName}
+          coachSlug={coach?.slug}
         />
       )}
     </SoleaScrollProvider>

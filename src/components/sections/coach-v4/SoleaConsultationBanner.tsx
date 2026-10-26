@@ -193,24 +193,13 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
             </ul>
 
             <div className="mt-8 sm:mt-10">
-              {isAtynoCoach ? (
-                <a
-                  href={bookingLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-7 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#2b544e]"
-                >
-                  رزرو وقت در آتینو
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
-                  className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-7 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#2b544e] cursor-pointer"
-                >
-                  درخواست جلسه معارفه رایگان
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+                className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-7 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#2b544e] cursor-pointer"
+              >
+                درخواست جلسه معارفه رایگان
+              </button>
             </div>
           </div>
 

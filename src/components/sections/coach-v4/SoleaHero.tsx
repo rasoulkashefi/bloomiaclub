@@ -193,24 +193,13 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
           <span className="block text-[11px] font-sans tracking-wider text-white/70">
             ارتباط مستقیم
           </span>
-          {isAtynoCoach ? (
-            <a
-              href={bookingLink}
-              target="_blank"
-              rel="noreferrer"
-              className="font-sans font-medium text-sm sm:text-base text-white hover:text-[#dfece9] transition-colors"
-            >
-              رزرو آنلاین جلسه معارفه
-            </a>
-          ) : (
-            <button
-              type="button"
-              onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
-              className="font-sans font-medium text-sm sm:text-base text-white hover:text-[#dfece9] transition-colors cursor-pointer text-start"
-            >
-              رزرو آنلاین جلسه معارفه
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => onOpenBooking ? onOpenBooking('رزرو آنلاین جلسه معارفه') : (window.location.href = bookingLink)}
+            className="font-sans font-medium text-sm sm:text-base text-white hover:text-[#dfece9] transition-colors cursor-pointer text-start"
+          >
+            رزرو آنلاین جلسه معارفه
+          </button>
         </div>
 
         {/* Two-Line Hamburger Button */}
@@ -279,24 +268,13 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
 
             {/* Desktop CTA Button Container (Anchored to bottom line, matching social strip baseline) */}
             <div className="mt-auto pt-6 lg:pt-8 w-full flex items-end">
-              {isAtynoCoach ? (
-                <a
-                  href={bookingLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-7 py-3 sm:py-3.5 text-sm sm:text-[15px] font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  رزرو جلسه معارفه رایگان
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
-                  className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-7 py-3 sm:py-3.5 text-sm sm:text-[15px] font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                >
-                  رزرو جلسه معارفه رایگان
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+                className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-7 py-3 sm:py-3.5 text-sm sm:text-[15px] font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              >
+                رزرو جلسه معارفه رایگان
+              </button>
             </div>
 
             {/* Mobile-Only Coach Intro & Social Links */}

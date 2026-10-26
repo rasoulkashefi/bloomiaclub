@@ -190,27 +190,20 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({
 
             {/* Booking Contact */}
             <div>
-              {isAtynoCoach ? (
-                <a
-                  href={bookingLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center w-full rounded-xl bg-[#dfece9] px-4 py-3 font-sans text-sm font-semibold text-[#1f3d3a] transition-all hover:bg-white"
-                >
-                  رزرو آنلاین جلسه معارفه
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => {
-                    onClose();
-                    onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)');
-                  }}
-                  className="inline-flex items-center justify-center w-full rounded-xl bg-[#dfece9] px-4 py-3 font-sans text-sm font-semibold text-[#1f3d3a] transition-all hover:bg-white cursor-pointer"
-                >
-                  رزرو آنلاین جلسه معارفه
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  if (onOpenBooking) {
+                    onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)');
+                  } else {
+                    window.location.href = bookingLink;
+                  }
+                }}
+                className="inline-flex items-center justify-center w-full rounded-xl bg-[#dfece9] px-4 py-3 font-sans text-sm font-semibold text-[#1f3d3a] transition-all hover:bg-white cursor-pointer"
+              >
+                رزرو آنلاین جلسه معارفه
+              </button>
             </div>
 
             {/* Social Icons */}

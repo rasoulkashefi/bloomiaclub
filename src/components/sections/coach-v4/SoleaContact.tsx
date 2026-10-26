@@ -210,24 +210,13 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
             </nav>
 
             {/* Action CTA Button */}
-            {isAtynoCoach ? (
-              <a
-                href={bookingLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-white leading-none hover:bg-[#2b544e] transition-colors shadow-sm"
-              >
-                رزرو جلسه
-              </a>
-            ) : (
-              <button
-                type="button"
-                onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
-                className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-white leading-none hover:bg-[#2b544e] transition-colors shadow-sm cursor-pointer"
-              >
-                رزرو جلسه
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+              className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-xs sm:text-[13px] font-semibold text-white leading-none hover:bg-[#2b544e] transition-colors shadow-sm cursor-pointer"
+            >
+              رزرو جلسه
+            </button>
           </div>
         </motion.div>
 
@@ -391,26 +380,14 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
             </p>
 
             <div className="mt-8 border-t border-black/10 pt-6">
-              {isAtynoCoach ? (
-                <a
-                  href={bookingLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1f3d3a] py-4 text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#2b544e] active:scale-98"
-                >
-                  <Phone className="h-4 w-4" />
-                  <span>رزرو آنلاین جلسه معارفه</span>
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1f3d3a] py-4 text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#2b544e] active:scale-98 cursor-pointer"
-                >
-                  <Phone className="h-4 w-4" />
-                  <span>رزرو آنلاین جلسه معارفه</span>
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1f3d3a] py-4 text-xs font-semibold tracking-wider text-white shadow-md transition-all hover:bg-[#2b544e] active:scale-98 cursor-pointer"
+              >
+                <Phone className="h-4 w-4" />
+                <span>رزرو آنلاین جلسه معارفه</span>
+              </button>
             </div>
           </motion.div>
 
@@ -566,24 +543,13 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
                 <span className="mt-1 block font-serif text-lg font-bold text-white">
                   ۳۰ دقیقه گفتگوی رایگان
                 </span>
-                {isAtynoCoach ? (
-                  <a
-                    href={bookingLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-[#dfece9] py-2.5 text-xs font-semibold text-[#1f3d3a] transition-all hover:bg-white active:scale-98"
-                  >
-                    ورود به تقویم رزرو آنلاین
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => onOpenBooking?.('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)')}
-                    className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-[#dfece9] py-2.5 text-xs font-semibold text-[#1f3d3a] transition-all hover:bg-white active:scale-98 cursor-pointer"
-                  >
-                    درخواست آنلاین جلسه معارفه
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => onOpenBooking ? onOpenBooking('جلسه صفر (معارفه رایگان ۳۰ دقیقه‌ای)') : (window.location.href = bookingLink)}
+                  className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-[#dfece9] py-2.5 text-xs font-semibold text-[#1f3d3a] transition-all hover:bg-white active:scale-98 cursor-pointer"
+                >
+                  ورود به تقویم رزرو آنلاین
+                </button>
               </div>
 
               <p className="text-xs leading-relaxed text-white/50 pt-1">

@@ -164,6 +164,15 @@ node scripts/sanity/publish-coach.mjs scripts/sanity/temp-coach.json
 5. فایل **`COACHES_CATALOG.md`** را با ردیف جدید و آمار به‌روزشده بازنویسی می‌کند.
 6. آدرس زنده پروفایل در وبسایت را برمی‌گرداند: `https://bloomiaclub.com/coaches/<slug>`.
 
+### گام پنجم: اتصال و امبدینگ خودکار ویجت رزرواسیون آتینو (Atyno Widget Embed Sync)
+اگر کوچ در سامانه رزرواسیون آتینو (Atyno) ثبت‌نام کرده و دارای اکانت است:
+۱. با اسکیل `bloomia-atyno-widget-sync` و اسکریپت `scripts/sync-atyno-coach-widget.mjs` ویجت او را به پالت رنگی بلومیا (`#1f3d3a`)، فونت وزیرمتن و پلن حرفه‌ای بدون واترمارک متصل کنید:
+```powershell
+node scripts/sync-atyno-coach-widget.mjs <coach-email> <coach-slug>
+```
+۲. این دستور به‌صورت خودکار لینک امبد نهایی (`/fa/embed/<uuid>?meeting=...`) را تولید کرده و در سند Sanity کوچ و Supabase ذخیره می‌کند.
+۳. در فرانت‌اند بلومیا، دکمه‌های رزرو جلسه معارفه در تمام سکشن‌ها به صورت خودکار مودال داخلی بلومیا (`AtynoBookingModal`) را باز می‌کنند تا کاربر بدون خروج از بلومیا و بدون نمایش هیچ نام یا برند دیگری، جلسه خود را رزرو کند.
+
 ---
 
 ## ۵. چک‌لیست نهایی کنترل کیفیت (Quality Assurance)
@@ -175,6 +184,7 @@ node scripts/sanity/publish-coach.mjs scripts/sanity/temp-coach.json
 - [ ] شناسه سند در Sanity حتماً `coach-profile-<slug>` است (نه `coach-<slug>`).
 - [ ] سند نویسنده وبلاگ `coach-<slug>` ایجاد شده است.
 - [ ] فایل `COACHES_CATALOG.md` به‌روز شده است.
+- [ ] در صورت داشتن اکانت آتینو، ویجت رزرواسیون با اسکریپت `sync-atyno-coach-widget.mjs` با رنگ `#1f3d3a` سینک شده و لینک امبد در Sanity قرار گرفته است.
 - [ ] سکشن «چگونه در کنار هم مسیر را می‌سازیم» (`SoleaWorkTogether.tsx`) دارای ۳ ستون اختصاصی متناسب با تخصص کوچ است و ابداً متن مادری/والدگری یا مربوط به کوچی دیگر در آن وجود ندارد.
 - [ ] تیتر ۳ خطی هیرو، بیوگرافی فشرده و نقل‌قول مشاوره در `SoleaHero.tsx` و `SoleaConsultationBanner.tsx` با هویت کوچ همگام شده است.
 - [ ] تصویر اشتراک‌گذاری شبکه‌های اجتماعی (`og-<slug>.jpg`) با اسکریپت `scripts/generate-coach-og.mjs` ساخته شده است.

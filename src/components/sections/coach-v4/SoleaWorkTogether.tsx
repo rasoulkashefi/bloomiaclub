@@ -322,24 +322,13 @@ export const SoleaWorkTogether: React.FC<SoleaWorkTogetherProps> = ({ coach, onO
 
               {/* Action Button */}
               <div className="mt-8 sm:mt-10">
-                {isAtynoCoach ? (
-                  <a
-                    href={bookingLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-[#1f3d3a] px-7 py-3 text-xs font-semibold tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-[#2b544e] hover:shadow-md"
-                  >
-                    {item.ctaText}
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => onOpenBooking?.(item.title)}
-                    className="inline-flex items-center justify-center rounded-full bg-[#1f3d3a] px-7 py-3 text-xs font-semibold tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-[#2b544e] hover:shadow-md cursor-pointer"
-                  >
-                    {item.ctaText}
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => onOpenBooking ? onOpenBooking(item.title) : (window.location.href = bookingLink)}
+                  className="inline-flex items-center justify-center rounded-full bg-[#1f3d3a] px-7 py-3 text-xs font-semibold tracking-wider text-white shadow-sm transition-all duration-200 hover:bg-[#2b544e] hover:shadow-md cursor-pointer"
+                >
+                  {item.ctaText}
+                </button>
               </div>
             </motion.div>
           ))}
