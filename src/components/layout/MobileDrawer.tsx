@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { X, Phone, Calendar, BookOpen, Users, Compass, HelpCircle, ArrowLeft } from 'lucide-react';
+import { trackIntroBookingClick } from '@/lib/analytics';
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -90,7 +91,10 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({ isOpen, onClose }) =
         <div className="pt-4 border-t border-brand-neutral-200 space-y-3">
           <Link
             href="/coaching/free-intro-session"
-            onClick={onClose}
+            onClick={() => {
+              trackIntroBookingClick('mobile_drawer');
+              onClose();
+            }}
             className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-brand-teal-900 text-white font-medium hover:bg-brand-teal-800 transition-colors shadow-soft text-center"
           >
             <Calendar className="w-4 h-4" />

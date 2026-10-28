@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X, ExternalLink, Loader2, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { trackBookingModalOpen } from '@/lib/analytics';
 
 interface AtynoBookingModalProps {
   isOpen: boolean;
@@ -39,8 +40,9 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setIsLoading(true);
+      trackBookingModalOpen(coachName, 'atyno', coachSlug);
     }
-  }, [isOpen, bookingUrl]);
+  }, [isOpen, bookingUrl, coachName, coachSlug]);
 
   // Convert embed URL to a clean public URL for the fallback "open in new tab"
   const publicFallbackUrl = React.useMemo(() => {

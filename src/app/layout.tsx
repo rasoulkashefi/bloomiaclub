@@ -5,6 +5,7 @@ import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ConditionalGlobalLayout } from '@/components/layout/ConditionalGlobalLayout';
+import { PostHogProvider } from '@/components/providers/PostHogProvider';
 
 const vazirmatn = Vazirmatn({
   subsets: ['arabic', 'latin'],
@@ -131,7 +132,8 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-screen bg-brand-surface font-sans text-brand-neutral-900 antialiased flex flex-col selection:bg-brand-teal-900 selection:text-white"
       >
-        <ConditionalGlobalLayout>
+        <PostHogProvider>
+          <ConditionalGlobalLayout>
           <Navbar />
         </ConditionalGlobalLayout>
         
@@ -140,6 +142,7 @@ export default function RootLayout({
         <ConditionalGlobalLayout>
           <Footer />
         </ConditionalGlobalLayout>
+        </PostHogProvider>
       </body>
     </html>
   );

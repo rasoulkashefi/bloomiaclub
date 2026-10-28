@@ -5,6 +5,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { X, Calendar, User, Phone, Mail, MessageSquare, CheckCircle2, AlertCircle, Loader2, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { trackBookingModalOpen, trackBookingCompleted } from '@/lib/analytics';
 
 export interface BookingOfferingItem {
   id: string;
@@ -47,6 +48,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
   // Synchronize initial offering title when modal opens
   useEffect(() => {
     if (isOpen) {
+      trackBookingModalOpen(coachName, 'lead');
       if (initialOfferingTitle) {
         setSelectedOffering(initialOfferingTitle);
       }
@@ -133,6 +135,10 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
       }
 
       setSubmitStatus('success');
+      trackBookingCompleted(
+        coachName,
+        selectedOffering.includes('معارفه') || selectedOffering.includes('صفر') ? 'free_intro' : 'paid_session'
+      );
       setStatusMessage(
         result.message ||
           'درخواست جلسه شما با موفقیت ثبت شد. جهت هماهنگی نهایی ساعت جلسه به زودی با شما تماس گرفته خواهد شد.'

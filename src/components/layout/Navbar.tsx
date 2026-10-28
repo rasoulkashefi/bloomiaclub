@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, Calendar, Phone } from 'lucide-react';
 import { MobileDrawer } from './MobileDrawer';
+import { trackIntroBookingClick } from '@/lib/analytics';
 
 const mainNav = [
   { href: '/', label: 'صفحه اصلی' },
@@ -86,6 +87,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/coaching/free-intro-session"
+            onClick={() => trackIntroBookingClick('navbar')}
             className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-white bg-brand-teal-900 hover:bg-brand-teal-800 active:scale-98 transition-all shadow-soft min-h-[44px]"
           >
             <Calendar className="w-4 h-4 text-brand-teal-200" />
