@@ -41,8 +41,9 @@ interface SoleaSupportProps {
 export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
   const isMahya = coach?.slug?.includes('mahya');
   const isFatemeh = coach?.slug === 'fatemeh_esmaeeli';
+  const isPayam = coach?.slug?.includes('esmi');
   const bookingLink = coach?.bookingUrl || (isFatemeh ? 'https://atyno.com/fatemeh/zero' : '#contact');
-  const coachName = coach?.name || (isFatemeh ? 'فاطمه اسماعیلی' : (isMahya ? 'محیا شکوری' : 'کوچ بلومیا'));
+  const coachName = coach?.name || (isFatemeh ? 'فاطمه اسماعیلی' : (isMahya ? 'محیا شکوری' : (isPayam ? 'پیام اسمی' : 'کوچ بلومیا')));
 
   const persianNumbers = ['۰۱', '۰۲', '۰۳', '۰۴'];
 
@@ -56,24 +57,28 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
     : defaultSteps;
 
   // Welcome Packet Configuration (Dynamic with elegant fallback to official ICF document)
-  const hasDedicatedPacket = Boolean(coach?.welcomePacket?.fileUrl || isFatemeh || isMahya);
+  const hasDedicatedPacket = Boolean(coach?.welcomePacket?.fileUrl || isFatemeh || isMahya || isPayam);
   const defaultIcfPdfUrl = 'https://coachingfederation.org/wp-content/uploads/2025/09/icf-cs-core-competencies-2025.pdf';
 
   const packetFile =
     coach?.welcomePacket?.fileUrl ||
-    (isMahya
-      ? '/documents/welcome-packets/mahya_shakouri_welcome_packet.pdf'
-      : isFatemeh
-        ? '/documents/welcome-packets/fatemeh_esmaeeli_welcome_packet.pdf'
-        : defaultIcfPdfUrl);
+    (isPayam
+      ? 'https://cdn.sanity.io/files/7yjhdw88/production/5f6c31f24b761691b4b59bf5ad8eeb7eb4b11a80.pdf'
+      : isMahya
+        ? '/documents/welcome-packets/mahya_shakouri_welcome_packet.pdf'
+        : isFatemeh
+          ? '/documents/welcome-packets/fatemeh_esmaeeli_welcome_packet.pdf'
+          : defaultIcfPdfUrl);
 
   const packetCover =
     coach?.welcomePacket?.coverImageUrl ||
-    (isMahya
-      ? '/images/solea/mahya_welcome_packet_cover.png'
-      : isFatemeh
-        ? '/images/solea/fatemeh_welcome_packet_cover.png'
-        : '/images/solea/icf_competencies_cover.png');
+    (isPayam
+      ? 'https://cdn.sanity.io/images/7yjhdw88/production/84362b4eec43cff1952617c524b7a3e0ab5a4219-2382x3368.png'
+      : isMahya
+        ? '/images/solea/mahya_welcome_packet_cover.png'
+        : isFatemeh
+          ? '/images/solea/fatemeh_welcome_packet_cover.png'
+          : '/images/solea/icf_competencies_cover.png');
 
   const packetTitle =
     coach?.welcomePacket?.title ||
@@ -82,15 +87,24 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
   const packetSubtitle =
     coach?.welcomePacket?.subtitle ||
     (hasDedicatedPacket
-      ? `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه رایگان با ${coachName}.`
+      ? (isPayam
+          ? `راهنمای جامع ورود به دنیای کوچینگ هدفمندی و بهره‌وری پایدار؛ اصول همکاری، منشور محرمانگی، ساختار جلسات و نقشه راه تبدیل مشغله‌های فرساینده به اثرگذاری و آرامش با ${coachName}.`
+          : `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه رایگان با ${coachName}.`)
       : 'سند رسمی فدراسیون بین‌المللی کوچینگ؛ معرفی ۸ شایستگی محوری، منشور اخلاقی، تعهد رازداری و استانداردهای حرفه‌ای جلسات کوچینگ.');
 
   const packetFeatures = coach?.welcomePacket?.features || (hasDedicatedPacket
-    ? [
-        'آشنایی با متدولوژی و اصول ۴گانه جلسات کوچینگ',
-        'شفافیت در شرایط، ضوابط همکاری و منشور محرمانگی',
-        'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه رایگان (جلسه صفر)',
-      ]
+    ? (isPayam
+        ? [
+            'آشنایی با متدولوژی کوچینگ هدفمندی، مدیریت زمان و انضباط فردی',
+            'شفافیت در شرایط، ضوابط همکاری، زمان‌بندی و منشور محرمانگی',
+            'تضمین کیفیت و بازگشت کامل ۱۰۰٪ وجه تا پایان جلسه دوم',
+            'راهنمای گام‌به‌گام اولین تمرین و آمادگی برای جلسه معارفه رایگان',
+          ]
+        : [
+            'آشنایی با متدولوژی و اصول ۴گانه جلسات کوچینگ',
+            'شفافیت در شرایط، ضوابط همکاری و منشور محرمانگی',
+            'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه رایگان (جلسه صفر)',
+          ])
     : [
         'معرفی ۸ شایستگی بنیادین و جهانی فدراسیون بین‌المللی کوچینگ',
         'منشور اخلاقی، تعهد محرمانگی و چارچوب حقوق مراجع در جلسات',

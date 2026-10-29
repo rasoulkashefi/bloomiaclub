@@ -247,6 +247,22 @@ export default {
       validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }),
     },
 
+    {
+      name: 'welcomePacket',
+      title: 'بسته راهنمای مراجعان (Welcome Packet)',
+      type: 'object',
+      group: 'packages',
+      options: { collapsible: true, collapsed: false },
+      fields: [
+        { name: 'title', title: 'عنوان بسته', type: 'string' },
+        { name: 'subtitle', title: 'توضیحات کوتاه', type: 'text', rows: 3 },
+        { name: 'fileUrl', title: 'لینک فایل PDF', type: 'string' },
+        { name: 'coverImageUrl', title: 'لینک تصویر جلد', type: 'string' },
+        { name: 'buttonText', title: 'متن دکمه دانلود', type: 'string' },
+        { name: 'features', title: 'ویژگی‌های کلیدی', type: 'array', of: [{ type: 'string' }] },
+      ],
+    },
+
     // ------------------------------------------------------------ 5. PROOF
     {
       name: 'credentials',

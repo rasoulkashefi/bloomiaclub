@@ -43,6 +43,7 @@ export const COACH_PROJECTION = `{
   instagramUrl,
   linkedinUrl,
   bookingUrl,
+  welcomePacket,
   audience[]{ "id": _key, title },
   method[]{ "id": _key, title, description },
   services[]{ "id": _key, title, duration, description, isFree, price, bookingUrl },

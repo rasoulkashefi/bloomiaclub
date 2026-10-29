@@ -302,6 +302,7 @@ function buildCoachDocument(input) {
     instagramUrl: input.instagramUrl || undefined,
     linkedinUrl: input.linkedinUrl || undefined,
     bookingUrl: input.bookingUrl || undefined,
+    welcomePacket: input.welcomePacket || undefined,
     videoUrl: input.videoUrl || undefined,
     videoTitle: input.videoTitle || undefined,
     videoDescription: input.videoDescription || undefined,
