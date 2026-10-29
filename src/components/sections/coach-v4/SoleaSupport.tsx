@@ -73,7 +73,7 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
   const packetCover =
     coach?.welcomePacket?.coverImageUrl ||
     (isPayam
-      ? 'https://cdn.sanity.io/images/7yjhdw88/production/84362b4eec43cff1952617c524b7a3e0ab5a4219-2382x3368.png'
+      ? 'https://cdn.sanity.io/images/7yjhdw88/production/c8fd0eef4fe3f43638d25e2c78268485c797afb8-2600x3360.png'
       : isMahya
         ? '/images/solea/mahya_welcome_packet_cover.png'
         : isFatemeh

@@ -2060,7 +2060,7 @@ export const fallbackCoaches: CoachProfile[] = [
       title: 'بسته راهنمای خدمات کوچینگ با پیام اسمی',
       subtitle: 'راهنمای جامع ورود به دنیای کوچینگ هدفمندی و بهره‌وری پایدار؛ اصول همکاری، منشور محرمانگی، ساختار جلسات و نقشه راه تبدیل مشغله‌های فرساینده به اثرگذاری و آرامش با پیام اسمی.',
       fileUrl: 'https://cdn.sanity.io/files/7yjhdw88/production/5f6c31f24b761691b4b59bf5ad8eeb7eb4b11a80.pdf',
-      coverImageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/84362b4eec43cff1952617c524b7a3e0ab5a4219-2382x3368.png',
+      coverImageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/c8fd0eef4fe3f43638d25e2c78268485c797afb8-2600x3360.png',
       buttonText: 'دریافت بسته راهنما (PDF)',
       features: [
         'آشنایی با متدولوژی کوچینگ هدفمندی، مدیریت زمان و انضباط فردی',
