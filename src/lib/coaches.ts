@@ -238,6 +238,7 @@ export type Article = {
   readTime: string;
   imageUrl?: string;
   excerpt?: string;
+  category?: string;
   /** Public URL of the article (blog post). */
   href?: string;
 };
@@ -536,6 +537,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a1',
         title: 'بازگشت به کار پس از زایمان: راهنمای کوچینگ برای مدیریت تغییر هویت و احساس گناه مادران شاغل',
+        category: 'کوچینگ مادران',
         date: '۲۱ مهر ۱۴۰۵',
         readTime: '۸ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/331520f803db65a182da1455e02aed87aa58c6b8-1376x768.jpg',
@@ -545,6 +547,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a2',
         title: 'چگونه با فرزند نوجوان خود صحبت کنیم که بشنود؟ راهنمای کوچینگ برای مهار تعارض‌های سن بلوغ',
+        category: 'کوچینگ مادران و نوجوانان',
         date: '۲۴ شهریور ۱۴۰۵',
         readTime: '۸ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/13d8b20f650aa03900e5d83b590f8f0d61c7ced7-1376x768.jpg',
@@ -554,6 +557,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a3',
         title: 'چگونه در شرایط بحرانی، مادر آرام‌تری باشیم؟ راهنمای مدیریت اضطراب و حمایت از کودک',
+        category: 'کوچینگ مادران',
         date: '۲۴ فروردین ۱۴۰۵',
         readTime: '۷ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/6c979da72487e77edf14721eca15a596d447b1f2-2816x1536.png',
@@ -563,6 +567,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a4',
         title: 'فرسودگی مادرانه (Mom Burnout): علائم، دلایل و نقش کوچینگ در بازیابی انرژی',
+        category: 'کوچینگ مادران',
         date: '۹ آذر ۱۴۰۴',
         readTime: '۹ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/6c979da72487e77edf14721eca15a596d447b1f2-2816x1536.png',
@@ -572,6 +577,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a5',
         title: 'احساس گناه مادرانه (Mom Guilt): چرا همیشه فکر می‌کنیم «کافی نیستیم»؟ و چگونه می‌توانیم از آن رها شویم؟',
+        category: 'کوچینگ مادران',
         date: '۲۳ آبان ۱۴۰۴',
         readTime: '۸ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/331520f803db65a182da1455e02aed87aa58c6b8-1376x768.jpg',
@@ -581,6 +587,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a6',
         title: 'کوچینگ و مدیریت اولویت‌ها برای مادران: چطور بین کار، خانواده و خودت تعادل برقرار کنی؟',
+        category: 'تعادل کار و زندگی',
         date: '۷ آبان ۱۴۰۴',
         readTime: '۷ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/13d8b20f650aa03900e5d83b590f8f0d61c7ced7-1376x768.jpg',
@@ -820,6 +827,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a1',
         title: 'صدای منتقد درون: چرا همیشه خودمان را سرزنش می‌کنیم و چگونه با قاضی درون صلح کنیم؟',
+        category: 'رشد فردی و خودشناسی',
         date: '۲۰ مهر ۱۴۰۵',
         readTime: '۷ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/39f33901f5c8d5ba6e02dbea5d5ddf0e7f17b41e-1376x768.jpg',
@@ -829,6 +837,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a2',
         title: 'هنر مرزگذاری سالم در روابط: چگونه بدون احساس گناه نه بگوییم؟',
+        category: 'توسعه فردی و روابط',
         date: '۳۰ شهریور ۱۴۰۵',
         readTime: '۸ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/d868e8f56fce763a4601c4e6993b69d689528401-1376x768.jpg',
@@ -838,6 +847,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a3',
         title: 'شکستن دیوارهای نامرئی: چگونه باورهای محدودکننده مانع رشد ما می‌شوند',
+        category: 'خودآگاهی و باورها',
         date: '۷ آبان ۱۴۰۴',
         readTime: '۸ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/4937861f54581afa8f87096a857b77f9fca43b16-1024x1024.png',
@@ -1077,6 +1087,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a1',
         title: 'صدای منتقد درون: چرا همیشه خودمان را سرزنش می‌کنیم و چگونه با قاضی درون صلح کنیم؟',
+        category: 'رشد فردی و خودشناسی',
         date: '۲۰ مهر ۱۴۰۵',
         readTime: '۷ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/39f33901f5c8d5ba6e02dbea5d5ddf0e7f17b41e-1376x768.jpg',
@@ -1086,6 +1097,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a2',
         title: 'هنر مرزگذاری سالم در روابط: چگونه بدون احساس گناه نه بگوییم؟',
+        category: 'توسعه فردی و روابط',
         date: '۳۰ شهریور ۱۴۰۵',
         readTime: '۸ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/d868e8f56fce763a4601c4e6993b69d689528401-1376x768.jpg',
@@ -1095,6 +1107,7 @@ export const fallbackCoaches: CoachProfile[] = [
       {
         id: 'a3',
         title: 'شکستن دیوارهای نامرئی: چگونه باورهای محدودکننده مانع رشد ما می‌شوند',
+        category: 'خودآگاهی و باورها',
         date: '۷ آبان ۱۴۰۴',
         readTime: '۸ دقیقه',
         imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/4937861f54581afa8f87096a857b77f9fca43b16-1024x1024.png',
