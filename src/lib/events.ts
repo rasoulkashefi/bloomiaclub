@@ -142,7 +142,7 @@ export const FALLBACK_EVENTS: EventItem[] = [
     price: 250000,
     originalPrice: 1000000,
     formattedPrice: '۲۵۰٬۰۰۰ تومان',
-    coverImage: 'https://cdn.sanity.io/images/7yjhdw88/production/4ac45908e1a2f3fed02a64153ab978c9877494dc-682x1024.jpg',
+    coverImage: 'https://cdn.sanity.io/images/7yjhdw88/production/c0f1a934bacf56e487d09a40f52d05338f838c86-686x1024.jpg',
     coverImageAlt: 'پوستر کارگاه کوچینگ گروهی نقش MBTI در بهبود والدگری با فاطمه اسماعیلی',
     excerpt: 'در این کارگاه با کمک مدل MBTI، به تفاوت‌های شخصیتی خودمان و فرزندمان نگاه می‌کنیم و بررسی می‌کنیم که این تفاوت‌ها چگونه می‌توانند بر ارتباط، درک متقابل و شیوه والدگری ما اثر بگذارند. (جلسه اول رایگان)',
     syllabus: [
@@ -385,8 +385,8 @@ export async function getEventsByCoachSlug(coachSlug: string): Promise<EventItem
         coachSlug.includes('mahya') ? 'mahya_shakouri' : null,
         coachSlug.includes('arezoo') || coachSlug.includes('Arezoo') ? 'Arezoo_Ghaffari' : null,
         coachSlug.includes('arezoo') || coachSlug.includes('Arezoo') ? 'arezoo-ghaffari' : null,
-        coachSlug.includes('derakhsh') ? 'fatemeh-derakhsh' : null,
-        coachSlug.includes('derakhsh') ? 'fatemeh_derakhsh' : null,
+        coachSlug.includes('derakhsh') || coachSlug.includes('darkhosh') ? 'fatemeh-derakhsh' : null,
+        coachSlug.includes('derakhsh') || coachSlug.includes('darkhosh') ? 'fatemeh_derakhsh' : null,
         coachSlug.includes('payam') ? 'payam-esmi' : null,
         coachSlug.includes('payam') ? 'payam_esmi' : null,
       ].filter(Boolean) as string[]

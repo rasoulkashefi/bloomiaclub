@@ -54,8 +54,8 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
     if (slug.includes('saloomeh') || slug.includes('salomeh')) {
       return 'همراهی در گذار شغلی، توسعه فردی و تصمیم‌گیری شجاعانه در دوراهی‌ها.';
     }
-    if (slug.includes('derakhsh')) {
-      return 'تلفیق تفکر تحلیلی و کوچینگ برای استراتژی کارراهه و تاب‌آوری حرفه‌ای.';
+    if (slug.includes('derakhsh') || slug.includes('darkhosh')) {
+      return 'همراهی با مراجعان در عبور از سردرگمی شغلی، خودشناسی و بازطراحی مسیر زندگی.';
     }
     if (slug.includes('nemati')) {
       return 'پایه‌ریزی عادات روزمره پایدار، مهار اهمال‌کاری و تقویت اعتمادبه‌نفس.';
@@ -81,7 +81,7 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
     if (slug.includes('fatemeh') && slug.includes('esmaeeli')) return '/images/solea/fatemeh_hero_v4.png';
     if (slug.includes('arezoo') && slug.includes('ghaffari')) return '/images/solea/arezoo_hero.png';
     if (slug.includes('esmi') || slug.includes('payam')) return '/images/solea/payam_hero_v4.png';
-    if (slug.includes('derakhsh')) return '/images/solea/fatemeh_derakhsh_hero_v4.png';
+    if (slug.includes('derakhsh') || slug.includes('darkhosh')) return '/images/solea/fatemeh_derakhsh_hero_v4.png';
     if (slug.includes('saloomeh') || slug.includes('salomeh')) return '/images/solea/saloomeh_hero_v4.png';
     return (
       coach?.cutoutImageUrl ||
@@ -123,11 +123,11 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
         line3: 'مقتدرانه',
       };
     }
-    if (slug.includes('derakhsh')) {
+    if (slug.includes('derakhsh') || slug.includes('darkhosh')) {
       return {
-        line1: 'تفکر تحلیلی',
-        line2: 'برای رشد و',
-        line3: 'رضایت شغلی',
+        line1: 'مکث و آگاهی',
+        line2: 'برای کشف و',
+        line3: 'طراحی مسیر',
       };
     }
     if (slug.includes('nemati')) {

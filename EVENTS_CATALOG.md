@@ -22,7 +22,7 @@
 - **کوچ مدرس:** فاطمه اسماعیلی (کوچ سطح ۲ / Level 2 ICF)
 - **اسلاگ:** `mbti-parenting-coaching-workshop`
 - **شناسه در Sanity:** `event-mbti-parenting-coaching-workshop`
-- **آدرس کاور در Sanity CDN:** `https://cdn.sanity.io/images/7yjhdw88/production/4ac45908e1a2f3fed02a64153ab978c9877494dc-682x1024.jpg`
+- **آدرس کاور در Sanity CDN:** `https://cdn.sanity.io/images/7yjhdw88/production/c0f1a934bacf56e487d09a40f52d05338f838c86-686x1024.jpg`
 - **شروع:** جمعه ۱۵ آبان - ساعت ۱۸:۰۰
 - **مدت دوره:** ۴ جلسه ۹۰ دقیقه‌ای
 - **مسیر جلسات:**

@@ -39,11 +39,9 @@ interface SoleaSupportProps {
 }
 
 export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
-  const isMahya = coach?.slug?.includes('mahya');
+  const coachName = coach?.name || 'کوچ بلومیا';
   const isFatemeh = coach?.slug === 'fatemeh_esmaeeli';
-  const isPayam = coach?.slug?.includes('esmi');
   const bookingLink = coach?.bookingUrl || (isFatemeh ? 'https://atyno.com/fatemeh/zero' : '#contact');
-  const coachName = coach?.name || (isFatemeh ? 'فاطمه اسماعیلی' : (isMahya ? 'محیا شکوری' : (isPayam ? 'پیام اسمی' : 'کوچ بلومیا')));
 
   const persianNumbers = ['۰۱', '۰۲', '۰۳', '۰۴'];
 
@@ -56,30 +54,14 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
       }))
     : defaultSteps;
 
-  // Welcome Packet Configuration (Dynamic with elegant fallback to official ICF document)
-  const hasDedicatedPacket = Boolean(coach?.welcomePacket?.fileUrl || isFatemeh || isMahya || isPayam);
-  const defaultIcfPdfUrl = 'https://coachingfederation.org/wp-content/uploads/2025/09/icf-cs-core-competencies-2025.pdf';
+  // Welcome Packet Configuration:
+  // Strictly respects coach's own dedicated welcome packet if provided;
+  // otherwise falls back to the official ICF Core Competencies document.
+  const hasDedicatedPacket = Boolean(coach?.welcomePacket?.fileUrl);
+  const defaultIcfPdfUrl = '/documents/welcome-packets/icf-core-competencies.pdf';
 
-  const packetFile =
-    coach?.welcomePacket?.fileUrl ||
-    (isPayam
-      ? 'https://cdn.sanity.io/files/7yjhdw88/production/5f6c31f24b761691b4b59bf5ad8eeb7eb4b11a80.pdf'
-      : isMahya
-        ? '/documents/welcome-packets/mahya_shakouri_welcome_packet.pdf'
-        : isFatemeh
-          ? '/documents/welcome-packets/fatemeh_esmaeeli_welcome_packet.pdf'
-          : defaultIcfPdfUrl);
-
-  const packetCover =
-    coach?.welcomePacket?.coverImageUrl ||
-    (isPayam
-      ? 'https://cdn.sanity.io/images/7yjhdw88/production/c8fd0eef4fe3f43638d25e2c78268485c797afb8-2600x3360.png'
-      : isMahya
-        ? '/images/solea/mahya_welcome_packet_cover.png'
-        : isFatemeh
-          ? '/images/solea/fatemeh_welcome_packet_cover.png'
-          : '/images/solea/icf_competencies_cover.png');
-
+  const packetFile = coach?.welcomePacket?.fileUrl || defaultIcfPdfUrl;
+  const packetCover = coach?.welcomePacket?.coverImageUrl || '/images/solea/icf_competencies_cover.png';
   const packetTitle =
     coach?.welcomePacket?.title ||
     (hasDedicatedPacket ? `بسته راهنمای خدمات کوچینگ با ${coachName}` : 'منشور شایستگی‌های بنیادین کوچینگ (ICF)');
@@ -87,31 +69,29 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
   const packetSubtitle =
     coach?.welcomePacket?.subtitle ||
     (hasDedicatedPacket
-      ? (isPayam
-          ? `راهنمای جامع ورود به دنیای کوچینگ هدفمندی و بهره‌وری پایدار؛ اصول همکاری، منشور محرمانگی، ساختار جلسات و نقشه راه تبدیل مشغله‌های فرساینده به اثرگذاری و آرامش با ${coachName}.`
-          : `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه رایگان با ${coachName}.`)
+      ? `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه رایگان با ${coachName}.`
       : 'سند رسمی فدراسیون بین‌المللی کوچینگ؛ معرفی ۸ شایستگی محوری، منشور اخلاقی، تعهد رازداری و استانداردهای حرفه‌ای جلسات کوچینگ.');
 
-  const packetFeatures = coach?.welcomePacket?.features || (hasDedicatedPacket
-    ? (isPayam
-        ? [
-            'آشنایی با متدولوژی کوچینگ هدفمندی، مدیریت زمان و انضباط فردی',
-            'شفافیت در شرایط، ضوابط همکاری، زمان‌بندی و منشور محرمانگی',
-            'تضمین کیفیت و بازگشت کامل ۱۰۰٪ وجه تا پایان جلسه دوم',
-            'راهنمای گام‌به‌گام اولین تمرین و آمادگی برای جلسه معارفه رایگان',
-          ]
-        : [
-            'آشنایی با متدولوژی و اصول ۴گانه جلسات کوچینگ',
-            'شفافیت در شرایط، ضوابط همکاری و منشور محرمانگی',
-            'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه رایگان (جلسه صفر)',
-          ])
-    : [
-        'معرفی ۸ شایستگی بنیادین و جهانی فدراسیون بین‌المللی کوچینگ',
-        'منشور اخلاقی، تعهد محرمانگی و چارچوب حقوق مراجع در جلسات',
-        'معیارهای شفاف تمایز کوچینگ حرفه‌ای با مشاوره و روان‌درمانی',
-      ]);
+  const packetFeatures =
+    coach?.welcomePacket?.features ||
+    (hasDedicatedPacket
+      ? [
+          'آشنایی با متدولوژی و اصول ۴گانه جلسات کوچینگ',
+          'شفافیت در شرایط، ضوابط همکاری و منشور محرمانگی',
+          'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه رایگان (جلسه صفر)',
+        ]
+      : [
+          'معرفی ۸ شایستگی بنیادین و جهانی فدراسیون بین‌المللی کوچینگ',
+          'منشور اخلاقی، تعهد محرمانگی و چارچوب حقوق مراجع در جلسات',
+          'معیارهای شفاف تمایز کوچینگ حرفه‌ای با مشاوره و روان‌درمانی',
+        ]);
 
-  const buttonText = coach?.welcomePacket?.buttonText || (hasDedicatedPacket ? 'دریافت بسته راهنما (PDF)' : 'دانلود سند رسمی ICF (PDF)');
+  const buttonText =
+    coach?.welcomePacket?.buttonText ||
+    (hasDedicatedPacket ? 'دریافت بسته راهنما (PDF)' : 'دانلود سند رسمی ICF (PDF)');
+  const downloadFileName = hasDedicatedPacket
+    ? `بسته_راهنمای_کوچینگ_${coachName.replace(/\s+/g, '_')}.pdf`
+    : 'منشور_شایستگی_های_کوچینگ_ICF.pdf';
   const isDownload = true;
 
   return (
@@ -228,7 +208,7 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
                   <>
                     <a
                       href={packetFile!}
-                      download={`بسته_راهنمای_کوچینگ_${coachName.replace(/\s+/g, '_')}.pdf`}
+                      download={downloadFileName}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center justify-center gap-2.5 rounded-[14px] bg-white px-8 py-4 text-[15px] font-semibold text-[#1f3d3a] transition-all hover:bg-[#dfece9] active:scale-95 shadow-md group"

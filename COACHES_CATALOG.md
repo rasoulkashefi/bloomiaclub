@@ -42,6 +42,7 @@
 - **خلاصه معرفی:** همراهی تخصصی با مادران و بانوان برای رهایی از فرسودگی، شنیدن صدای درون، مدیریت تعارض با فرزندان و ساختن زندگی متعادل و اصیل.
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/fatemeh_esmaeeli](https://bloomiaclub.com/coaches/fatemeh_esmaeeli)
 - **جلسه صفر (معارفه):** ۴۵ دقیقه (خوانده‌شده به صورت پویا از آتینو)
+- **بسته راهنمای مراجعان (Welcome Packet):** فعال با امکان دانلود مستقیم PDF اختصاصی (`/documents/welcome-packets/fatemeh_esmaeeli_welcome_packet.pdf`)
 - **لینک رزرواسیون امبد (Atyno Embed):** `https://atyno.com/fa/embed/934b33a2-9888-4209-9901-b9632e812e6c?meeting=zero` (پلن Pro، تم سبز #1f3d3a و بدون واترمارک)
 
 ### محیا شکوری (`mahya_shakoori`)
@@ -51,6 +52,11 @@
 - **شناسه نویسنده بلاگ:** `coach-mahya_shakoori`
 - **تخصص‌ها:** خودشناسی | رشد فردی | تعادل ذهن
 - **خلاصه معرفی:** همراه افراد در مسیر کشف خود، افزایش وضوح، آرامش درونی و ساختن زندگی متعادل‌تر.
+- **مقالات وبلاگ (۴ مقاله):**
+  1. [شکستن دیوارهای نامرئی: چگونه باورهای محدودکننده مانع رشد ما می‌شوند](https://bloomiaclub.com/blog/breaking-limiting-beliefs-for-personal-growth)
+  2. [هنر مرزگذاری سالم در روابط: چگونه بدون احساس گناه نه بگوییم؟](https://bloomiaclub.com/blog/healthy-boundaries-how-to-say-no-without-guilt)
+  3. [صدای منتقد درون: چرا همیشه خودمان را سرزنش می‌کنیم و چگونه با قاضی درون صلح کنیم؟](https://bloomiaclub.com/blog/taming-the-inner-critic-self-coaching)
+  4. [سندروم ایمپاستر و تله فریبکار درون: چرا موفقیت‌هایمان را باور نداریم و چگونه شایستگی اصیل را در کوچینگ احیا کنیم؟](https://bloomiaclub.com/blog/imposter-syndrome-feeling-like-a-fraud-coaching-guide)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/mahya_shakoori](https://bloomiaclub.com/coaches/mahya_shakoori)
 
 ### آرزو غفاری (`Arezoo_Ghaffari`)
@@ -60,6 +66,10 @@
 - **شناسه نویسنده بلاگ:** `coach-Arezoo_Ghaffari`
 - **تخصص‌ها:** رهایی از افکار | مدیریت اضطراب | روابط سالم
 - **خلاصه معرفی:** همراهت می‌شوم تا از درگیری ذهنی بیرون بیایی، به ارزش‌هایت برگردی و زندگی آگاهانه‌تری بسازی.
+- **مقالات وبلاگ (۳ مقاله):**
+  1. [چگونه از جنگ با ذهن دست برداریم؟ راهنمای رهایی از نشخوار فکری و اضطراب با رویکرد ACT](https://bloomiaclub.com/blog/how-to-stop-fighting-your-mind-act-coaching-guide)
+  2. [دایره کنترل درونی: چگونه با تئوری انتخاب از اضطراب، درماندگی و تلاش برای تغییر دیگران رها شویم؟](https://bloomiaclub.com/blog/circle-of-control-choice-theory-coaching)
+  3. [پارادوکس کنترل در روابط عاطفی: چرا تلاش برای تغییر دیگری صمیمیت را می‌کشد و چگونه رابطه‌ای امن بسازیم؟](https://bloomiaclub.com/blog/control-paradox-in-relationships-act-coaching-guide)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/Arezoo_Ghaffari](https://bloomiaclub.com/coaches/Arezoo_Ghaffari)
 
 ### شبنم نعمتی‌ملک (`shabnam_nematimalek`)
@@ -78,6 +88,11 @@
 - **شناسه نویسنده بلاگ:** `coach-saloomeh_fathijou`
 - **تخصص‌ها:** خودشناسی | وضوح درونی | تحول آگاهانه | ارزش‌های فردی
 - **خلاصه معرفی:** همراه افراد در مسیر کشف توانایی‌ها، رشد درونی و ساختن زندگی آگاهانه و اصیل بر پایه ارزش‌ها.
+- **مقالات وبلاگ (۴ مقاله):**
+  1. [معماری زندگی اصیل: چگونه با کشف ارزش‌های فردی از سردرگمی در دوراهی‌ها رها شویم؟](https://bloomiaclub.com/blog/discovering-core-values-inner-clarity-coaching)
+  2. [هنر شجاعانه رها کردن: چگونه پروژه‌ها، نقش‌ها و مسیرهای تمام‌شده را بدون احساس شکست متوقف کنیم؟](https://bloomiaclub.com/blog/art-of-letting-go-and-moving-forward-coaching)
+  3. [بحران میانسالی و سردرگمی معنا: چرا دستاوردهای گذشته دیگر راضی‌مان نمی‌کنند و چگونه فصل دوم زندگی را بسازیم؟](https://bloomiaclub.com/blog/midlife-crisis-meaning-and-identity-transformation-coaching)
+  4. [معماری سبک زندگی اصیل: چگونه کار، روابط و خلوت خود را بر اساس ریتم طبیعی روان بازطراحی کنیم؟](https://bloomiaclub.com/blog/lifestyle-design-and-authentic-living-coaching-guide)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/saloomeh_fathijou](https://bloomiaclub.com/coaches/saloomeh_fathijou)
 
 ### مریم جوهری (`maryam_johari`)
@@ -87,15 +102,28 @@
 - **شناسه نویسنده بلاگ:** `coach-maryam_johari`
 - **تخصص‌ها:** خودشناسی | شفقت به خود | تعادل احساسی | رشد فردی
 - **خلاصه معرفی:** همراه افراد در مسیر شناخت خود، هم‌سو شدن با احساسات و ساختن زندگی با مهر، آگاهی و اصالت.
+- **مقالات وبلاگ (۲ مقاله):**
+  1. [هنر شفقت به خود: چرا مهربانی با خود، قوی‌ترین ابزار رشد و تاب‌آوری است؟](https://bloomiaclub.com/blog/art-of-self-compassion-coaching-guide)
+  2. [دوستی با احساسات دشوار: چرا فرار از غم و خشم به فرسودگی می‌انجامد و چگونه به تعادل احساسی برسیم؟](https://bloomiaclub.com/blog/befriending-difficult-emotions-and-emotional-balance-coaching)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/maryam_johari](https://bloomiaclub.com/coaches/maryam_johari)
 
 ### دکتر فاطمه درخوش (`fatemeh-derakhsh`)
-- **عنوان:** کوچ رشد فردی و مسیر شغلی
+- **عنوان:** کوچ رشد فردی و مسیر شغلی | دکترای داروسازی
 - **اسلاگ:** `fatemeh-derakhsh`
 - **شناسه پروفایل سنتی:** `coach-profile-fatemeh-derakhsh`
 - **شناسه نویسنده بلاگ:** `coach-fatemeh-derakhsh`
-- **تخصص‌ها:** رشد فردی | مسیر شغلی | خودشناسی | کوچینگ حرفه‌ای
-- **خلاصه معرفی:** دکترای داروسازی، کوچ تایید شده ICF با تمرکز بر خودشناسی شغلی و تصمیم‌گیری آگاهانه برای خروج از سردرگمی.
+- **تخصص‌ها:** خودشناسی فردی و شغلی | شفاف‌سازی مسیر حرفه‌ای | تصمیم‌گیری آگاهانه | عبور از سردرگمی و فرسودگی | تعادل کار و زندگی
+- **خلاصه معرفی:** دکترای داروسازی، کوچ تایید شده ICF؛ همراهی با مراجعان در عبور از سردرگمی یا مکث در کار و زندگی برای کشف و بازطراحی مسیر اصیل.
+- **بسته راهنمای مراجعان (Welcome Packet):** فعال با امکان دانلود مستقیم PDF اختصاصی (`/documents/welcome-packets/fatemeh_darkhosh_welcome_packet.pdf`)
+- **تعرفه‌ها:**
+  - تک‌جلسه اختصاصی (۶۰ دقیقه): ۸۵۰,۰۰۰ تومان
+  - پکیج ۶ جلسه‌ای «خودشناسی و شفاف‌سازی»: ۴,۸۰۰,۰۰۰ تومان
+  - پکیج ۱۲ جلسه‌ای «طراحی زندگی و اقدام»: ۹,۵۰۰,۰۰۰ تومان
+- **شبکه‌های اجتماعی:** [اینستاگرام](https://www.instagram.com/fatemedarkhosh) | [لینکدین](https://www.linkedin.com/in/fatemedarkhosh) (`@fatemedarkhosh`)
+- **مقالات وبلاگ (۳ مقاله):**
+  1. [شروع بدون استعفا: چگونه با یک فعالیت جانبی مسیر شغلی جدید خود را بسازیم؟](https://bloomiaclub.com/blog/career-transition-side-hustle-coaching)
+  2. [در خودت مستقر بمان: راهنمای کوچینگ برای حفظ مرکز کنترل درونی](https://bloomiaclub.com/blog/staying-grounded-in-yourself-internal-locus-of-control)
+  3. [خروج از سردرگمی شغلی: چگونه وقتی در کار احساس بی‌معنایی می‌کنیم اما نمی‌دانیم چه می‌خواهیم، قطب‌نمای حرفه‌ای بسازیم؟](https://bloomiaclub.com/blog/navigating-career-confusion-and-finding-direction-coaching)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/fatemeh-derakhsh](https://bloomiaclub.com/coaches/fatemeh-derakhsh)
 
 ### پیام اسمی (`payam-esmi`)
@@ -106,6 +134,11 @@
 - **تخصص‌ها:** مدیریت زمان | برنامه‌ریزی استراتژیک | مهار اهمال‌کاری | انضباط فردی | متدولوژی‌های MBA
 - **خلاصه معرفی:** کارشناسی ارشد MBA، دانش‌آموخته آکادمی ایمپکت آمریکا و نویسنده کتاب «انقلابی در انضباط شخصی»؛ همراه شما برای مهار اهمال‌کاری و تبدیل مشغله‌های فرساینده به تمرکز و بهره‌وری آرام.
 - **اینستاگرام:** [instagram.com/coach.esmi](https://www.instagram.com/coach.esmi)
+- **مقالات وبلاگ (۴ مقاله):**
+  1. [از تله‌ی «پرمشغله بودن» تا لذت «موثر بودن»: چگونه ناخدای مقتدر زندگی خود شویم؟](https://bloomiaclub.com/blog/purposeful-time-management-coaching)
+  2. [ریشه‌های پنهان اهمال‌کاری: چرا کارهای مهم را به تعویق می‌اندازیم و چگونه سد شروع را بشکنیم؟](https://bloomiaclub.com/blog/overcoming-procrastination-and-resistance-coaching)
+  3. [معماری تمرکز عمیق: چگونه در عصر حواس‌پرتی دیجیتال توجه خود را نجات دهیم؟](https://bloomiaclub.com/blog/deep-work-and-digital-distraction-coaching)
+  4. [مدیریت انرژی به جای مدیریت زمان: چرا برنامه‌ریزی ساعت‌ها شکست می‌خورد و چگونه ظرفیت عملکردی خود را تجدید کنیم؟](https://bloomiaclub.com/blog/energy-management-vs-time-management-coaching)
 - **بسته راهنمای مراجعان (Welcome Packet):** فعال با امکان دانلود مستقیم PDF اختصاصی (`/documents/welcome-packets/payam_esmi_welcome_packet.pdf`)
 - **تعرفه‌ها:**
   - تک‌جلسه اختصاصی (۶۰ دقیقه): ۱,۵۰۰,۰۰۰ تومان
@@ -137,3 +170,4 @@
 2. **قانون بدون ایموجی:** در هیچ‌کدام از فیلدهای نام، عنوان، بیو، تخصص‌ها و بسته‌ها نباید از هیچ ایموجی استفاده شود.
 3. **فرمت اسلاگ:** اسلاگ انگلیسی تمیز و یکدست با خط تیره (مانند `sara-mohammadi`).
 4. **تطبیق خودکار نویسنده:** با ثبت کوچ، سند نویسنده بلاگ (`coach-<slug>`) و بک‌آپ سوپابیس به صورت خودکار ساخته می‌شوند.
+5. **بسته راهنمای مراجعان (Welcome Packet یا ICF):** کوچ‌هایی که بسته اختصاصی طراحی‌شده دارند (مانند پیام اسمی، فاطمه اسماعیلی و دکتر فاطمه درخوش) فایل ولکام پک خودشان را دریافت می‌کنند؛ برای تمامی سایر کوچ‌ها که ولکام پک اختصاصی ندارند، سند رسمی شایستگی‌های بنیادین فدراسیون بین‌المللی کوچینگ (ICF Core Competencies) با کاور اختصاصی و دانلود مستقیم سند ICF ارائه می‌شود.

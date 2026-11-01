@@ -74,14 +74,14 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
         </>
       );
     }
-    if (slug.includes('derakhsh')) {
+    if (slug.includes('derakhsh') || slug.includes('darkhosh')) {
       return (
         <>
-          همراهی تخصصی در کارراهه،
+          همراهی تخصصی در خودشناسی،
           <br />
-          تصمیم‌گیری استراتژیک
+          تصمیم‌گیری آگاهانه
           <br />
-          و خروج از سردرگمی شغلی
+          و بازطراحی مسیر شغلی
         </>
       );
     }

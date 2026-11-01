@@ -42,11 +42,12 @@ const getChecklist = (canonical: string): string[] => {
         'فضایی کاملاً امن، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
       ];
     case 'fatemeh_derakhsh':
+    case 'fatemeh-derakhsh':
       return [
-        'گفتگوی اختصاصی ۳۰ دقیقه‌ای برای ارزیابی تاب‌آوری و فشارهای فرسودگی شغلی',
-        'ریشه‌یابی چالش‌های استرس، بحران‌های گذار و تعادل سلامت روان',
-        'ترسیم نقشه راه علمی و همدلانه جهت بازگشت به وضوح و توانمندی',
-        'فضایی کاملاً تخصصی، محرمانه طبق منشور اخلاقی ICF و بدون تعهد مالی',
+        'گفتگوی آنلاین ۳۰ دقیقه‌ای برای آشنایی صمیمانه و شفاف‌سازی دغدغه‌ها',
+        'بررسی دقیق نیازها، چالش‌ها و انتظارات شما در زندگی فردی یا مسیر شغلی',
+        'ارزیابی تناسب متدولوژی کوچینگ با شرایط شما پیش از هرگونه تعهد مالی',
+        'فضایی کاملاً امن، محرمانه طبق منشور اخلاقی ICF و بدون قضاوت',
       ];
     case 'shabnam_nematimalek':
       return [
@@ -97,7 +98,8 @@ const getQuote = (canonical: string): string => {
     case 'saloomeh_fathijou':
       return 'همراه شما هستم تا باورهای محدودکننده مالی را کنار بگذارید و با ذهنیت فراوانی، آینده مالی مطمئن و عزت‌نفس‌تان را بسازید.';
     case 'fatemeh_derakhsh':
-      return 'در میان فشارهای پرشتاب زندگی، همراه شما هستم تا تاب‌آوری اصیل درونی‌تان را بیدار کرده و با وضوح و اقتدار حرکت کنید.';
+    case 'fatemeh-derakhsh':
+      return 'من همراه افرادی هستم که در زندگی فردی و مسیر شغلی‌شان دچار سردرگمی یا مکث شده‌اند، تا با آگاهی، شفافیت و مسئولیت‌پذیری، مسیر منحصربه‌فرد خودشان را دوباره کشف و طراحی کنند.';
     case 'shabnam_nematimalek':
       return 'همراه شما هستم تا با شناخت عمیق نیازها و مرزها، روابطی سرشار از امنیت، احترام متقابل و شفقت بسازید.';
     case 'maryam_johari':
@@ -116,6 +118,7 @@ const getBannerImage = (coach?: CoachProfile, canonical?: string) => {
   if (canonical === 'fatemeh_esmaeeli') return '/images/solea/fatemeh_hero_v4.png';
   if (canonical === 'mahya_shakouri') return '/images/solea/mahya_hero_v4.png';
   if (canonical === 'arezoo_ghaffari') return '/images/solea/arezoo_hero.png';
+  if (canonical === 'fatemeh_derakhsh' || canonical === 'fatemeh-derakhsh') return '/images/solea/fatemeh_derakhsh_hero_v4.png';
   if (coach?.coverImage) return coach.coverImage;
   if (coach?.aboutImage) return coach.aboutImage;
   if (coach?.imageUrl) return coach.imageUrl;
@@ -136,7 +139,9 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
     canonical === 'parmiss-yari' ||
     canonical === 'fatemeh_esmaeeli' ||
     canonical === 'mahya_shakouri' ||
-    canonical === 'arezoo_ghaffari'
+    canonical === 'arezoo_ghaffari' ||
+    canonical === 'fatemeh_derakhsh' ||
+    canonical === 'fatemeh-derakhsh'
   );
 
   const bannerImage = getBannerImage(coach, canonical);
