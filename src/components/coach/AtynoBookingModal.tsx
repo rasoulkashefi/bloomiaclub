@@ -113,7 +113,7 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 24, scale: 0.98 }}
                   transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-                  className="pointer-events-auto relative flex flex-col w-full sm:max-w-2xl h-[92vh] sm:h-[88vh] sm:max-h-[820px] rounded-t-[2.25rem] sm:rounded-[2.5rem] bg-white text-[#1e1e1e] shadow-2xl border border-[#e5e5e2] overflow-hidden"
+                  className="pointer-events-auto relative flex flex-col w-full sm:max-w-3xl md:max-w-[780px] h-[92vh] sm:h-[88vh] sm:max-h-[820px] rounded-t-[2.25rem] sm:rounded-[2.5rem] bg-white text-[#1e1e1e] shadow-2xl border border-[#e5e5e2] overflow-hidden"
                 >
                   {/* Top Bar Header */}
                   <div className="flex items-center justify-between px-6 py-4 sm:px-8 sm:py-5 border-b border-[#e5e5e2] bg-[#fafaf8]">
