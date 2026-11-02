@@ -68,7 +68,7 @@ const KNOWN_COACHES = [
   { slug: 'mahya_shakoori', name: 'محیا شکوری' },
   { slug: 'saloomeh_fathijou', name: 'سالومه فتحی‌جو' },
   { slug: 'Arezoo_Ghaffari', name: 'آرزو غفاری' },
-  { slug: 'fatemeh-derakhsh', name: 'دکتر فاطمه درخوش' },
+  { slug: 'fatemeh-derakhsh', name: 'فاطمه درخوش' },
   { slug: 'shabnam_nematimalek', name: 'شبنم نعمتی‌ملک' },
   { slug: 'maryam_johari', name: 'مریم جوهری' },
   { slug: 'payam-esmi', name: 'پیام اسمی' },

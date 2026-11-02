@@ -35,8 +35,8 @@ const coaches = [
   },
   {
     slug: 'fatemeh-derakhsh',
-    name: 'دکتر فاطمه درخوش',
-    title: 'کوچ رشد فردی و مسیر شغلی | دکترای داروسازی',
+    name: 'فاطمه درخوش',
+    title: 'کوچ رشد فردی و مسیر شغلی | متخصص صنایع دارویی',
     imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/41f62ec8f93c6d2603daa60dbfb483937df3af6e-1024x1024.png',
   },
   {
