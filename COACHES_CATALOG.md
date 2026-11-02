@@ -66,10 +66,11 @@
 - **شناسه نویسنده بلاگ:** `coach-Arezoo_Ghaffari`
 - **تخصص‌ها:** رهایی از افکار | مدیریت اضطراب | روابط سالم
 - **خلاصه معرفی:** همراهت می‌شوم تا از درگیری ذهنی بیرون بیایی، به ارزش‌هایت برگردی و زندگی آگاهانه‌تری بسازی.
-- **مقالات وبلاگ (۳ مقاله):**
+- **مقالات وبلاگ (۴ مقاله):**
   1. [چگونه از جنگ با ذهن دست برداریم؟ راهنمای رهایی از نشخوار فکری و اضطراب با رویکرد ACT](https://bloomiaclub.com/blog/how-to-stop-fighting-your-mind-act-coaching-guide)
   2. [دایره کنترل درونی: چگونه با تئوری انتخاب از اضطراب، درماندگی و تلاش برای تغییر دیگران رها شویم؟](https://bloomiaclub.com/blog/circle-of-control-choice-theory-coaching)
   3. [پارادوکس کنترل در روابط عاطفی: چرا تلاش برای تغییر دیگری صمیمیت را می‌کشد و چگونه رابطه‌ای امن بسازیم؟](https://bloomiaclub.com/blog/control-paradox-in-relationships-act-coaching-guide)
+  4. [ماتریس اکت (ACT Matrix): چگونه با نقشه ۴ خانه‌ای ذهن، از اضطراب و رفتارهای فرساینده به سوی ارزش‌ها حرکت کنیم؟](https://bloomiaclub.com/blog/act-matrix-psychological-flexibility-coaching-guide)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/Arezoo_Ghaffari](https://bloomiaclub.com/coaches/Arezoo_Ghaffari)
 
 ### شبنم نعمتی‌ملک (`shabnam_nematimalek`)

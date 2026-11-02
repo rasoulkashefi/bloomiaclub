@@ -7,9 +7,27 @@ interface PortableTextRendererProps {
   value: any[];
 }
 
+function parseInlineMarkdown(text: string): React.ReactNode {
+  if (!text || typeof text !== 'string' || !text.includes('**')) {
+    return text;
+  }
+  const parts = text.split(/(\b|\B)(?=\*\*)|(?<=\*\*)/);
+  const tokens = text.split(/(\*\*.*?\*\*)/g);
+  return tokens.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+      return (
+        <strong key={index} className="font-extrabold text-brand-neutral-900">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+}
+
 function renderSpan(span: any, markDefs: any[] = []) {
   if (!span) return null;
-  let element: React.ReactNode = span.text;
+  let element: React.ReactNode = typeof span.text === 'string' ? parseInlineMarkdown(span.text) : span.text;
 
   if (!span.marks || span.marks.length === 0) {
     return element;
@@ -219,7 +237,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
                 <span>{block.title || (isWarning ? 'نکته احتیاطی' : isInfo ? 'اطلاعات تکمیلی' : 'بینش کاربردی کوچینگ')}</span>
               </div>
               <div className="text-sm sm:text-base leading-relaxed opacity-95">
-                {block.content}
+                {typeof block.content === 'string' ? parseInlineMarkdown(block.content) : block.content}
               </div>
             </div>
           );
@@ -237,7 +255,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
                 {(block.points || []).map((point: string, idx: number) => (
                   <li key={idx} className="flex items-start gap-2.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-brand-teal-300 mt-2.5 shrink-0" />
-                    <span>{point}</span>
+                    <span>{typeof point === 'string' ? parseInlineMarkdown(point) : point}</span>
                   </li>
                 ))}
               </ul>
@@ -278,7 +296,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
                       {item.question}
                     </h4>
                     <p className="text-sm sm:text-base text-brand-neutral-600 leading-relaxed">
-                      {item.answer}
+                      {typeof item.answer === 'string' ? parseInlineMarkdown(item.answer) : item.answer}
                     </p>
                   </div>
                 ))}

@@ -154,22 +154,61 @@ async function ensureCategory(categoryTitle, categorySlug) {
   return { _type: 'reference', _ref: created._id };
 }
 
+function parseTextToSpans(text, defaultMarks = []) {
+  if (!text || typeof text !== 'string') {
+    return [{ _type: 'span', text: text || '', marks: defaultMarks || [] }];
+  }
+
+  if (!text.includes('**')) {
+    return [{ _type: 'span', text, marks: defaultMarks || [] }];
+  }
+
+  const regex = /\*\*(.+?)\*\*/g;
+  const spans = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      spans.push({
+        _type: 'span',
+        text: text.slice(lastIndex, match.index),
+        marks: [...defaultMarks],
+      });
+    }
+    spans.push({
+      _type: 'span',
+      text: match[1],
+      marks: Array.from(new Set([...defaultMarks, 'strong'])),
+    });
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    spans.push({
+      _type: 'span',
+      text: text.slice(lastIndex),
+      marks: [...defaultMarks],
+    });
+  }
+
+  return spans.length > 0 ? spans : [{ _type: 'span', text, marks: defaultMarks }];
+}
+
 async function buildPortableText(blocks) {
   const portableText = [];
 
   for (const block of blocks || []) {
     if (block.type === 'paragraph' || block.type === 'h2' || block.type === 'h3' || block.type === 'h4' || block.type === 'blockquote') {
       const style = block.type === 'paragraph' ? 'normal' : block.type;
+      const children = Array.isArray(block.children) && block.children.length > 0
+        ? block.children
+        : parseTextToSpans(block.text || '', block.marks || []);
+
       portableText.push({
         _type: 'block',
         style,
-        children: [
-          {
-            _type: 'span',
-            text: block.text || '',
-            marks: block.marks || [],
-          },
-        ],
+        children,
       });
     } else if (block.type === 'image') {
       const imgRef = await uploadImageAsset(block.filePath || block.imagePath, block.alt, block.caption);
