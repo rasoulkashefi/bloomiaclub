@@ -44,6 +44,21 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
     }
   }, [isOpen, bookingUrl, coachName, coachSlug]);
 
+  // Ensure embed iframe passes return_url back to Bloomia page so payment redirects stay in Bloomia
+  const effectiveBookingUrl = React.useMemo(() => {
+    try {
+      const url = new URL(bookingUrl);
+      if (typeof window !== 'undefined' && !url.searchParams.has('return_url')) {
+        // Return without search params that might already be on current window (clean page url)
+        const cleanReturnUrl = `${window.location.origin}${window.location.pathname}`;
+        url.searchParams.set('return_url', cleanReturnUrl);
+      }
+      return url.toString();
+    } catch {
+      return bookingUrl;
+    }
+  }, [bookingUrl]);
+
   // Convert embed URL to a clean public URL for the fallback "open in new tab"
   const publicFallbackUrl = React.useMemo(() => {
     try {
@@ -159,7 +174,7 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                     )}
 
                     <iframe
-                      src={bookingUrl}
+                      src={effectiveBookingUrl}
                       onLoad={() => setIsLoading(false)}
                       className="w-full h-full border-0"
                       loading="eager"
