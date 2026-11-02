@@ -39,9 +39,10 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
     coach?.coverImage ||
     (canonical === 'mahya_shakouri' ? '/images/solea/mahya_about.jpg' : '/images/solea/fatemeh_about.jpg');
 
-  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه')) || coach?.services?.[0];
+  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach?.services?.[0];
+  const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
   const introDuration = introService?.duration || '';
-  const defaultTopicName = introService ? (introDuration ? `${introService.title} (${introDuration})` : introService.title) : 'جلسه معارفه رایگان (جلسه صفر)';
+  const defaultTopicName = introService ? (introDuration ? `${introService.title} (${introDuration})` : introService.title) : (isFreeIntro ? 'جلسه معارفه رایگان (جلسه صفر)' : 'جلسه معارفه و آشنایی (جلسه صفر)');
 
   // Form states
   const [fullName, setFullName] = useState('');
@@ -547,7 +548,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
                   رزرو گفتگوی آنلاین معارفه
                 </span>
                 <span className="mt-1 block font-serif text-lg font-bold text-white">
-                  {introDuration ? `${introDuration} گفتگوی رایگان` : 'جلسه گفتگوی رایگان'}
+                  {introDuration ? `${introDuration} گفتگوی ${isFreeIntro ? 'رایگان' : 'آشنایی'}` : `جلسه گفتگوی ${isFreeIntro ? 'رایگان' : 'آشنایی'}`}
                 </span>
                 <button
                   type="button"

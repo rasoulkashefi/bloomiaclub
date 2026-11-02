@@ -162,7 +162,13 @@ async function main() {
   const FA_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
   const toFa = (val) => String(val).replace(/\d/g, (d) => FA_DIGITS[Number(d)]);
 
-  const zeroSession = sessions?.find((s) => s.slug.includes('zero') || s.title?.includes('صفر')) || sessions?.[0];
+  const zeroSession = sessions?.find((s) =>
+    s.slug?.includes('zero') ||
+    s.slug?.includes('intro') ||
+    s.title?.includes('صفر') ||
+    s.title?.includes('معارفه') ||
+    s.title?.includes('آشنایی')
+  ) || sessions?.[0];
   const meetingSlug = zeroSession ? zeroSession.slug : null;
 
   const embedUrl = meetingSlug
@@ -190,17 +196,46 @@ async function main() {
   });
 
   // Map Atyno packages to dynamic Sanity packages (if any defined in Atyno)
-  const dynamicPackages = (packages || []).map((pkg, idx) => ({
-    _key: `pkg_${pkg.slug || idx}_${Math.random().toString(36).slice(2, 6)}`,
-    id: pkg.slug || `pkg_${idx}`,
-    title: pkg.title,
-    sessions: Number(pkg.session_count) || 4,
-    duration: '۶۰ دقیقه',
-    description: pkg.description || '',
-    price: Number(pkg.total_price) || 0,
-    isPopular: idx === 1,
-    bookingUrl: `https://atyno.com/fa/embed/${userId}?package=${pkg.slug}`,
-  }));
+  const singleSess = sessions?.find(s => s.price_amount && Number(s.price_amount) > 0 && s.id !== zeroSession?.id);
+  const dynamicPackages = (packages || []).map((pkg, idx) => {
+    const isConsulting = (pkg.title || '').includes('مشاوره') || (pkg.slug || '').includes('consulting');
+    const isCoaching = (pkg.title || '').includes('کوچینگ') || (pkg.slug || '').includes('coaching');
+    const category = (isCoaching && isConsulting) ? 'hybrid' : isConsulting ? 'consulting' : 'coaching';
+
+    let discountPercent = pkg.discount_percent || 0;
+    if (!discountPercent && singleSess && pkg.session_count && pkg.total_price) {
+      const fullPrice = Number(singleSess.price_amount) * Number(pkg.session_count);
+      if (fullPrice > Number(pkg.total_price)) {
+        discountPercent = Math.round(((fullPrice - Number(pkg.total_price)) / fullPrice) * 100);
+      }
+    }
+
+    const defaultFeatures = [
+      `${toFa(pkg.session_count || 4)} جلسه آنلاین ۶۰ دقیقه‌ای`,
+      ...(Array.isArray(pkg.outcomes) && pkg.outcomes.length > 0 ? pkg.outcomes : [
+        'برنامه اختصاصی متناسب با دغدغه و اهداف شما',
+        'شناسایی موانع و ارائه راهکارهای اقدام عملی',
+      ]),
+      'پشتیبانی و پیگیری میان جلسات با پیامک',
+      'ضمانت بازگشت ۱۰۰٪ وجه تا پایان جلسه دوم',
+    ];
+
+    return {
+      _key: `pkg_${pkg.slug || idx}_${Math.random().toString(36).slice(2, 6)}`,
+      id: pkg.slug || `pkg_${idx}`,
+      title: pkg.title,
+      category,
+      sessions: Number(pkg.session_count) || 4,
+      duration: '۶۰ دقیقه',
+      description: pkg.description || '',
+      price: Number(pkg.total_price) || 0,
+      discountPercent: discountPercent || (idx === 1 ? 20 : 0),
+      validityDays: pkg.validity_days || 60,
+      isPopular: pkg.slug?.includes('professional-coaching') || idx === 1,
+      features: defaultFeatures,
+      bookingUrl: `https://atyno.com/fa/embed/${userId}?package=${pkg.slug}`,
+    };
+  });
 
   // 6. If coachSlug is provided, update Bloomia Sanity CMS and Supabase
   if (coachSlug) {

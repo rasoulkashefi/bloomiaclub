@@ -47,7 +47,7 @@ export const COACH_PROJECTION = `{
   audience[]{ "id": _key, title },
   method[]{ "id": _key, title, description },
   services[]{ "id": _key, title, duration, description, isFree, price, bookingUrl },
-  packages[]{ "id": _key, title, sessions, duration, description, price, isPopular, features, discountPercent, validityDays, bookingUrl },
+  packages[]{ "id": _key, title, category, sessions, duration, description, price, isPopular, features, discountPercent, validityDays, bookingUrl },
   testimonials[]{ "id": _key, quote, author, context },
   events[]{ "id": _key, title, date, type, location, href },
   credentials[]{ "id": _key, title, organization, year },

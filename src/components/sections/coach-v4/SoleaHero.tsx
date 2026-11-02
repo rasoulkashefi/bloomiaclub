@@ -40,6 +40,9 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
   const coachTitle = rawTitle.replace(/\s*\((?:ICF|Level)[^)]*\)/gi, '').trim();
   const bookingLink = coach?.bookingUrl || '#contact';
 
+  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach?.services?.[0];
+  const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
+
   // Smart concise bio strictly under 70-80 chars (2 lines max) to prevent hero vertical overflow
   const getHeroBio = () => {
     if (slug.includes('parmiss')) {
@@ -273,7 +276,7 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
                 onClick={() => onOpenBooking ? onOpenBooking() : (window.location.href = bookingLink)}
                 className="inline-flex items-center justify-center rounded-[14px] bg-[#dfece9] px-7 py-3 sm:py-3.5 text-sm sm:text-[15px] font-semibold text-[#1f3d3a] shadow-lg shadow-black/10 transition-all duration-200 hover:bg-white hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                رزرو جلسه معارفه رایگان
+                {isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}
               </button>
             </div>
 

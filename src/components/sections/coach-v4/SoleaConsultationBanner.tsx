@@ -131,7 +131,8 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
   const coachName = coach?.name || 'کوچ بلومیا';
   const coachTitle = coach?.title || 'کوچ حرفه‌ای و بین‌المللی ICF';
   const bookingLink = coach?.bookingUrl || '#contact';
-  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه')) || coach?.services?.[0];
+  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach?.services?.[0];
+  const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
   const introDuration = introService?.duration || '';
 
   const isCutout = Boolean(
@@ -165,7 +166,7 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
           {/* Start Column: Heading, Checklist, CTA (w-[380px]) */}
           <div className="flex flex-col items-start justify-center w-full lg:w-[380px] shrink-0 z-10">
             <h3 className="font-serif text-[28px] sm:text-[34px] lg:text-[38px] font-normal leading-[1.38] sm:leading-[1.35] text-[#1e1e1e]">
-              رزرو جلسه معارفه رایگان
+              {isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}
               {introDuration && (
                 <>
                   <br />
@@ -211,7 +212,7 @@ export const SoleaConsultationBanner: React.FC<SoleaConsultationBannerProps> = (
                 onClick={() => onOpenBooking ? onOpenBooking() : (window.location.href = bookingLink)}
                 className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-7 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#2b544e] cursor-pointer"
               >
-                درخواست جلسه معارفه رایگان
+                {isFreeIntro ? 'درخواست جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}
               </button>
             </div>
           </div>

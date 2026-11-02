@@ -42,6 +42,9 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({
   const coachName = coach?.name || (isFatemeh ? 'فاطمه اسماعیلی' : (isMahya ? 'محیا شکوری' : 'کوچ بلومیا'));
   const bookingLink = coach?.bookingUrl || (isFatemeh ? 'https://atyno.com/fatemeh/zero' : '#contact');
 
+  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach?.services?.[0];
+  const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -147,7 +150,7 @@ export const SoleaMenuCard: React.FC<SoleaMenuCardProps> = ({
                           onClick={onClose}
                           className="transition-colors hover:text-[#dfece9]"
                         >
-                          جلسه معارفه رایگان (جلسه صفر)
+                          {isFreeIntro ? 'جلسه معارفه رایگان (جلسه صفر)' : 'جلسه معارفه و آشنایی (جلسه صفر)'}
                         </Link>
                         <Link
                           href="#blog"

@@ -60,6 +60,9 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
   const hasDedicatedPacket = Boolean(coach?.welcomePacket?.fileUrl);
   const defaultIcfPdfUrl = '/documents/welcome-packets/icf-core-competencies.pdf';
 
+  const introService = coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach?.services?.[0];
+  const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
+
   const packetFile = coach?.welcomePacket?.fileUrl || defaultIcfPdfUrl;
   const packetCover = coach?.welcomePacket?.coverImageUrl || '/images/solea/icf_competencies_cover.png';
   const packetTitle =
@@ -69,7 +72,9 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
   const packetSubtitle =
     coach?.welcomePacket?.subtitle ||
     (hasDedicatedPacket
-      ? `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه رایگان با ${coachName}.`
+      ? (isFreeIntro
+          ? `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه رایگان با ${coachName}.`
+          : `راهنمای جامع آشنایی با فرآیند کوچینگ، منشور محرمانگی، شرایط جلسات و نحوه آمادگی کامل برای جلسه معارفه با ${coachName}.`)
       : 'سند رسمی فدراسیون بین‌المللی کوچینگ؛ معرفی ۸ شایستگی محوری، منشور اخلاقی، تعهد رازداری و استانداردهای حرفه‌ای جلسات کوچینگ.');
 
   const packetFeatures =
@@ -78,7 +83,9 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
       ? [
           'آشنایی با متدولوژی و اصول ۴گانه جلسات کوچینگ',
           'شفافیت در شرایط، ضوابط همکاری و منشور محرمانگی',
-          'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه رایگان (جلسه صفر)',
+          isFreeIntro
+            ? 'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه رایگان (جلسه صفر)'
+            : 'راهنمای گام‌به‌گام آمادگی برای جلسه معارفه و آشنایی (جلسه صفر)',
         ]
       : [
           'معرفی ۸ شایستگی بنیادین و جهانی فدراسیون بین‌المللی کوچینگ',
@@ -223,7 +230,7 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-white/85 hover:text-white transition-colors underline underline-offset-8"
                     >
-                      <span>رزرو جلسه معارفه رایگان</span>
+                      <span>{isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}</span>
                       <ArrowLeft className="h-4 w-4" />
                     </a>
                   </>
@@ -234,7 +241,7 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
                     rel="noreferrer"
                     className="inline-flex items-center justify-center rounded-[14px] bg-white px-8 py-4 text-[15px] font-semibold text-[#1f3d3a] transition-all hover:bg-[#dfece9] active:scale-95 shadow-md"
                   >
-                    رزرو جلسه معارفه رایگان
+                    {isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}
                   </a>
                 )}
               </div>

@@ -46,10 +46,15 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
   }
 
   const title = `${coach.name} | کوچ متخصص ${coach.title}`;
+  const introService = coach.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach.services?.[0];
+  const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
+
   const description =
     coach.shortBio ||
     coach.description ||
-    `رزرو آنلاین جلسه معارفه رایگان با ${coach.name}، کوچ دارای مدرک بین‌المللی ICF در بلومیا کلاب.`;
+    (isFreeIntro
+      ? `رزرو آنلاین جلسه معارفه رایگان با ${coach.name}، کوچ دارای مدرک بین‌المللی ICF در بلومیا کلاب.`
+      : `رزرو آنلاین جلسه معارفه با ${coach.name}، کوچ دارای مدرک بین‌المللی ICF در بلومیا کلاب.`);
 
   const canonicalUrl = `https://bloomiaclub.com/coaches/${coach.slug}`;
   const dedicatedOg = `/images/coaches/og-${coach.slug}.jpg`;
@@ -63,7 +68,7 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
       coach.title,
       'کوچینگ بلومیا',
       'کوچ حرفه‌ای ICF',
-      'جلسه معارفه رایگان',
+      isFreeIntro ? 'جلسه معارفه رایگان' : 'جلسه معارفه کوچینگ',
       'کوچینگ فردی و توسعه شغلی',
       ...(coach.specialties || []),
     ],
@@ -116,6 +121,8 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
   // Ensure canonical atyno booking URL for coaches using Atyno
   if (coach.slug === 'fatemeh_esmaeeli' || coach.bookingUrl?.includes('calendly')) {
     coach.bookingUrl = 'https://atyno.com/fatemeh/zero';
+  } else if (coach.slug === 'payam-esmi' && !coach.bookingUrl) {
+    coach.bookingUrl = 'https://atyno.com/fa/embed/a7efb113-6e61-4623-838c-2f223cf476e8?meeting=intro-call';
   }
 
   const [fetchedArticles, coachEvents] = await Promise.all([
@@ -126,6 +133,9 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
   if (fetchedArticles && fetchedArticles.length > 0) {
     coach.articles = fetchedArticles;
   }
+
+  const introService = coach.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach.services?.[0];
+  const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
 
   // JSON-LD Person Schema for SEO & GEO
   const jsonLdPerson = {
@@ -145,8 +155,8 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
     },
     makesOffer: {
       '@type': 'Offer',
-      name: 'جلسه معارفه رایگان کوچینگ (جلسه صفر)',
-      price: '0',
+      name: isFreeIntro ? 'جلسه معارفه رایگان کوچینگ (جلسه صفر)' : (introService?.title || 'جلسه معارفه و آشنایی کوچینگ'),
+      price: isFreeIntro ? '0' : String((introService?.price || 0) * 10),
       priceCurrency: 'IRR',
       url: coach.bookingUrl || 'https://bloomiaclub.com/coaching/free-intro-session',
       availability: 'https://schema.org/InStock',

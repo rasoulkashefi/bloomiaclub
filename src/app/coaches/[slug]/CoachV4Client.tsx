@@ -54,7 +54,7 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
   // Dynamic introductory session directly from coach.services (synced from Atyno)
   const introService = useMemo(() => {
     return (
-      coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه')) ||
+      coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) ||
       coach?.services?.[0]
     );
   }, [coach]);
