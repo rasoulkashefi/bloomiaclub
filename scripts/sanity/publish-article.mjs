@@ -154,45 +154,77 @@ async function ensureCategory(categoryTitle, categorySlug) {
   return { _type: 'reference', _ref: created._id };
 }
 
-function parseTextToSpans(text, defaultMarks = []) {
+function parseTextToSpansAndMarkDefs(text, defaultMarks = []) {
   if (!text || typeof text !== 'string') {
-    return [{ _type: 'span', text: text || '', marks: defaultMarks || [] }];
+    return {
+      children: [{ _type: 'span', text: text || '', marks: defaultMarks || [] }],
+      markDefs: [],
+    };
   }
 
-  if (!text.includes('**')) {
-    return [{ _type: 'span', text, marks: defaultMarks || [] }];
-  }
+  const regex = /(\*\*.*?\*\*|\[.*?\]\(.*?\))/g;
+  const parts = text.split(regex);
+  const children = [];
+  const markDefs = [];
+  let linkCounter = 0;
 
-  const regex = /\*\*(.+?)\*\*/g;
-  const spans = [];
-  let lastIndex = 0;
-  let match;
+  for (const part of parts) {
+    if (!part) continue;
 
-  while ((match = regex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      spans.push({
+    // Check link [text](url)
+    const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
+    if (linkMatch) {
+      linkCounter++;
+      const linkKey = `link_${Date.now().toString(36)}_${linkCounter}`;
+      let linkText = linkMatch[1];
+      const href = linkMatch[2];
+      const marks = [...defaultMarks, linkKey];
+
+      if (linkText.startsWith('**') && linkText.endsWith('**') && linkText.length > 4) {
+        linkText = linkText.slice(2, -2);
+        marks.push('strong');
+      }
+
+      children.push({
         _type: 'span',
-        text: text.slice(lastIndex, match.index),
-        marks: [...defaultMarks],
+        text: linkText,
+        marks: Array.from(new Set(marks)),
       });
-    }
-    spans.push({
-      _type: 'span',
-      text: match[1],
-      marks: Array.from(new Set([...defaultMarks, 'strong'])),
-    });
-    lastIndex = regex.lastIndex;
-  }
 
-  if (lastIndex < text.length) {
-    spans.push({
+      markDefs.push({
+        _key: linkKey,
+        _type: 'link',
+        href,
+      });
+      continue;
+    }
+
+    // Check bold **text**
+    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+      children.push({
+        _type: 'span',
+        text: part.slice(2, -2),
+        marks: Array.from(new Set([...defaultMarks, 'strong'])),
+      });
+      continue;
+    }
+
+    // Normal text
+    children.push({
       _type: 'span',
-      text: text.slice(lastIndex),
+      text: part,
       marks: [...defaultMarks],
     });
   }
 
-  return spans.length > 0 ? spans : [{ _type: 'span', text, marks: defaultMarks }];
+  return {
+    children: children.length > 0 ? children : [{ _type: 'span', text, marks: defaultMarks }],
+    markDefs,
+  };
+}
+
+function parseTextToSpans(text, defaultMarks = []) {
+  return parseTextToSpansAndMarkDefs(text, defaultMarks).children;
 }
 
 async function buildPortableText(blocks) {
@@ -201,14 +233,23 @@ async function buildPortableText(blocks) {
   for (const block of blocks || []) {
     if (block.type === 'paragraph' || block.type === 'h2' || block.type === 'h3' || block.type === 'h4' || block.type === 'blockquote') {
       const style = block.type === 'paragraph' ? 'normal' : block.type;
-      const children = Array.isArray(block.children) && block.children.length > 0
-        ? block.children
-        : parseTextToSpans(block.text || '', block.marks || []);
+      let children = [];
+      let markDefs = [];
+
+      if (Array.isArray(block.children) && block.children.length > 0) {
+        children = block.children;
+        markDefs = block.markDefs || [];
+      } else {
+        const parsed = parseTextToSpansAndMarkDefs(block.text || '', block.marks || []);
+        children = parsed.children;
+        markDefs = parsed.markDefs;
+      }
 
       portableText.push({
         _type: 'block',
         style,
         children,
+        ...(markDefs.length > 0 ? { markDefs } : {}),
       });
     } else if (block.type === 'image') {
       const imgRef = await uploadImageAsset(block.filePath || block.imagePath, block.alt, block.caption);

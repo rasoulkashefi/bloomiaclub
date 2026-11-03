@@ -8,12 +8,63 @@ interface PortableTextRendererProps {
 }
 
 function parseInlineMarkdown(text: string): React.ReactNode {
-  if (!text || typeof text !== 'string' || !text.includes('**')) {
+  if (!text || typeof text !== 'string') {
     return text;
   }
-  const parts = text.split(/(\b|\B)(?=\*\*)|(?<=\*\*)/);
-  const tokens = text.split(/(\*\*.*?\*\*)/g);
-  return tokens.map((part, index) => {
+  if (!text.includes('**') && !text.includes('](')) {
+    return text;
+  }
+
+  // Tokenize both **bold** and [text](url)
+  const regex = /(\*\*.*?\*\*|\[.*?\]\(.*?\))/g;
+  const parts = text.split(regex);
+
+  return parts.filter(Boolean).map((part, index) => {
+    // Check Markdown Link [text](url)
+    const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
+    if (linkMatch) {
+      const rawLinkText = linkMatch[1];
+      const href = linkMatch[2];
+      const isInternal = !href.startsWith('http') || href.includes('bloomiaclub.com');
+      const internalHref = href.replace(/^https?:\/\/(www\.)?bloomiaclub\.com/, '') || href;
+
+      // Handle bold inside link text [**text**](url)
+      let innerContent: React.ReactNode = rawLinkText;
+      if (rawLinkText.startsWith('**') && rawLinkText.endsWith('**') && rawLinkText.length > 4) {
+        innerContent = (
+          <strong className="font-extrabold text-brand-neutral-900">
+            {rawLinkText.slice(2, -2)}
+          </strong>
+        );
+      }
+
+      if (isInternal) {
+        return (
+          <Link
+            key={index}
+            href={internalHref}
+            className="text-brand-teal-800 hover:text-brand-teal-600 underline underline-offset-4 decoration-brand-teal-400 hover:decoration-brand-teal-700 font-bold transition-all inline-flex items-center gap-1 group"
+          >
+            <span>{innerContent}</span>
+          </Link>
+        );
+      }
+
+      return (
+        <a
+          key={index}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand-teal-800 hover:text-brand-teal-600 underline underline-offset-4 decoration-brand-teal-400 hover:decoration-brand-teal-700 font-bold transition-all inline-flex items-center gap-0.5 group"
+        >
+          <span>{innerContent}</span>
+          <ExternalLink className="w-3.5 h-3.5 inline shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
+        </a>
+      );
+    }
+
+    // Check Bold **text**
     if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
       return (
         <strong key={index} className="font-extrabold text-brand-neutral-900">
@@ -21,6 +72,7 @@ function parseInlineMarkdown(text: string): React.ReactNode {
         </strong>
       );
     }
+
     return part;
   });
 }
@@ -51,27 +103,30 @@ function renderSpan(span: any, markDefs: any[] = []) {
     } else {
       const markDef = markDefs.find((def: any) => def._key === mark);
       if (markDef && markDef._type === 'link') {
-        const isExternal = markDef.isExternal || markDef.href?.startsWith('http');
-        if (isExternal) {
+        const href = markDef.href || '#';
+        const isInternal = !href.startsWith('http') || href.includes('bloomiaclub.com');
+        const internalHref = href.replace(/^https?:\/\/(www\.)?bloomiaclub\.com/, '') || href;
+
+        if (isInternal) {
           element = (
-            <a
-              href={markDef.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-brand-teal-800 hover:text-brand-teal-600 underline decoration-brand-teal-300 font-semibold transition-colors inline-flex items-center gap-0.5"
+            <Link
+              href={internalHref}
+              className="text-brand-teal-800 hover:text-brand-teal-600 underline underline-offset-4 decoration-brand-teal-400 hover:decoration-brand-teal-700 font-bold transition-all inline-flex items-center gap-1 group"
             >
               <span>{element}</span>
-              <ExternalLink className="w-3.5 h-3.5 inline shrink-0 opacity-70" />
-            </a>
+            </Link>
           );
         } else {
           element = (
-            <Link
-              href={markDef.href || '#'}
-              className="text-brand-teal-800 hover:text-brand-teal-600 underline decoration-brand-teal-300 font-semibold transition-colors"
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-teal-800 hover:text-brand-teal-600 underline underline-offset-4 decoration-brand-teal-400 hover:decoration-brand-teal-700 font-bold transition-all inline-flex items-center gap-0.5 group"
             >
-              {element}
-            </Link>
+              <span>{element}</span>
+              <ExternalLink className="w-3.5 h-3.5 inline shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
+            </a>
           );
         }
       }
