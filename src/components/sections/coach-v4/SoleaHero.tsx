@@ -77,9 +77,10 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
 
   const coachBio = getHeroBio();
 
-  // Determine coach specific hero portrait
+  // Determine coach specific hero portrait (Sanity CMS dynamic cutout first, then coach-specific static fallback)
   const getHeroImage = () => {
-    if (slug.includes('parmiss')) return coach?.cutoutImageUrl || '/images/solea/parmiss_hero_v4.png';
+    if (coach?.cutoutImageUrl) return coach.cutoutImageUrl;
+    if (slug.includes('parmiss')) return '/images/solea/parmiss_hero_v4.png';
     if (slug.includes('mahya')) return '/images/solea/mahya_hero_v4.png';
     if (slug.includes('fatemeh') && slug.includes('esmaeeli')) return '/images/solea/fatemeh_hero_v4.png';
     if (slug.includes('arezoo') && slug.includes('ghaffari')) return '/images/solea/arezoo_hero.png';
@@ -87,7 +88,6 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
     if (slug.includes('derakhsh') || slug.includes('darkhosh')) return '/images/solea/fatemeh_derakhsh_hero_v4.png';
     if (slug.includes('saloomeh') || slug.includes('salomeh')) return '/images/solea/saloomeh_hero_v4.png';
     return (
-      coach?.cutoutImageUrl ||
       coach?.coverImage ||
       coach?.imageUrl ||
       '/images/solea/fatemeh_hero_v4.png'
