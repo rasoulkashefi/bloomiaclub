@@ -150,7 +150,7 @@ async function main() {
       .order('created_at', { ascending: true }),
     atynoDb
       .from('session_packages')
-      .select('id, slug, title, session_count, total_price, is_active, description')
+      .select('id, slug, title, session_count, total_price, is_active, description, compare_at_price, session_type_id, outcomes, validity_days')
       .eq('coach_id', userId)
       .eq('is_active', true)
       .order('created_at', { ascending: true }),
@@ -202,8 +202,14 @@ async function main() {
     const isCoaching = (pkg.title || '').includes('کوچینگ') || (pkg.slug || '').includes('coaching');
     const category = (isCoaching && isConsulting) ? 'hybrid' : isConsulting ? 'consulting' : 'coaching';
 
+    const linkedSession = sessions?.find(s => s.id === pkg.session_type_id) || singleSess || zeroSession;
+    const sessDurationMin = linkedSession ? Number(linkedSession.duration_min) : 60;
+    const durText = `${toFa(sessDurationMin)} دقیقه`;
+
     let discountPercent = pkg.discount_percent || 0;
-    if (!discountPercent && singleSess && pkg.session_count && pkg.total_price) {
+    if (!discountPercent && pkg.compare_at_price && Number(pkg.compare_at_price) > Number(pkg.total_price)) {
+      discountPercent = Math.round(((Number(pkg.compare_at_price) - Number(pkg.total_price)) / Number(pkg.compare_at_price)) * 100);
+    } else if (!discountPercent && singleSess && pkg.session_count && pkg.total_price) {
       const fullPrice = Number(singleSess.price_amount) * Number(pkg.session_count);
       if (fullPrice > Number(pkg.total_price)) {
         discountPercent = Math.round(((fullPrice - Number(pkg.total_price)) / fullPrice) * 100);
@@ -211,7 +217,7 @@ async function main() {
     }
 
     const defaultFeatures = [
-      `${toFa(pkg.session_count || 4)} جلسه آنلاین ۶۰ دقیقه‌ای`,
+      `${toFa(pkg.session_count || 4)} جلسه آنلاین ${durText.replace('دقیقه', 'دقیقه‌ای')}`,
       ...(Array.isArray(pkg.outcomes) && pkg.outcomes.length > 0 ? pkg.outcomes : [
         'برنامه اختصاصی متناسب با دغدغه و اهداف شما',
         'شناسایی موانع و ارائه راهکارهای اقدام عملی',
@@ -226,12 +232,12 @@ async function main() {
       title: pkg.title,
       category,
       sessions: Number(pkg.session_count) || 4,
-      duration: '۶۰ دقیقه',
+      duration: durText,
       description: pkg.description || '',
       price: Number(pkg.total_price) || 0,
       discountPercent: discountPercent || (idx === 1 ? 20 : 0),
       validityDays: pkg.validity_days || 60,
-      isPopular: pkg.slug?.includes('professional-coaching') || idx === 1,
+      isPopular: pkg.slug?.includes('professional-coaching') || pkg.slug?.includes('transformational') || idx === 1,
       features: defaultFeatures,
       bookingUrl: `https://atyno.com/fa/embed/${userId}?package=${pkg.slug}`,
     };

@@ -123,6 +123,8 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
     coach.bookingUrl = 'https://atyno.com/fatemeh/zero';
   } else if (coach.slug === 'payam-esmi' && !coach.bookingUrl) {
     coach.bookingUrl = 'https://atyno.com/fa/embed/a7efb113-6e61-4623-838c-2f223cf476e8?meeting=intro-call';
+  } else if ((coach.slug === 'Arezoo_Ghaffari' || coach.slug === 'arezoo-ghaffari') && !coach.bookingUrl) {
+    coach.bookingUrl = 'https://atyno.com/fa/embed/f2f11bdb-3377-4df4-bc88-bc575de4a379?meeting=intro-call';
   }
 
   const [fetchedArticles, coachEvents] = await Promise.all([

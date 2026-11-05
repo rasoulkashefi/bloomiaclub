@@ -93,6 +93,7 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
           '62eb65e6-f7bc-4b8c-8ea0-e3a7c974a9bd': 'parmiss',
           '934b33a2-9888-4209-9901-b9632e812e6c': 'fatemeh',
           'a7efb113-6e61-4623-838c-2f223cf476e8': 'payamesmi',
+          'f2f11bdb-3377-4df4-bc88-bc575de4a379': 'arezou_ghafari',
         };
 
         const username =
