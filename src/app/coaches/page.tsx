@@ -116,6 +116,10 @@ export default async function CoachesPage() {
 
   return (
     <>
+      {/* Speculative Preconnect for Atyno calendar iframe (Zero bandwidth, instant TLS handshake) */}
+      <link rel="preconnect" href="https://atyno.com" crossOrigin="anonymous" />
+      <link rel="dns-prefetch" href="https://atyno.com" />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdCollection) }}
