@@ -204,6 +204,14 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
         }
       `}</style>
 
+      {/* Speculative Preconnect for Atyno calendar iframe (Zero bandwidth, instant TLS handshake) */}
+      {Boolean(coach.bookingUrl?.includes('atyno.com')) && (
+        <>
+          <link rel="preconnect" href="https://atyno.com" crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href="https://atyno.com" />
+        </>
+      )}
+
       {/* JSON-LD Schemas */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />

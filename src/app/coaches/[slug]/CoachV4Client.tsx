@@ -37,6 +37,23 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
     coach?.coverImage ||
     (canonical === 'mahya_shakouri' ? '/images/solea/mahya_about.jpg' : '/images/solea/fatemeh_about.jpg');
 
+  // Dynamic introductory session directly from coach.services (synced from Atyno)
+  const introService = useMemo(() => {
+    return (
+      coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) ||
+      coach?.services?.[0]
+    );
+  }, [coach]);
+
+  const defaultIntroTitle = useMemo(() => {
+    if (!introService) return 'رزرو آنلاین جلسه معارفه';
+    return introService.duration ? `${introService.title} (${introService.duration})` : introService.title;
+  }, [introService]);
+
+  const defaultBookingUrl = useMemo(() => {
+    return introService?.bookingUrl || coach?.bookingUrl || '';
+  }, [introService, coach]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [selectedOffering, setSelectedOffering] = useState<string | undefined>(undefined);
@@ -48,10 +65,44 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
     mode?: string;
   }>({
     isOpen: false,
-    title: '',
-    bookingUrl: '',
+    title: defaultIntroTitle,
+    bookingUrl: defaultBookingUrl,
     mode: 'online',
   });
+
+  // Background Preload Engine: Warms up Atyno calendar in browser cache during idle
+  const [shouldPreloadIframe, setShouldPreloadIframe] = useState(false);
+
+  useEffect(() => {
+    if (!isAtynoCoach || !defaultBookingUrl) return;
+    if (typeof navigator !== 'undefined' && (navigator as any).connection?.saveData) {
+      return;
+    }
+
+    let idleId: number | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    const startWarmup = () => {
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        idleId = (window as any).requestIdleCallback(() => setShouldPreloadIframe(true), { timeout: 3000 });
+      } else {
+        timeoutId = setTimeout(() => setShouldPreloadIframe(true), 2000);
+      }
+    };
+
+    if (typeof document !== 'undefined' && document.readyState === 'complete') {
+      startWarmup();
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', startWarmup, { once: true });
+    }
+
+    return () => {
+      if (idleId && typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+        (window as any).cancelIdleCallback(idleId);
+      }
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isAtynoCoach, defaultBookingUrl]);
 
   const [paymentNotice, setPaymentNotice] = useState<{
     type: 'success' | 'failed';
@@ -89,22 +140,9 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
     }
   };
 
-  // Dynamic introductory session directly from coach.services (synced from Atyno)
-  const introService = useMemo(() => {
-    return (
-      coach?.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) ||
-      coach?.services?.[0]
-    );
-  }, [coach]);
-
-  const defaultIntroTitle = useMemo(() => {
-    if (!introService) return 'رزرو آنلاین جلسه معارفه';
-    return introService.duration ? `${introService.title} (${introService.duration})` : introService.title;
-  }, [introService]);
-
   const handleOpenBooking = (offeringTitle?: string, bookingUrl?: string, mode?: string) => {
     const effectiveTitle = offeringTitle || defaultIntroTitle;
-    const effectiveUrl = bookingUrl || introService?.bookingUrl || coach?.bookingUrl || '';
+    const effectiveUrl = bookingUrl || defaultBookingUrl;
     const effectiveMode =
       mode ||
       (introService as any)?.locationType ||
@@ -198,30 +236,46 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
       {/* Contact Form & Footer */}
       <SoleaContact coach={coach} onOpenBooking={handleOpenBooking} />
 
-      {/* Internal Lead Booking Modal for Non-Atyno Coaches (Telegram Bot Connected) */}
-      {!isAtynoCoach && (
-        <CoachLeadBookingModal
-          isOpen={leadModalOpen}
-          onClose={() => setLeadModalOpen(false)}
-          coachName={coachName}
-          coachTitle={coachTitle}
-          coachAvatar={coachAvatar}
-          initialOfferingTitle={selectedOffering}
-          offerings={offerings}
-        />
-      )}
+      {/* Internal Lead Booking Modal (Direct Coordination via WhatsApp/SMS/Telegram) */}
+      <CoachLeadBookingModal
+        isOpen={leadModalOpen}
+        onClose={() => setLeadModalOpen(false)}
+        coachName={coachName}
+        coachTitle={coachTitle}
+        coachAvatar={coachAvatar}
+        initialOfferingTitle={selectedOffering || defaultIntroTitle}
+        offerings={offerings}
+      />
 
       {/* Atyno Booking Modal for Atyno-integrated Coaches */}
       {isAtynoCoach && (
         <AtynoBookingModal
           isOpen={atynoModalState.isOpen}
           onClose={() => setAtynoModalState((prev) => ({ ...prev, isOpen: false }))}
-          title={atynoModalState.title}
-          bookingUrl={atynoModalState.bookingUrl}
+          title={atynoModalState.title || defaultIntroTitle}
+          bookingUrl={atynoModalState.bookingUrl || defaultBookingUrl}
           coachName={coachName}
           coachSlug={coach?.slug}
           mode={atynoModalState.mode}
+          onFallbackLead={() => {
+            setSelectedOffering(atynoModalState.title || defaultIntroTitle);
+            setLeadModalOpen(true);
+          }}
         />
+      )}
+
+      {/* Background Preload for Atyno Calendar (Warms up browser HTTP cache during idle) */}
+      {isAtynoCoach && shouldPreloadIframe && defaultBookingUrl && (
+        <div
+          aria-hidden="true"
+          style={{ position: 'fixed', top: -9999, left: -9999, width: 1, height: 1, opacity: 0, pointerEvents: 'none' }}
+        >
+          <iframe
+            src={defaultBookingUrl}
+            tabIndex={-1}
+            title="atyno-warmup"
+          />
+        </div>
       )}
 
       {/* Payment Result Notification Modal (Returning from Payment Gateway) */}

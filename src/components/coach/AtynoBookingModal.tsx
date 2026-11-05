@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { X, ExternalLink, Loader2, Calendar } from 'lucide-react';
+import { X, ExternalLink, Loader2, Calendar, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackBookingModalOpen } from '@/lib/analytics';
 
-interface AtynoBookingModalProps {
+export interface AtynoBookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -14,6 +14,7 @@ interface AtynoBookingModalProps {
   coachName?: string;
   coachSlug?: string;
   mode?: string;
+  onFallbackLead?: () => void;
 }
 
 export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
@@ -24,11 +25,13 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
   coachName = 'کوچ',
   coachSlug,
   mode,
+  onFallbackLead,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [showSlowWarning, setShowSlowWarning] = useState(false);
 
   // Normalize meeting mode for unambiguous display in Persian
-  const modeLabel = React.useMemo(() => {
+  const modeLabel = useMemo(() => {
     if (!mode) return 'آنلاین';
     const lower = mode.toLowerCase();
     if (lower.includes('phone') || lower.includes('تلفن')) return 'تلفنی';
@@ -40,16 +43,32 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       setIsLoading(true);
+      setShowSlowWarning(false);
       trackBookingModalOpen(coachName, 'atyno', coachSlug);
     }
   }, [isOpen, bookingUrl, coachName, coachSlug]);
 
+  // Slow network timer: If modal is open and still loading after 3.5s, offer instant fallback
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+    if (isOpen && isLoading) {
+      timer = setTimeout(() => {
+        setShowSlowWarning(true);
+      }, 3500);
+    } else {
+      setShowSlowWarning(false);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isOpen, isLoading]);
+
   // Ensure embed iframe passes return_url back to Bloomia page so payment redirects stay in Bloomia
-  const effectiveBookingUrl = React.useMemo(() => {
+  const effectiveBookingUrl = useMemo(() => {
+    if (!bookingUrl) return '';
     try {
       const url = new URL(bookingUrl);
       if (typeof window !== 'undefined' && !url.searchParams.has('return_url')) {
-        // Return without search params that might already be on current window (clean page url)
         const cleanReturnUrl = `${window.location.origin}${window.location.pathname}`;
         url.searchParams.set('return_url', cleanReturnUrl);
       }
@@ -60,7 +79,8 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
   }, [bookingUrl]);
 
   // Convert embed URL to a clean public URL for the fallback "open in new tab"
-  const publicFallbackUrl = React.useMemo(() => {
+  const publicFallbackUrl = useMemo(() => {
+    if (!bookingUrl) return '';
     try {
       const url = new URL(bookingUrl);
       if (url.pathname.includes('/fa/embed/')) {
@@ -124,7 +144,7 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
                           <Dialog.Title className="text-base sm:text-lg font-bold text-[#1f3d3a] truncate">
-                            {title}
+                            {title || 'رزرو آنلاین جلسه معارفه'}
                           </Dialog.Title>
                           <span className="shrink-0 inline-flex items-center rounded-full bg-[#dfece9] px-2.5 py-0.5 text-[11px] font-semibold text-[#1f3d3a] border border-[#1f3d3a]/15">
                             جلسه {modeLabel}
@@ -137,16 +157,18 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                     </div>
 
                     <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 mr-2">
-                      {/* Open in new tab link */}
-                      <a
-                        href={publicFallbackUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="باز کردن در پنجره جدید"
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#6b6b6b] transition-colors hover:bg-black/5 hover:text-[#1f3d3a]"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
+                      {/* Open in new tab fallback */}
+                      {publicFallbackUrl && (
+                        <a
+                          href={publicFallbackUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          title="باز کردن تقویم در پنجره جدید"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#6b6b6b] transition-colors hover:bg-black/5 hover:text-[#1f3d3a]"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      )}
 
                       {/* Close button */}
                       <Dialog.Close asChild>
@@ -154,7 +176,7 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                           type="button"
                           onClick={onClose}
                           aria-label="بستن پنجره"
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-[#1e1e1e] transition-colors hover:bg-black/10 active:scale-95"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-[#1e1e1e] transition-colors hover:bg-black/10 active:scale-95 cursor-pointer"
                         >
                           <X className="h-4 w-4 stroke-[2.5]" />
                         </button>
@@ -162,25 +184,68 @@ export const AtynoBookingModal: React.FC<AtynoBookingModalProps> = ({
                     </div>
                   </div>
 
-                  {/* Body with iFrame and Loading State */}
+                  {/* Body with iFrame and Progressive Loading State */}
                   <div className="relative flex-1 w-full bg-white overflow-hidden">
+                    {/* Thin top progress line during loading */}
                     {isLoading && (
-                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/95">
-                        <Loader2 className="h-8 w-8 animate-spin text-[#1f3d3a]" />
-                        <p className="text-xs sm:text-sm text-[#6b6b6b] font-medium">
-                          در حال بارگذاری تقویم کاری...
-                        </p>
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-[#dfece9] overflow-hidden z-20">
+                        <div className="h-full bg-[#1f3d3a] animate-pulse w-full" />
                       </div>
                     )}
 
-                    <iframe
-                      src={effectiveBookingUrl}
-                      onLoad={() => setIsLoading(false)}
-                      className="w-full h-full border-0"
-                      loading="eager"
-                      allow="clipboard-write"
-                      title={title}
-                    />
+                    {/* Loading overlay with emergency escape hatch */}
+                    {isLoading && (
+                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/95 px-6">
+                        <Loader2 className="h-8 w-8 animate-spin text-[#1f3d3a]" />
+                        <p className="text-xs sm:text-sm text-[#1e1e1e] font-semibold text-center">
+                          در حال بارگذاری تقویم کاری {coachName}...
+                        </p>
+                        <p className="text-[11px] text-[#6b6b6b] text-center max-w-sm">
+                          برقراری اتصال مستقیم با سرور زمان‌بندی جلسات
+                        </p>
+
+                        {/* Slow network emergency fallback card */}
+                        {showSlowWarning && (
+                          <div className="mt-4 flex flex-col sm:flex-row items-center gap-2.5 p-3 rounded-2xl bg-[#fafaf8] border border-[#e5e5e2] animate-in fade-in duration-300">
+                            {onFallbackLead && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  onClose();
+                                  onFallbackLead();
+                                }}
+                                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#1f3d3a] text-white text-xs font-semibold hover:bg-[#2b544e] transition-colors shadow-sm active:scale-95 cursor-pointer"
+                              >
+                                <Phone className="w-3.5 h-3.5" />
+                                <span>هماهنگی سریع تلفنی (بدون نیاز به تقویم)</span>
+                              </button>
+                            )}
+                            {publicFallbackUrl && (
+                              <a
+                                href={publicFallbackUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white text-[#1e1e1e] text-xs font-medium border border-[#e5e5e2] hover:bg-[#f2f7f6] transition-colors"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5 text-[#1f3d3a]" />
+                                <span>باز کردن مستقیم تقویم</span>
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {effectiveBookingUrl && (
+                      <iframe
+                        src={effectiveBookingUrl}
+                        onLoad={() => setIsLoading(false)}
+                        className="w-full h-full border-0"
+                        loading="eager"
+                        allow="clipboard-write"
+                        title={title || 'تقویم رزرو جلسه'}
+                      />
+                    )}
                   </div>
                 </motion.div>
               </Dialog.Content>
