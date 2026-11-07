@@ -74,12 +74,16 @@
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/Arezoo_Ghaffari](https://bloomiaclub.com/coaches/Arezoo_Ghaffari)
 
 ### شبنم نعمتی‌ملک (`shabnam_nematimalek`)
-- **عنوان:** کوچ رشد فردی و خودآگاهی
+- **عنوان:** کوچ رشد فردی و خودآگاهی | متخصص ساخت عادات پایدار
 - **اسلاگ:** `shabnam_nematimalek`
 - **شناسه پروفایل سنتی:** `coach-profile-shabnam_nematimalek`
 - **شناسه نویسنده بلاگ:** `coach-shabnam_nematimalek`
-- **تخصص‌ها:** خودشناسی | وضوح ذهنی | اعتماد به‌نفس | عادات مؤثر
-- **خلاصه معرفی:** همراه افرادی که می‌خواهند با وضوح ذهنی، اعتمادبه‌نفس و برنامه‌ریزی هدفمند، نسخه‌ای اصیل‌تر و توانمندتر از زندگی خود بسازند.
+- **تخصص‌ها:** خودشناسی | ساخت عادات پایدار | اعتماد به‌نفس اصیل | سواد هیجانی
+- **خلاصه معرفی:** همراه افرادی که می‌خواهند با ساخت عادات مؤثر روزانه، احیای اعتمادبه‌نفس اصیل و عبور از تله کمال‌گرایی، نسخه‌ای پایدار و توانمند از زندگی خود بسازند.
+- **مقالات وبلاگ (۳ مقاله):**
+  1. [تله تظاهر به قوی بودن: چرا اعتمادبه‌نفس اصیل با سرسختی ساخته نمی‌شود و چگونه حس شایستگی درونی را احیا کنیم؟](https://bloomiaclub.com/blog/authentic-confidence-vs-pretending-to-be-strong)
+  2. [سواد هیجانی و خودآگاهی: چرا فهمیدن احساسات مهم‌تر از کنترل یا سرکوب آن‌هاست؟](https://bloomiaclub.com/blog/emotional-literacy-and-self-awareness-coaching)
+  3. [معماری عادات پایدار: چرا انگیزه‌های پرشور شکست می‌خورند و چگونه رفتارهای ماندگار بسازیم؟](https://bloomiaclub.com/blog/building-sustainable-habits-coaching-guide)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/shabnam_nematimalek](https://bloomiaclub.com/coaches/shabnam_nematimalek)
 
 ### سالومه فتحی‌جو (`saloomeh_fathijou`)
