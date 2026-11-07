@@ -101,15 +101,16 @@
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/saloomeh_fathijou](https://bloomiaclub.com/coaches/saloomeh_fathijou)
 
 ### مریم جوهری (`maryam_johari`)
-- **عنوان:** کوچ رشد فردی و خودشناسی
+- **عنوان:** کوچ رشد فردی و خودشناسی | متخصص سازه روان و شفقت به خود
 - **اسلاگ:** `maryam_johari`
 - **شناسه پروفایل سنتی:** `coach-profile-maryam_johari`
 - **شناسه نویسنده بلاگ:** `coach-maryam_johari`
-- **تخصص‌ها:** خودشناسی | شفقت به خود | تعادل احساسی | رشد فردی
-- **خلاصه معرفی:** همراه افراد در مسیر شناخت خود، هم‌سو شدن با احساسات و ساختن زندگی با مهر، آگاهی و اصالت.
-- **مقالات وبلاگ (۲ مقاله):**
+- **تخصص‌ها:** مهندسی سازه روان | عزت‌نفس اصیل | شفقت به خود | درمان خودسرزنشگری | تاب‌آوری احساسی
+- **خلاصه معرفی:** مهندس عمران و کوچ رشد فردی؛ همراه مراجعین در بازسازی عزت‌نفس اصیل، عبور از خودسرزنشگری پس از شکست و ساختن زندگی با مهر، آگاهی و استحکام درونی.
+- **مقالات وبلاگ (۳ مقاله):**
   1. [هنر شفقت به خود: چرا مهربانی با خود، قوی‌ترین ابزار رشد و تاب‌آوری است؟](https://bloomiaclub.com/blog/art-of-self-compassion-coaching-guide)
   2. [دوستی با احساسات دشوار: چرا فرار از غم و خشم به فرسودگی می‌انجامد و چگونه به تعادل احساسی برسیم؟](https://bloomiaclub.com/blog/befriending-difficult-emotions-and-emotional-balance-coaching)
+  3. [معماری عزت‌نفس اصیل: چگونه پس از اشتباه و شکست، چرخه ویرانگر خودسرزنشگری را متوقف کنیم؟](https://bloomiaclub.com/blog/authentic-self-esteem-and-healing-self-blame-coaching)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/maryam_johari](https://bloomiaclub.com/coaches/maryam_johari)
 
 ### فاطمه درخوش (`fatemeh-derakhsh`)
