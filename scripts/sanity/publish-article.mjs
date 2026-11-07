@@ -227,6 +227,14 @@ function parseTextToSpans(text, defaultMarks = []) {
   return parseTextToSpansAndMarkDefs(text, defaultMarks).children;
 }
 
+function toPersianDigits(val) {
+  if (val === null || val === undefined) return '';
+  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return String(val)
+    .replace(/[0-9]/g, (char) => persianDigits[Number(char)])
+    .replace(/%/g, '٪');
+}
+
 async function buildPortableText(blocks) {
   const portableText = [];
 
@@ -270,7 +278,7 @@ async function buildPortableText(blocks) {
     } else if (block.type === 'highlightedStat') {
       portableText.push({
         _type: 'highlightedStat',
-        number: block.number || '',
+        number: toPersianDigits(block.number || ''),
         label: block.label || '',
         source: block.source || '',
       });

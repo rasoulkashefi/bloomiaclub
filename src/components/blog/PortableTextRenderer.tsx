@@ -7,6 +7,15 @@ interface PortableTextRendererProps {
   value: any[];
 }
 
+
+export function toPersianDigits(val: any): string {
+  if (val === null || val === undefined) return '';
+  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return String(val)
+    .replace(/[0-9]/g, (char) => persianDigits[Number(char)])
+    .replace(/%/g, '٪');
+}
+
 function parseInlineMarkdown(text: string): React.ReactNode {
   if (!text || typeof text !== 'string') {
     return text;
@@ -322,8 +331,8 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
         if (block._type === 'highlightedStat') {
           return (
             <div key={key} className="my-10 p-8 rounded-3xl bg-brand-surface-muted border border-brand-neutral-200 text-center shadow-soft">
-              <div className="text-4xl sm:text-5xl font-black text-brand-teal-900 mb-2 font-sans tracking-tight">
-                {block.number}
+              <div className="text-4xl sm:text-5xl font-black text-brand-teal-900 mb-2 tracking-tight" dir="rtl">
+                {toPersianDigits(block.number)}
               </div>
               <div className="text-base sm:text-lg font-bold text-brand-neutral-800 max-w-lg mx-auto">
                 {block.label}
