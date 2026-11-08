@@ -390,10 +390,6 @@ function toEnglishDigits(str) {
   return String(str).replace(/[۰-۹]/g, (w) => String(persianDigits.indexOf(w)));
 }
 
-function toPersianDigits(n) {
-  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return String(n).replace(/\d/g, (w) => persianDigits[+w]);
-}
 
 function updateBlogCatalog(payload) {
   const catalogPath = path.resolve(process.cwd(), 'BLOG_CATALOG.md');

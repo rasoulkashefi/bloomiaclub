@@ -126,10 +126,11 @@
   - پکیج ۶ جلسه‌ای «خودشناسی و شفاف‌سازی»: ۴,۸۰۰,۰۰۰ تومان
   - پکیج ۱۲ جلسه‌ای «طراحی زندگی و اقدام»: ۹,۵۰۰,۰۰۰ تومان
 - **شبکه‌های اجتماعی:** [اینستاگرام](https://www.instagram.com/fatemedarkhosh) | [لینکدین](https://www.linkedin.com/in/fatemedarkhosh) (`@fatemedarkhosh`)
-- **مقالات وبلاگ (۳ مقاله):**
+- **مقالات وبلاگ (۴ مقاله):**
   1. [شروع بدون استعفا: چگونه با یک فعالیت جانبی مسیر شغلی جدید خود را بسازیم؟](https://bloomiaclub.com/blog/career-transition-side-hustle-coaching)
   2. [در خودت مستقر بمان: راهنمای کوچینگ برای حفظ مرکز کنترل درونی](https://bloomiaclub.com/blog/staying-grounded-in-yourself-internal-locus-of-control)
   3. [خروج از سردرگمی شغلی: چگونه وقتی در کار احساس بی‌معنایی می‌کنیم اما نمی‌دانیم چه می‌خواهیم، قطب‌نمای حرفه‌ای بسازیم؟](https://bloomiaclub.com/blog/navigating-career-confusion-and-finding-direction-coaching)
+  4. [هنر مذاکره برای ارتقای شغلی و افزایش حقوق: چگونه بدون خجالت و تعارض، ارزش واقعی کار خود را اثبات کنیم؟](https://bloomiaclub.com/blog/negotiating-career-advancement-and-salary-increase-coaching)
 - **لینک اختصاصی:** [bloomiaclub.com/coaches/fatemeh-derakhsh](https://bloomiaclub.com/coaches/fatemeh-derakhsh)
 
 ### پیام اسمی (`payam-esmi`)
