@@ -1980,11 +1980,11 @@ export const fallbackCoaches: CoachProfile[] = [
     services: [
       {
         id: 'intro-call',
-        title: 'جلسه آشنایی و معارفه',
-        duration: '۴۵ دقیقه',
-        description: 'یک گفتگوی آنلاین ۴۵ دقیقه‌ای برای بررسی موشکافانه مسئله شما، سنجش نیاز به کوچینگ یا مشاوره، و بررسی تناسب متدولوژی همراهی با اهدافتان.',
-        price: 100000,
-        isFree: false,
+        title: 'جلسه آشنایی و معارفه (رایگان)',
+        duration: '۳۰ دقیقه',
+        description: 'یک گفتگوی آنلاین ۳۰ دقیقه‌ای رایگان برای بررسی موشکافانه مسئله شما، سنجش نیاز به کوچینگ یا مشاوره، و بررسی تناسب متدولوژی همراهی با اهدافتان.',
+        price: 0,
+        isFree: true,
         bookingUrl: 'https://atyno.com/fa/embed/a7efb113-6e61-4623-838c-2f223cf476e8?meeting=intro-call',
       },
       {
@@ -2116,14 +2116,14 @@ export const fallbackCoaches: CoachProfile[] = [
     welcomePacket: {
       title: 'بسته راهنمای خدمات کوچینگ با پیام اسمی',
       subtitle: 'راهنمای جامع ورود به دنیای کوچینگ هدفمندی و بهره‌وری پایدار؛ اصول همکاری، منشور محرمانگی، ساختار جلسات و نقشه راه تبدیل مشغله‌های فرساینده به اثرگذاری و آرامش با پیام اسمی.',
-      fileUrl: 'https://cdn.sanity.io/files/7yjhdw88/production/5f6c31f24b761691b4b59bf5ad8eeb7eb4b11a80.pdf',
+      fileUrl: 'https://cdn.sanity.io/files/7yjhdw88/production/ebc12db480b5bae6209683d7bc15efa860b2c2d8.pdf',
       coverImageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/c8fd0eef4fe3f43638d25e2c78268485c797afb8-2600x3360.png',
       buttonText: 'دریافت بسته راهنما (PDF)',
       features: [
         'آشنایی با متدولوژی کوچینگ هدفمندی، مدیریت زمان و انضباط فردی',
         'شفافیت در شرایط، ضوابط همکاری، زمان‌بندی و منشور محرمانگی',
         'تضمین کیفیت و بازگشت کامل ۱۰۰٪ وجه تا پایان جلسه دوم',
-        'راهنمای گام‌به‌گام اولین تمرین و آمادگی برای جلسه معارفه و آشنایی',
+        'راهنمای گام‌به‌گام اولین تمرین و آمادگی برای جلسه معارفه رایگان',
       ],
     },
     testimonials: [
