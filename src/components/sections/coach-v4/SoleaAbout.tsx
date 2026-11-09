@@ -26,7 +26,7 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
   ];
 
   const bioParagraphs = coach?.longBio
-    ? coach.longBio.split('\n\n').filter(Boolean).slice(0, 2)
+    ? coach.longBio.split('\n\n').filter(Boolean).slice(0, 3)
     : defaultParagraphs;
 
   const getAboutHeading = () => {
@@ -118,6 +118,17 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
         </>
       );
     }
+    if (slug.includes('fatemeh') && slug.includes('esmaeeli')) {
+      return (
+        <>
+          همراهی با مادران در هیاهوی خانه،
+          <br />
+          برای رهایی از احساس گناه
+          <br />
+          و بازیابی هویت اصیل
+        </>
+      );
+    }
     return (
       <>
         همراهی با شما برای رشد،
@@ -193,11 +204,11 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
                   {bioParagraphs[0]}
                 </p>
 
-                {bioParagraphs[1] && (
-                  <p className="mt-6 lg:mt-7 text-[16px] sm:text-[18px] lg:text-[19px] leading-[1.85] text-[#4a4a4a] font-normal">
-                    {bioParagraphs[1]}
+                {bioParagraphs.slice(1).map((para, idx) => (
+                  <p key={idx} className="mt-6 lg:mt-7 text-[16px] sm:text-[18px] lg:text-[19px] leading-[1.85] text-[#4a4a4a] font-normal">
+                    {para}
                   </p>
-                )}
+                ))}
 
                 {/* Author Name and Title */}
                 <div className="mt-8 lg:mt-10 flex flex-col gap-1.5">

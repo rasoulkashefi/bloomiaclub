@@ -13,6 +13,7 @@ import { SoleaTestimonials } from '@/components/sections/coach-v4/SoleaTestimoni
 import { SoleaPricing } from '@/components/sections/coach-v4/SoleaPricing';
 import { SoleaSupport } from '@/components/sections/coach-v4/SoleaSupport';
 import { SoleaBlog } from '@/components/sections/coach-v4/SoleaBlog';
+import { SoleaFaq } from '@/components/sections/coach-v4/SoleaFaq';
 import { SoleaContact } from '@/components/sections/coach-v4/SoleaContact';
 import { SoleaMenuCard } from '@/components/sections/coach-v4/SoleaMenuCard';
 import { CoachLeadBookingModal, type BookingOfferingItem } from '@/components/coach/CoachLeadBookingModal';
@@ -232,6 +233,9 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
 
       {/* Industry News / Blog */}
       <SoleaBlog coach={coach} />
+
+      {/* Frequently Asked Questions (SEO & GEO) */}
+      <SoleaFaq coach={coach} onOpenBooking={handleOpenBooking} />
 
       {/* Contact Form & Footer */}
       <SoleaContact coach={coach} onOpenBooking={handleOpenBooking} />

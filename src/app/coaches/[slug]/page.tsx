@@ -45,7 +45,8 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
     };
   }
 
-  const title = `${coach.name} | کوچ متخصص ${coach.title}`;
+  const cleanTitle = coach.title?.startsWith('کوچ') ? coach.title : `کوچ متخصص ${coach.title}`;
+  const title = `${coach.name} | ${cleanTitle} | بلومیا کلاب`;
   const introService = coach.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach.services?.[0];
   const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
 
@@ -53,12 +54,14 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
     coach.shortBio ||
     coach.description ||
     (isFreeIntro
-      ? `رزرو آنلاین جلسه معارفه رایگان با ${coach.name}، کوچ دارای مدرک بین‌المللی ICF در بلومیا کلاب.`
-      : `رزرو آنلاین جلسه معارفه با ${coach.name}، کوچ دارای مدرک بین‌المللی ICF در بلومیا کلاب.`);
+      ? `رزرو آنلاین جلسه معارفه رایگان با ${coach.name}، ${cleanTitle} در بلومیا کلاب.`
+      : `رزرو آنلاین جلسه معارفه با ${coach.name}، ${cleanTitle} در بلومیا کلاب.`);
 
   const canonicalUrl = `https://bloomiaclub.com/coaches/${coach.slug}`;
   const dedicatedOg = `/images/coaches/og-${coach.slug}.jpg`;
   const coachImage = coach.imageUrl || coach.aboutImage || coach.coverImage || '/og-image.jpg';
+
+  const isMothersCoach = coach.slug.includes('fatemeh') && coach.slug.includes('esmaeeli');
 
   return {
     title,
@@ -69,7 +72,11 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
       'کوچینگ بلومیا',
       'کوچ حرفه‌ای ICF',
       isFreeIntro ? 'جلسه معارفه رایگان' : 'جلسه معارفه کوچینگ',
-      'کوچینگ فردی و توسعه شغلی',
+      isMothersCoach ? 'کوچ مادران' : 'کوچینگ فردی',
+      isMothersCoach ? 'کوچینگ مادران' : 'توسعه فردی',
+      isMothersCoach ? 'رهایی از احساس گناه مادری' : 'خودآگاهی',
+      isMothersCoach ? 'فرسودگی مادرانه' : 'وضوح ذهنی',
+      isMothersCoach ? 'کوچینگ نوجوانان' : 'تعادل کار و زندگی',
       ...(coach.specialties || []),
     ],
     alternates: {
@@ -142,7 +149,7 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
   const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
 
   // JSON-LD Person Schema for SEO & GEO
-  const jsonLdPerson = {
+  const jsonLdPerson: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: coach.name,
@@ -150,7 +157,11 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
     description: coach.shortBio || coach.description,
     image: coach.imageUrl || undefined,
     url: `https://bloomiaclub.com/coaches/${coach.slug}`,
-    knowsAbout: coach.specialties,
+    knowsAbout: [
+      ...(coach.specialties || []),
+      'استانداردهای بین‌المللی کوچینگ ICF',
+      'کوچینگ فردی و رشد شخصی',
+    ],
     sameAs: [coach.linkedinUrl, coach.instagramUrl].filter(Boolean),
     worksFor: {
       '@type': 'Organization',
@@ -166,6 +177,31 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
       availability: 'https://schema.org/InStock',
     },
   };
+
+  if (coach.credentials && coach.credentials.length > 0) {
+    jsonLdPerson.hasCredential = coach.credentials.map((c) => ({
+      '@type': 'EducationalOccupationalCredential',
+      name: c.title,
+      recognizedBy: {
+        '@type': 'Organization',
+        name: c.organization,
+      },
+    }));
+  }
+
+  // JSON-LD FAQPage Schema for AI Search Engines (ChatGPT, Perplexity, Google SGE)
+  const jsonLdFaq = coach.faqs && coach.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: coach.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null;
 
   // JSON-LD Breadcrumbs
   const jsonLdBreadcrumb = {
@@ -219,6 +255,9 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
       {/* JSON-LD Schemas */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
+      {jsonLdFaq && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }} />
+      )}
 
       <CoachV4Client coach={coach} events={coachEvents} />
     </div>

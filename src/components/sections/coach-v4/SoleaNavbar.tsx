@@ -76,7 +76,6 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu, onO
 
   const isMahya = coach?.slug?.includes('mahya');
   const coachName = coach?.name || (isMahya ? 'محیا شکوری' : 'فاطمه اسماعیلی');
-  const coachSubtitle = coach?.title || (isMahya ? 'کوچ رشد فردی و خودآگاهی' : 'کوچ بین‌المللی ICF');
 
   return (
     <>
@@ -89,43 +88,40 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu, onO
             transition={{ duration: 0.25, ease: 'easeOut' }}
             className="fixed top-6 start-0 end-0 z-40 w-full px-4 sm:px-6 pointer-events-auto flex justify-center"
           >
-            <div className="relative flex w-full max-w-[880px] h-[72px] items-center justify-between rounded-[16px] border border-black/[0.06] bg-white/95 backdrop-blur-md px-6 shadow-[0_4px_25px_rgba(0,0,0,0.06)]">
+            <div className="relative flex w-full max-w-[920px] h-[70px] items-center justify-between rounded-[18px] border border-black/[0.06] bg-white/95 backdrop-blur-md px-5 sm:px-7 shadow-[0_4px_25px_rgba(0,0,0,0.06)]">
               {/* Brand Logo / Name */}
-              <Link href="#home" className="inline-flex items-center leading-none gap-2.5">
-                <span className="font-serif text-lg font-bold text-[#1f3d3a]">
+              <Link href="#home" className="inline-flex items-center leading-none shrink-0 group">
+                <span className="font-serif text-lg sm:text-[20px] font-bold text-[#1f3d3a] whitespace-nowrap transition-colors group-hover:text-[#2b544e]">
                   {coachName}
-                </span>
-                <span className="text-xs text-[#6b6b6b] hidden sm:inline border-s border-[#e5e5e2] ps-2.5 leading-none">
-                  {coachSubtitle}
                 </span>
               </Link>
 
               {/* Desktop Nav Links */}
-              <nav className="hidden md:flex items-center gap-7 text-[15px] font-medium text-[#6b6b6b]">
+              <nav className="hidden md:flex items-center gap-6 lg:gap-7 text-[15px] font-medium text-[#6b6b6b]">
                 <Link
                   href="#home"
-                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a]"
+                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a] whitespace-nowrap"
                 >
                   خانه
                 </Link>
 
                 <Link
                   href="#about"
-                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a]"
+                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a] whitespace-nowrap"
                 >
                   درباره من
                 </Link>
 
                 <Link
                   href="#services"
-                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a]"
+                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a] whitespace-nowrap"
                 >
                   خدمات
                 </Link>
 
                 <Link
                   href="#testimonials"
-                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a]"
+                  className="inline-flex items-center leading-none transition-colors hover:text-[#1f3d3a] whitespace-nowrap"
                 >
                   مراجعان
                 </Link>
@@ -140,7 +136,7 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu, onO
                   <button
                     type="button"
                     onClick={() => setPagesDropdownOpen(!pagesDropdownOpen)}
-                    className={`inline-flex items-center gap-1.5 leading-none transition-colors ${
+                    className={`inline-flex items-center gap-1.5 leading-none transition-colors cursor-pointer whitespace-nowrap ${
                       pagesDropdownOpen ? 'text-[#1f3d3a]' : 'text-[#6b6b6b] hover:text-[#1f3d3a]'
                     }`}
                   >
@@ -212,11 +208,11 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu, onO
                               پکیج‌ها و تعرفه
                             </Link>
                             <Link
-                              href="#blog"
+                              href="#faq"
                               onClick={() => setPagesDropdownOpen(false)}
                               className="text-white/85 transition-colors hover:text-white"
                             >
-                              یادداشت‌ها
+                              پرسش‌های متداول
                             </Link>
                             <Link
                               href="#contact"
@@ -234,11 +230,11 @@ export const SoleaNavbar: React.FC<SoleaNavbarProps> = ({ coach, onOpenMenu, onO
               </nav>
 
               {/* Right CTA Button */}
-              <div className="hidden md:block">
+              <div className="hidden md:block shrink-0">
                 <button
                   type="button"
                   onClick={() => onOpenBooking ? onOpenBooking() : undefined}
-                  className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-[14px] font-medium text-white transition-all hover:bg-[#2b544e] hover:shadow-sm cursor-pointer"
+                  className="inline-flex items-center justify-center rounded-[12px] bg-[#1f3d3a] px-5 py-2.5 text-[14px] font-medium text-white transition-all hover:bg-[#2b544e] hover:shadow-sm cursor-pointer whitespace-nowrap"
                 >
                   رزرو جلسه معارفه
                 </button>

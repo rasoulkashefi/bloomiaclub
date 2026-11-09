@@ -70,7 +70,7 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
       return 'مهندسی زمان، مهار قطعی تعلل ذهنی و طراحی سیستم‌های پایدار بهره‌وری.';
     }
     if (slug.includes('fatemeh') && slug.includes('esmaeeli')) {
-      return 'همراهی با مادران برای عبور از احساس گناه و ساختن تعادل پایدار زندگی.';
+      return 'همراهی با مادران برای بازیابی هویت، رهایی از احساس گناه و آرامش در خانه.';
     }
     return coach?.shortBio || coach?.description || 'همراهی تخصصی در مسیر رشد، وضوح و ساختن تعادل پایدار زندگی.';
   };
@@ -152,6 +152,13 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
         line1: 'از مشغله زیاد',
         line2: 'تا تمرکز و',
         line3: 'اثرگذاری بالا',
+      };
+    }
+    if (slug.includes('fatemeh') && slug.includes('esmaeeli')) {
+      return {
+        line1: 'کوچ مادران',
+        line2: 'و رهایی از',
+        line3: 'احساس گناه',
       };
     }
     return {
