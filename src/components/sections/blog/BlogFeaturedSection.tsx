@@ -63,7 +63,7 @@ export const BlogFeaturedSection: React.FC<BlogFeaturedSectionProps> = ({ post }
                 </div>
 
                 {/* Title */}
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-brand-neutral-900 hover:text-brand-teal-800 transition-colors leading-snug">
+                <h2 className="text-xl/[1.6] sm:text-2xl/[1.55] lg:text-3xl/[1.52] font-extrabold text-brand-neutral-900 hover:text-brand-teal-800 transition-colors tracking-normal text-balance">
                   <Link href={`/blog/${post.slug}`}>
                     {post.title}
                   </Link>

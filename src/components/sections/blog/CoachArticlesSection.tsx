@@ -123,7 +123,7 @@ export const CoachArticlesSection: React.FC<CoachArticlesSectionProps> = ({
                     </div>
 
                     {/* Headline */}
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1e1e1e] leading-[1.45] tracking-tight group-hover:text-[#1f3d3a] transition-colors">
+                    <h2 className="text-xl/[1.6] sm:text-2xl/[1.55] lg:text-3xl/[1.52] font-extrabold text-[#1e1e1e] tracking-normal text-balance group-hover:text-[#1f3d3a] transition-colors">
                       <Link href={`/blog/${latestPost.slug}`}>
                         {latestPost.title}
                       </Link>
@@ -160,7 +160,7 @@ export const CoachArticlesSection: React.FC<CoachArticlesSectionProps> = ({
           <div className="space-y-6 pt-2">
             <div className="flex items-center justify-between border-b border-[#e5e5e2] pb-4">
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-[#1e1e1e]">
+                <h2 className="text-xl/[1.55] sm:text-2xl/[1.5] font-bold text-[#1e1e1e] tracking-normal">
                   سایر مقالات و یادداشت‌های {coachName}
                 </h2>
                 <p className="text-xs sm:text-sm text-[#6b6b6b] mt-1">
@@ -215,7 +215,7 @@ export const CoachArticlesSection: React.FC<CoachArticlesSectionProps> = ({
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-lg font-bold text-[#1e1e1e] leading-[1.5] group-hover:text-[#1f3d3a] transition-colors">
+                      <h3 className="text-lg/[1.6] font-bold text-[#1e1e1e] tracking-normal group-hover:text-[#1f3d3a] transition-colors">
                         <Link href={`/blog/${post.slug}`}>
                           {post.title}
                         </Link>

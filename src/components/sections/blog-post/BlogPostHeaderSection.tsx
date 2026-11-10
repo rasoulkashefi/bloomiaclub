@@ -36,7 +36,7 @@ export const BlogPostHeaderSection: React.FC<BlogPostHeaderSectionProps> = ({ po
       </div>
 
       {/* H1 Main Article Title */}
-      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-brand-neutral-900 tracking-tight leading-[1.3] sm:leading-[1.3] mb-6">
+      <h1 className="text-2xl/[1.55] sm:text-3xl/[1.52] md:text-4xl/[1.5] lg:text-5xl/[1.48] font-extrabold text-brand-neutral-900 tracking-normal text-balance mb-6">
         {post.title}
       </h1>
 

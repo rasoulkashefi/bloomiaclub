@@ -16,7 +16,7 @@ export const BlogNewsletterCtaSection: React.FC = () => {
               <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-brand-teal-900 text-brand-teal-200 border border-brand-teal-800">
                 همراهی در مسیر رشد
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+              <h2 className="text-2xl/[1.55] sm:text-3xl/[1.5] font-extrabold text-white tracking-normal text-balance">
                 می‌خواهید چالش‌های زندگی و کارتان را با یک کوچ حرفه‌ای بررسی کنید؟
               </h2>
               <p className="text-sm sm:text-base text-brand-teal-100/80 leading-relaxed">

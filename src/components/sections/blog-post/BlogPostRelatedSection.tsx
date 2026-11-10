@@ -20,7 +20,7 @@ export const BlogPostRelatedSection: React.FC<BlogPostRelatedSectionProps> = ({ 
               <BookOpen className="w-3.5 h-3.5 text-brand-teal-700" />
               <span>پیشنهاد مطالعه بیشتر</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-neutral-900 tracking-tight">
+            <h2 className="text-2xl/[1.55] sm:text-3xl/[1.5] font-extrabold text-brand-neutral-900 tracking-normal text-balance">
               مقالات مرتبط و بینش‌های تکمیلی
             </h2>
           </div>

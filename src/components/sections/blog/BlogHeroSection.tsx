@@ -22,7 +22,7 @@ export const BlogHeroSection: React.FC = () => {
             <span>مرجع بینش‌های کوچینگ و توسعه فردی</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-neutral-900 tracking-tight leading-[1.25]">
+          <h1 className="text-3xl/[1.52] sm:text-4xl/[1.5] md:text-5xl/[1.48] font-extrabold text-brand-neutral-900 tracking-normal text-balance">
             بینش‌های عمیق، متدهای روز و راهکارهای اصیل رشد
           </h1>
 

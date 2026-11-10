@@ -19,7 +19,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
               <BookOpen className="w-3.5 h-3.5 text-brand-teal-700" />
               <span>وبلاگ و آموزش‌های تحلیلی بلومیا</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-neutral-900 tracking-tight">
+            <h2 className="text-2xl/[1.55] sm:text-3xl/[1.5] md:text-4xl/[1.48] font-extrabold text-brand-neutral-900 tracking-normal text-balance">
               آخرین مقالات و بینش‌های رشد
             </h2>
             <p className="text-sm sm:text-base text-brand-neutral-600 leading-relaxed">
@@ -88,7 +88,7 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-base sm:text-lg font-bold text-brand-neutral-900 group-hover:text-brand-teal-900 transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-base/[1.65] sm:text-lg/[1.6] font-bold text-brand-neutral-900 group-hover:text-brand-teal-900 transition-colors line-clamp-2 tracking-normal">
                       <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                     </h3>
 

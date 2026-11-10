@@ -61,7 +61,7 @@ export const SoleaBlog: React.FC<SoleaBlogProps> = ({ coach }) => {
               <BookOpen className="h-3.5 w-3.5 text-[#dfece9]" />
               <span>دیدگاه‌ها و مقالات تخصصی کوچ {coachName}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.3] text-white">
+            <h2 className="text-3xl/[1.5] sm:text-4xl/[1.48] lg:text-5xl/[1.48] font-bold tracking-normal text-white">
               وبلاگ و یادداشت‌های
               <br />
               منتخب من
@@ -150,7 +150,7 @@ export const SoleaBlog: React.FC<SoleaBlogProps> = ({ coach }) => {
                       )}
 
                       {/* Article Title */}
-                      <h3 className="font-serif text-lg sm:text-[19px] font-bold leading-[1.45] text-[#1e1e1e] group-hover:text-[#1f3d3a] transition-colors line-clamp-2">
+                      <h3 className="font-serif text-lg/[1.6] sm:text-[19px]/[1.58] font-bold tracking-normal text-[#1e1e1e] group-hover:text-[#1f3d3a] transition-colors line-clamp-2">
                         <Link href={articleHref} className="touch-auto">
                           {item.title}
                         </Link>

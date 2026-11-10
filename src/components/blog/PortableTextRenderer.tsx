@@ -290,7 +290,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
                   : 'bg-brand-teal-50 border-brand-teal-700 text-brand-teal-950'
               }`}
             >
-              <div className="flex items-center gap-2.5 font-bold text-base sm:text-lg mb-2">
+              <div className="flex items-center gap-2.5 font-bold text-base/[1.6] sm:text-lg/[1.55] mb-2">
                 {isWarning ? (
                   <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
                 ) : isInfo ? (
@@ -311,7 +311,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
         if (block._type === 'keyTakeaways') {
           return (
             <div key={key} className="my-10 p-6 sm:p-7 rounded-3xl bg-brand-teal-900 text-white shadow-elevated">
-              <h4 className="text-lg sm:text-xl font-bold mb-4 text-brand-teal-100 flex items-center gap-2">
+              <h4 className="text-lg/[1.6] sm:text-xl/[1.55] font-bold mb-4 text-brand-teal-100 flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-brand-teal-300 shrink-0" />
                 <span>{block.title || 'نکات کلیدی این بخش'}</span>
               </h4>
@@ -350,13 +350,13 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
         if (block._type === 'faqSection') {
           return (
             <div key={key} className="my-12 p-6 sm:p-8 rounded-3xl bg-brand-surface border border-brand-neutral-200 shadow-soft">
-              <h3 className="text-xl sm:text-2xl font-extrabold text-brand-neutral-900 mb-6 pb-3 border-b border-brand-neutral-200">
+              <h3 className="text-xl/[1.6] sm:text-2xl/[1.55] font-extrabold text-brand-neutral-900 mb-6 pb-3 border-b border-brand-neutral-200 tracking-normal">
                 {block.title || 'پرسش‌های متداول این مبحث'}
               </h3>
               <div className="space-y-6">
                 {(block.items || []).map((item: any, idx: number) => (
                   <div key={idx} className="space-y-2">
-                    <h4 className="text-base sm:text-lg font-bold text-brand-teal-900">
+                    <h4 className="text-base/[1.65] sm:text-lg/[1.65] font-bold text-brand-teal-900">
                       {item.question}
                     </h4>
                     <p className="text-sm sm:text-base text-brand-neutral-600 leading-relaxed">
@@ -400,7 +400,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
             return (
               <h2
                 key={key}
-                className="text-xl sm:text-2xl md:text-3xl font-extrabold text-brand-neutral-900 mt-14 mb-5 pt-4 tracking-tight leading-snug"
+                className="text-xl/[1.6] sm:text-2xl/[1.55] md:text-3xl/[1.52] font-extrabold text-brand-neutral-900 mt-14 mb-5 pt-4 tracking-normal text-balance"
               >
                 {children}
               </h2>
@@ -411,7 +411,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
             return (
               <h3
                 key={key}
-                className="text-lg sm:text-xl md:text-2xl font-bold text-brand-teal-900 mt-10 mb-4 tracking-tight leading-snug"
+                className="text-lg/[1.65] sm:text-xl/[1.6] md:text-2xl/[1.55] font-bold text-brand-teal-900 mt-10 mb-4 tracking-normal text-balance"
               >
                 {children}
               </h3>
@@ -420,7 +420,7 @@ export const PortableTextRenderer: React.FC<PortableTextRendererProps> = ({ valu
 
           if (style === 'h4') {
             return (
-              <h4 key={key} className="text-base sm:text-lg font-bold text-brand-neutral-800 mt-8 mb-3">
+              <h4 key={key} className="text-base/[1.65] sm:text-lg/[1.65] font-bold text-brand-neutral-800 mt-8 mb-3 tracking-normal text-balance">
                 {children}
               </h4>
             );

@@ -53,7 +53,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
           </div>
 
           {/* Title */}
-          <h3 className="text-base sm:text-lg font-bold text-brand-neutral-900 group-hover:text-brand-teal-800 transition-colors line-clamp-2 leading-snug">
+          <h3 className="text-base/[1.65] sm:text-lg/[1.6] font-bold text-brand-neutral-900 group-hover:text-brand-teal-800 transition-colors line-clamp-2 tracking-normal">
             <Link href={`/blog/${post.slug}`} className="touch-auto">
               {post.title}
             </Link>
