@@ -1,33 +1,35 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, ShieldCheck, Clock } from 'lucide-react';
+import { HeroBackgroundVideo } from './HeroBackgroundVideo';
 
 export const HeroSection: React.FC = () => {
   return (
     <section className="relative w-full min-h-[calc(100svh-4rem)] md:h-[calc(100dvh-4.25rem)] md:min-h-[500px] flex items-center justify-center overflow-hidden">
-      {/* 1. Desktop Background Video (16:9 Landscape) */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/videos/personal-development-coaching-session-hero-video-poster.webp"
-        src="/videos/personal-development-coaching-session-hero-video.mp4"
-        className="hidden md:block absolute inset-0 w-full h-full object-cover z-0"
-      />
+      {/* 1. Immediate Responsive LCP Poster (Only downloads matching device image) */}
+      <picture className="pointer-events-none select-none">
+        <source
+          media="(min-width: 768px)"
+          srcSet="/videos/personal-development-coaching-session-hero-video-poster.webp"
+          type="image/webp"
+          width={1280}
+          height={720}
+        />
+        <img
+          src="/videos/personal-development-coaching-session-mobile-hero-video-poster.webp"
+          alt=""
+          aria-hidden="true"
+          width={720}
+          height={1280}
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+      </picture>
 
-      {/* 2. Mobile Background Video (Vertical Portrait) */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/videos/personal-development-coaching-session-mobile-hero-video-poster.webp"
-        src="/videos/personal-development-coaching-session-mobile-hero-video.mp4"
-        className="block md:hidden absolute inset-0 w-full h-full object-cover z-0"
-      />
+      {/* 2. Deferred Single-Device Ambient Background Video */}
+      <HeroBackgroundVideo />
 
       {/* 3. Deep Cinematic Overlay for Maximum Contrast and Text Legibility */}
       <div
@@ -59,7 +61,7 @@ export const HeroSection: React.FC = () => {
             className="w-full max-w-[260px] sm:max-w-none sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 border border-brand-teal-600 active:scale-98 text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-brand-teal-900/50 hover:scale-102 transition-all min-h-[48px] sm:min-h-[50px] group"
           >
             <span>رزرو جلسه صفر (رایگان)</span>
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 group-hover:-translate-x-1 transition-transform" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
           </Link>
           <Link
             href="/coaches"
@@ -72,15 +74,15 @@ export const HeroSection: React.FC = () => {
         {/* Trust Badges Bar */}
         <div className="pt-3 sm:pt-4 md:pt-4 lg:pt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 md:gap-5 text-xs sm:text-sm font-medium">
           <div className="flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-black/50 backdrop-blur-md border border-white/15 text-white shadow-sm">
-            <CheckCircle2 className="w-4 h-4 text-brand-teal-300 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-brand-teal-300 shrink-0" aria-hidden="true" />
             <span>اولین جلسه رایگان</span>
           </div>
           <div className="flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-black/50 backdrop-blur-md border border-white/15 text-white shadow-sm">
-            <Clock className="w-4 h-4 text-brand-teal-300 shrink-0" />
+            <Clock className="w-4 h-4 text-brand-teal-300 shrink-0" aria-hidden="true" />
             <span>رزرو سریع آنلاین</span>
           </div>
           <div className="flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-black/50 backdrop-blur-md border border-white/15 text-white shadow-sm">
-            <ShieldCheck className="w-4 h-4 text-brand-teal-300 shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-brand-teal-300 shrink-0" aria-hidden="true" />
             <span>کوچ‌های تاییدشده ICF</span>
           </div>
         </div>

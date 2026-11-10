@@ -1,6 +1,19 @@
 /** @type {import('next').NextConfig} */
+const cspDirectives = [
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'self'",
+  "form-action 'self'",
+  "frame-src 'self' https://atyno.com https://*.atyno.com https://calendly.com https://*.calendly.com",
+  'upgrade-insecure-requests',
+].join('; ');
+
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    inlineCss: true,
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
@@ -25,6 +38,60 @@ const nextConfig = {
         hostname: 'bloomiaclub.com',
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), geolocation=(), microphone=()',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: cspDirectives,
+          },
+        ],
+      },
+      {
+        source: '/.well-known/ard.json',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json; charset=utf-8',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, stale-while-revalidate=86400',
+          },
+        ],
+      },
+    ];
   },
   async rewrites() {
     const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';

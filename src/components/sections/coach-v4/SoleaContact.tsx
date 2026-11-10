@@ -249,7 +249,12 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-7"
           >
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+              onSubmit={handleSubmit}
+              toolname="request_coach_consultation"
+              tooldescription={`ثبت درخواست گفتگو و هماهنگی جلسه با ${coachName}`}
+              className="space-y-4"
+            >
               {/* Honeypot field */}
               <input
                 type="text"
@@ -266,6 +271,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
                 <div>
                   <input
                     type="text"
+                    name="fullName"
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
@@ -280,6 +286,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
                 <div>
                   <input
                     type="tel"
+                    name="phone"
                     required
                     dir="ltr"
                     value={phone}
@@ -294,6 +301,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
               </div>
 
               <select
+                name="topic"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 className="w-full rounded-2xl border border-white/10 bg-[#162d2b] px-5 py-4 text-sm text-white/80 focus:border-[#dfece9] focus:outline-none transition-colors"
@@ -307,6 +315,7 @@ export const SoleaContact: React.FC<SoleaContactProps> = ({ coach, onOpenBooking
 
               <textarea
                 rows={4}
+                name="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="پیام یا دغدغه شما برای شروع گفتگو (اختیاری)..."

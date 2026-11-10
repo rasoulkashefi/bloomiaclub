@@ -74,13 +74,13 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
                 <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2.5">
                     {/* Meta info */}
-                    <div className="flex items-center gap-3 text-xs text-brand-neutral-500 font-medium">
+                    <div className="flex items-center gap-3 text-xs text-brand-neutral-600 font-medium">
                       <span>{formattedDate}</span>
                       {post.estimatedReadTime && (
                         <>
-                          <span>•</span>
+                          <span aria-hidden="true">•</span>
                           <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5" />
+                            <Clock className="w-3.5 h-3.5" aria-hidden="true" />
                             {post.estimatedReadTime} دقیقه مطالعه
                           </span>
                         </>
@@ -119,10 +119,11 @@ export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts })
 
                     <Link
                       href={`/blog/${post.slug}`}
+                      aria-label={`ادامه مطلب ${post.title}`}
                       className="inline-flex items-center gap-1 text-xs font-bold text-brand-teal-900 hover:text-brand-teal-700 transition-colors"
                     >
                       <span>ادامه مطلب</span>
-                      <ArrowLeft className="w-3.5 h-3.5" />
+                      <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
                     </Link>
                   </div>
                 </div>

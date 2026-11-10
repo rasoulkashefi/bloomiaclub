@@ -155,7 +155,12 @@ export const ContactFormSection: React.FC = () => {
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              onSubmit={handleSubmit}
+              toolname="send_contact_message"
+              tooldescription="ارسال پیام پشتیبانی یا درخواست کوچینگ سازمانی به تیم بلومیا کلاب"
+              className="space-y-6"
+            >
               {/* Type Switcher Tabs */}
               <div className="flex rounded-2xl bg-brand-surface p-1.5 border border-brand-surface-border">
                 <button
@@ -201,6 +206,7 @@ export const ContactFormSection: React.FC = () => {
                     <input
                       type="text"
                       id="fullName"
+                      name="fullName"
                       required
                       placeholder="مثال: سارا محمدی"
                       value={formData.fullName}
@@ -224,6 +230,7 @@ export const ContactFormSection: React.FC = () => {
                       <input
                         type="text"
                         id="organizationName"
+                        name="organizationName"
                         required
                         placeholder="مثال: شرکت نوآوران داده"
                         value={formData.organizationName}
@@ -243,6 +250,7 @@ export const ContactFormSection: React.FC = () => {
                     <input
                       type="text"
                       id="subjectTitle"
+                      name="subjectTitle"
                       placeholder="مثال: راهنمایی برای انتخاب کوچ مسیر شغلی"
                       value={formData.subjectTitle}
                       onChange={(e) =>
@@ -265,6 +273,7 @@ export const ContactFormSection: React.FC = () => {
                     <input
                       type="tel"
                       id="phone"
+                      name="phone"
                       required
                       dir="ltr"
                       placeholder="09123456789"
@@ -294,6 +303,7 @@ export const ContactFormSection: React.FC = () => {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       required
                       dir="ltr"
                       placeholder="name@example.com"
@@ -320,6 +330,7 @@ export const ContactFormSection: React.FC = () => {
                 </div>
                 <textarea
                   id="message"
+                  name="message"
                   required
                   rows={4}
                   maxLength={500}

@@ -253,7 +253,12 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
                       </motion.div>
                     ) : (
                       /* Form View */
-                      <form onSubmit={handleSubmit} className="space-y-4">
+                      <form
+                        onSubmit={handleSubmit}
+                        toolname="request_coach_session"
+                        tooldescription={`ثبت درخواست جلسه کوچینگ با ${coachName} در بلومیا کلاب`}
+                        className="space-y-4"
+                      >
                         {/* Honeypot field (hidden from real users) */}
                         <div className="hidden" aria-hidden="true">
                           <input
@@ -280,6 +285,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
                           </label>
                           <div className="relative">
                             <select
+                              name="selectedOffering"
                               value={selectedOffering}
                               onChange={(e) => setSelectedOffering(e.target.value)}
                               className="w-full appearance-none rounded-xl border border-[#e5e5e2] bg-[#fafaf8] px-4 py-3 text-sm text-[#1e1e1e] focus:border-[#1f3d3a] focus:bg-white focus:outline-none transition-colors"
@@ -302,6 +308,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
                           <div className="relative">
                             <input
                               type="text"
+                              name="fullName"
                               required
                               value={fullName}
                               onChange={(e) => {
@@ -326,6 +333,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
                           <div className="relative">
                             <input
                               type="tel"
+                              name="phone"
                               dir="ltr"
                               required
                               value={phone}
@@ -348,6 +356,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
                           <div className="relative">
                             <input
                               type="email"
+                              name="email"
                               dir="ltr"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
@@ -366,6 +375,7 @@ export const CoachLeadBookingModal: React.FC<CoachLeadBookingModalProps> = ({
                           <div className="relative">
                             <textarea
                               rows={3}
+                              name="message"
                               value={message}
                               onChange={(e) => setMessage(e.target.value)}
                               placeholder="مختصری درباره موضوع یا هدفی که مایلید روی آن کار کنیم بنویسید..."

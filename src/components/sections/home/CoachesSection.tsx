@@ -49,10 +49,10 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
                     />
                   </div>
                   <div className="flex-1 space-y-1 min-w-0">
-                    <div className="flex items-center gap-1 text-amber-500 text-xs font-bold">
-                      <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    <div className="flex items-center gap-1 text-brand-neutral-900 text-xs font-bold">
+                      <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-400" aria-hidden="true" />
                       <span>{Number(coach.rating).toLocaleString('fa-IR')}/۵</span>
-                      <span className="text-brand-neutral-400 font-normal">
+                      <span className="text-brand-neutral-600 font-normal">
                         ({coach.totalReviews} نظر)
                       </span>
                     </div>
@@ -90,15 +90,17 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
                 <div className="pt-5 mt-4 border-t border-brand-neutral-100 grid grid-cols-2 gap-2.5">
                   <Link
                     href={`/coaches/${coach.slug}`}
+                    aria-label={`مشاهده پروفایل ${coach.name}`}
                     className="inline-flex items-center justify-center py-2.5 px-3 rounded-xl border border-brand-neutral-200 text-brand-neutral-700 hover:bg-brand-neutral-100 hover:text-brand-teal-900 text-xs sm:text-sm font-semibold transition-colors text-center"
                   >
                     مشاهده پروفایل
                   </Link>
                   <Link
                     href={`/coaches/${coach.slug}/book-session`}
+                    aria-label={`رزرو جلسه با ${coach.name}`}
                     className="inline-flex items-center justify-center gap-1 py-2.5 px-3 rounded-xl bg-brand-teal-900 hover:bg-brand-teal-800 text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs text-center"
                   >
-                    <Calendar className="w-3.5 h-3.5" />
+                    <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>رزرو جلسه</span>
                   </Link>
                 </div>
@@ -108,9 +110,9 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
         </div>
 
         {/* Mobile Swipe Hint */}
-        <div className="flex md:hidden items-center justify-center gap-1.5 text-xs text-brand-neutral-500 mt-2 mb-2">
+        <div className="flex md:hidden items-center justify-center gap-1.5 text-xs text-brand-neutral-600 mt-2 mb-2">
           <span>برای مشاهده سایر کوچ‌ها، به چپ ورق بزنید</span>
-          <span className="text-sm font-bold">←</span>
+          <span className="text-sm font-bold" aria-hidden="true">←</span>
         </div>
 
         {/* View All Button */}

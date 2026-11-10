@@ -6,6 +6,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ConditionalGlobalLayout } from '@/components/layout/ConditionalGlobalLayout';
 import { PostHogProvider } from '@/components/providers/PostHogProvider';
+import { WebMCPProvider } from '@/components/providers/WebMCPProvider';
 
 const vazirmatn = Vazirmatn({
   subsets: ['arabic', 'latin'],
@@ -115,6 +116,7 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" className={vazirmatn.variable} suppressHydrationWarning>
       <head>
+        <link rel="ard" href="/.well-known/ard.json" type="application/json" />
         <Script
           id="jsonld-org"
           type="application/ld+json"
@@ -133,15 +135,16 @@ export default function RootLayout({
         className="min-h-screen bg-brand-surface font-sans text-brand-neutral-900 antialiased flex flex-col selection:bg-brand-teal-900 selection:text-white"
       >
         <PostHogProvider>
+          <WebMCPProvider />
           <ConditionalGlobalLayout>
-          <Navbar />
-        </ConditionalGlobalLayout>
-        
-        <main className="flex-1 w-full flex flex-col">{children}</main>
-        
-        <ConditionalGlobalLayout>
-          <Footer />
-        </ConditionalGlobalLayout>
+            <Navbar />
+          </ConditionalGlobalLayout>
+
+          <main className="flex-1 w-full flex flex-col">{children}</main>
+
+          <ConditionalGlobalLayout>
+            <Footer />
+          </ConditionalGlobalLayout>
         </PostHogProvider>
       </body>
     </html>

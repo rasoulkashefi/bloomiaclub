@@ -216,7 +216,7 @@ export const CoachGridSection: React.FC<CoachGridSectionProps> = ({
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                           <span>{coach.rating}</span>
                           {coach.totalReviews > 0 && (
-                            <span className="text-brand-neutral-500 text-[11px]">
+                            <span className="text-brand-neutral-600 text-[11px]">
                               ({coach.totalReviews})
                             </span>
                           )}
@@ -280,9 +280,10 @@ export const CoachGridSection: React.FC<CoachGridSectionProps> = ({
                     <Link
                       href={`/coaching/free-intro-session?coach=${coach.slug}`}
                       onClick={(e) => e.stopPropagation()}
+                      aria-label={`رزرو جلسه معارفه با ${coach.name}`}
                       className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-full bg-brand-teal-900 hover:bg-brand-teal-800 text-white font-bold text-xs sm:text-sm transition-colors shadow-soft min-h-[44px] cursor-pointer"
                     >
-                      <Calendar className="w-3.5 h-3.5" />
+                      <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
                       <span>رزرو جلسه معارفه</span>
                     </Link>
                   )}

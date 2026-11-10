@@ -68,7 +68,7 @@ export const TestimonialsSection: React.FC = () => {
         {/* Featured Card + Navigation */}
         <div className="max-w-4xl mx-auto">
           <div className="relative bg-brand-surface-paper rounded-3xl p-6 sm:p-10 md:p-12 border border-brand-neutral-200 shadow-elevated">
-            <Quote className="w-10 h-10 sm:w-14 sm:h-14 text-brand-teal-200 opacity-80 mb-6" />
+            <Quote className="w-10 h-10 sm:w-14 sm:h-14 text-brand-teal-200 opacity-80 mb-6" aria-hidden="true" />
 
             <p className="text-base sm:text-lg md:text-xl text-brand-neutral-800 leading-relaxed font-normal min-h-[100px] sm:min-h-[90px]">
               «{testimonials[activeIndex].text}»
@@ -89,7 +89,7 @@ export const TestimonialsSection: React.FC = () => {
                   <h3 className="text-base font-bold text-brand-neutral-900">
                     {testimonials[activeIndex].name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-brand-neutral-500">
+                  <p className="text-xs sm:text-sm text-brand-neutral-600">
                     {testimonials[activeIndex].title}
                   </p>
                 </div>
@@ -97,9 +97,9 @@ export const TestimonialsSection: React.FC = () => {
 
               {/* Stars & Navigation Arrows */}
               <div className="flex items-center gap-6 self-end sm:self-center">
-                <div className="flex items-center gap-1 text-amber-400">
+                <div className="flex items-center gap-1 text-amber-400" role="img" aria-label="امتیاز ۵ از ۵">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400" />
+                    <Star key={i} className="w-4 h-4 fill-amber-400" aria-hidden="true" />
                   ))}
                 </div>
 

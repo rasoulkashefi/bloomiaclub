@@ -1,0 +1,90 @@
+{
+  "specVersion": "0.91",
+  "host": {
+    "displayName": "Bloomia Club (بلومیا کلاب)",
+    "identifier": "did:web:bloomiaclub.com",
+    "documentationUrl": "https://bloomiaclub.com/llms.txt"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:bloomiaclub.com:docs:llms-index",
+      "displayName": "Bloomia Club LLMs Index",
+      "type": "text/markdown",
+      "description": "Concise Markdown directory of Bloomia Club ICF-certified coaching services, active coaches, events, blog articles, and booking paths in Persian.",
+      "tags": ["coaching", "icf", "iran", "personal-development", "llms-txt"],
+      "capabilities": ["knowledge-retrieval", "service-discovery"],
+      "representativeQueries": [
+        "What coaching services does Bloomia Club offer?",
+        "Who are the certified ICF coaches at Bloomia Club?",
+        "How can I book a free introductory coaching session?"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-10T00:00:00Z",
+      "url": "https://bloomiaclub.com/llms.txt"
+    },
+    {
+      "identifier": "urn:air:bloomiaclub.com:docs:knowledge-base",
+      "displayName": "Bloomia Club Comprehensive Knowledge Base",
+      "type": "text/markdown",
+      "description": "Detailed Persian reference covering ICF coaching standards, coaching vs psychotherapy and mentoring, coach specialties, workshops, and FAQs.",
+      "tags": ["coaching", "icf", "coaches", "faq", "knowledge-base"],
+      "capabilities": ["knowledge-retrieval", "coach-directory"],
+      "representativeQueries": [
+        "تفاوت کوچینگ با روان‌درمانی و مشاوره در بلومیا کلاب چیست؟",
+        "چگونه کوچ مناسب با دغدغه خود را در بلومیا پیدا کنم؟",
+        "جلسه معارفه رایگان بلومیا چگونه برگزار می‌شود؟"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-10T00:00:00Z",
+      "url": "https://bloomiaclub.com/llms-full.txt"
+    },
+    {
+      "identifier": "urn:air:bloomiaclub.com:directory:coaches",
+      "displayName": "Bloomia Certified ICF Coaches Directory",
+      "type": "text/html",
+      "description": "Filterable directory of Bloomia Club's ICF-certified personal, career, executive, and parenting coaches with WebMCP discovery tools.",
+      "tags": ["coaches", "icf", "directory", "webmcp"],
+      "capabilities": ["coach-discovery", "webmcp-tools"],
+      "representativeQueries": [
+        "کوچ‌های متخصص مادران و فرزندپروری بلومیا کلاب چه کسانی هستند؟",
+        "کوچ مسیر شغلی و مدیریت زمان در بلومیا کلاب معرفی کن",
+        "Find an ACT or self-awareness coach at Bloomia Club"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-10T00:00:00Z",
+      "url": "https://bloomiaclub.com/coaches"
+    },
+    {
+      "identifier": "urn:air:bloomiaclub.com:booking:free-intro-session",
+      "displayName": "Free Intro Coaching Session Booking",
+      "type": "text/html",
+      "description": "WebMCP-annotated booking page to request a free 30 to 45 minute introductory coaching session with smart matching or direct coach selection.",
+      "tags": ["booking", "free-intro-session", "webmcp", "coaching"],
+      "capabilities": ["webmcp-form", "lead-submission"],
+      "representativeQueries": [
+        "رزرو جلسه معارفه رایگان کوچینگ در بلومیا کلاب",
+        "Book a free intro coaching call at Bloomia Club",
+        "ثبت درخواست جلسه صفر بدون تعهد مالی"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-10T00:00:00Z",
+      "url": "https://bloomiaclub.com/coaching/free-intro-session"
+    },
+    {
+      "identifier": "urn:air:bloomiaclub.com:support:contact",
+      "displayName": "Bloomia Support and Corporate Coaching Contact",
+      "type": "text/html",
+      "description": "WebMCP-annotated contact page for general inquiries and corporate/organizational coaching requests.",
+      "tags": ["support", "corporate-coaching", "contact", "webmcp"],
+      "capabilities": ["webmcp-form", "support-inquiry"],
+      "representativeQueries": [
+        "ارتباط با پشتیبانی بلومیا کلاب",
+        "درخواست کوچینگ سازمانی و شرکتی از بلومیا",
+        "Contact Bloomia Club customer support"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-11-10T00:00:00Z",
+      "url": "https://bloomiaclub.com/contact"
+    }
+  ]
+}

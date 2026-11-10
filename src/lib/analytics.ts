@@ -1,28 +1,91 @@
-import posthog from 'posthog-js';
+import type { PostHogInterface } from 'posthog-js';
 
 /**
  * Bloomia & Atyno Unified Analytics Helper (PostHog)
- * 
- * Safe client-side wrapper around PostHog.
- * Can be safely called anywhere without checking for SSR or initialization.
+ *
+ * Dynamically loads posthog-js after initial paint/idle so analytics never
+ * bloat the critical JS bundle or block LCP/TBT, while buffering early events.
  */
 
-export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && posthog.__loaded) {
-    posthog.capture(eventName, properties);
+const MAX_QUEUED_EVENTS = 25;
+let phInstance: PostHogInterface | null = null;
+let initPromise: Promise<PostHogInterface | null> | null = null;
+const pendingOps: Array<(ph: PostHogInterface) => void> = [];
+
+const enqueueOrRun = (fn: (ph: PostHogInterface) => void) => {
+  if (typeof window === 'undefined') return;
+  if (phInstance) {
+    fn(phInstance);
+    return;
   }
+  if (pendingOps.length < MAX_QUEUED_EVENTS) {
+    pendingOps.push(fn);
+  }
+};
+
+export const initPostHog = (
+  apiKey: string,
+  apiHost: string,
+  uiHost: string
+): Promise<PostHogInterface | null> => {
+  if (typeof window === 'undefined' || !apiKey) {
+    return Promise.resolve(null);
+  }
+  if (phInstance) {
+    return Promise.resolve(phInstance);
+  }
+  if (initPromise) {
+    return initPromise;
+  }
+
+  initPromise = import('posthog-js')
+    .then(({ default: posthog }) => {
+      posthog.init(apiKey, {
+        api_host: apiHost,
+        ui_host: uiHost,
+        capture_pageview: false,
+        capture_pageleave: true,
+        autocapture: true,
+        person_profiles: 'identified_only',
+        disable_surveys: true,
+        disableDeviceModel: true,
+        loaded: (ph) => {
+          phInstance = ph;
+          while (pendingOps.length > 0) {
+            const op = pendingOps.shift();
+            op?.(ph);
+          }
+        },
+      });
+      return posthog;
+    })
+    .catch(() => null);
+
+  return initPromise;
+};
+
+export const capturePageView = (url: string) => {
+  enqueueOrRun((ph) => {
+    ph.capture('$pageview', { $current_url: url });
+  });
+};
+
+export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
+  enqueueOrRun((ph) => {
+    ph.capture(eventName, properties);
+  });
 };
 
 export const identifyUser = (distinctId: string, userProperties?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && posthog.__loaded) {
-    posthog.identify(distinctId, userProperties);
-  }
+  enqueueOrRun((ph) => {
+    ph.identify(distinctId, userProperties);
+  });
 };
 
 export const resetUser = () => {
-  if (typeof window !== 'undefined' && posthog.__loaded) {
-    posthog.reset();
-  }
+  enqueueOrRun((ph) => {
+    ph.reset();
+  });
 };
 
 // ==========================================================

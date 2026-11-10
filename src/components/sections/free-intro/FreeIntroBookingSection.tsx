@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CoachProfile } from '@/lib/coaches';
 import { CheckCircle2, AlertCircle, Loader2, Send, Sparkles, User, Phone, Mail, HelpCircle, MessageSquare } from 'lucide-react';
 
@@ -32,6 +32,20 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
+
+  // Pre-select coach when ?coach=<slug> query parameter is provided
+  useEffect(() => {
+    if (typeof window === 'undefined' || coaches.length === 0) return;
+    const slugParam = new URLSearchParams(window.location.search).get('coach');
+    if (!slugParam) return;
+    const matched = coaches.find((c) => c.slug.toLowerCase() === slugParam.toLowerCase());
+    if (matched) {
+      setFormData((prev) => ({
+        ...prev,
+        preferredCoach: `${matched.name} (${matched.title})`,
+      }));
+    }
+  }, [coaches]);
 
   // Normalize Persian/Arabic digits
   const normalizeDigits = (val: string) => {
@@ -199,7 +213,12 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              onSubmit={handleSubmit}
+              toolname="book_free_intro_session"
+              tooldescription="ثبت درخواست جلسه معارفه رایگان (جلسه صفر) ۳۰ تا ۴۵ دقیقه‌ای با کوچ‌های بلومیا کلاب"
+              className="space-y-6"
+            >
               {/* Form Error Banner */}
               {submitStatus === 'error' && (
                 <div className="p-4 rounded-2xl bg-brand-neutral-100 border border-brand-neutral-300 flex items-start gap-3 text-brand-neutral-900 text-sm">
@@ -219,6 +238,7 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
                     <input
                       type="text"
                       id="fullName"
+                      name="fullName"
                       required
                       placeholder="مثال: مریم سعیدی"
                       value={formData.fullName}
@@ -241,6 +261,7 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
                     <input
                       type="tel"
                       id="phone"
+                      name="phone"
                       required
                       dir="ltr"
                       placeholder="09123456789"
@@ -273,6 +294,7 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       required
                       dir="ltr"
                       placeholder="name@example.com"
@@ -293,6 +315,7 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
                   </label>
                   <select
                     id="topic"
+                    name="topic"
                     value={formData.topic}
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, topic: e.target.value }))
@@ -315,6 +338,7 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
                 </label>
                 <select
                   id="preferredCoach"
+                  name="preferredCoach"
                   value={formData.preferredCoach}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, preferredCoach: e.target.value }))
@@ -347,6 +371,7 @@ export const FreeIntroBookingSection: React.FC<FreeIntroBookingSectionProps> = (
                 </div>
                 <textarea
                   id="message"
+                  name="message"
                   rows={4}
                   maxLength={500}
                   placeholder="مختصری درباره موضوعی که مایلید در این جلسه ۴۵ دقیقه‌ای روی آن تمرکز کنیم بنویسید..."

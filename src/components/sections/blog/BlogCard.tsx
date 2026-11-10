@@ -43,11 +43,11 @@ export const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
       <div className="flex flex-col flex-1 p-5 sm:p-6 justify-between gap-5">
         <div className="space-y-3">
           {/* Metadata */}
-          <div className="flex items-center gap-2.5 text-xs text-brand-neutral-500 font-medium">
+          <div className="flex items-center gap-2.5 text-xs text-brand-neutral-600 font-medium">
             <span>{formattedDate}</span>
             <span className="w-1 h-1 rounded-full bg-brand-neutral-300" />
             <div className="flex items-center gap-1.5 text-brand-neutral-600">
-              <Clock className="w-3.5 h-3.5 text-brand-teal-700 shrink-0" />
+              <Clock className="w-3.5 h-3.5 text-brand-teal-700 shrink-0" aria-hidden="true" />
               <span>{post.estimatedReadTime} دقیقه مطالعه</span>
             </div>
           </div>
