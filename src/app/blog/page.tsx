@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { getAllPosts, getFeaturedPost, getAllCategories } from '@/lib/posts';
-import { getCoachBySlug } from '@/lib/coaches';
+import { getCoachBySlug, getCanonicalSlug } from '@/lib/coaches';
 import { BlogHeroSection } from '@/components/sections/blog/BlogHeroSection';
 import { BlogFeaturedSection } from '@/components/sections/blog/BlogFeaturedSection';
 import { BlogExplorerSection } from '@/components/sections/blog/BlogExplorerSection';
@@ -19,12 +19,14 @@ export async function generateMetadata({ searchParams }: BlogPageProps): Promise
   const coachParam = resolvedParams.coach || resolvedParams.author;
 
   if (coachParam) {
-    const coachDisplayName = coachParam === 'fatemeh_esmaeeli' ? 'فاطمه اسماعیلی' : coachParam;
+    const coach = await getCoachBySlug(coachParam).catch(() => null);
+    const coachDisplayName = coach?.name || (coachParam === 'fatemeh_esmaeeli' ? 'فاطمه اسماعیلی' : coachParam);
+    const canonicalSlug = coach?.slug || getCanonicalSlug(coachParam);
     return {
-      title: `مقالات تخصصی کوچ ${coachDisplayName} | وبلاگ بلومیا کلاب`,
-      description: `مجموعه یادداشت‌ها و مقالات تخصصی رشد فردی و کوچینگ به قلم کوچ ${coachDisplayName} در بلومیا کلاب.`,
+      title: { absolute: `مقالات تخصصی ${coachDisplayName} | وبلاگ بلومیا کلاب` },
+      description: `مجموعه یادداشت‌ها و مقالات تخصصی رشد فردی و کوچینگ به قلم ${coachDisplayName} در بلومیا کلاب.`,
       alternates: {
-        canonical: `https://bloomiaclub.com/blog?coach=${coachParam}`,
+        canonical: `https://bloomiaclub.com/blog?coach=${canonicalSlug}`,
       },
     };
   }
@@ -76,15 +78,18 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   // When a coach filter is active, present the dedicated, minimal coach articles view
   if (coachParam) {
+    const canonicalCoachSlug = coach?.slug || getCanonicalSlug(coachParam);
     const coachPosts = allPosts.filter(
       (p) =>
         p.coachSlug === coachParam ||
+        p.coachSlug === canonicalCoachSlug ||
         p.authorSlug === coachParam ||
-        (coachParam === 'fatemeh_esmaeeli' &&
+        p.authorSlug === canonicalCoachSlug ||
+        (canonicalCoachSlug === 'fatemeh_esmaeeli' &&
           (p.authorName.includes('اسماعیلی') || p.slug.includes('fatemeh')))
     );
 
-    const coachName = coach?.name || (coachParam === 'fatemeh_esmaeeli' ? 'فاطمه اسماعیلی' : coachParam);
+    const coachName = coach?.name || (canonicalCoachSlug === 'fatemeh_esmaeeli' ? 'فاطمه اسماعیلی' : canonicalCoachSlug);
 
     const jsonLd = {
       '@context': 'https://schema.org',

@@ -44,6 +44,7 @@ export interface EventItem {
   coverImage: string;
   coverImageAlt: string;
   excerpt: string;
+  updatedAt?: string;
   body?: any[];
   syllabus?: string[];
   targetAudience?: string[];
@@ -245,6 +246,7 @@ function mapSanityEvent(doc: any): EventItem {
     coverImage: coverImageUrl,
     coverImageAlt: doc.coverImage?.alt || doc.title,
     excerpt: doc.excerpt || '',
+    updatedAt: doc._updatedAt || doc.date || undefined,
     body: doc.body || [],
     syllabus: doc.syllabus || [],
     targetAudience: doc.targetAudience || [],
@@ -257,6 +259,7 @@ function mapSanityEvent(doc: any): EventItem {
 
 const ALL_EVENTS_GROQ = `*[_type == "event"] | order(featured desc, date asc) {
   _id,
+  _updatedAt,
   "slug": slug.current,
   title,
   eventType,

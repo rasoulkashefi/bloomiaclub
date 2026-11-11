@@ -29,22 +29,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post) {
     return {
-      title: 'مقاله یافت نشد | بلومیا کلاب',
+      title: 'مقاله یافت نشد',
     };
   }
 
-  const title = post.metaTitle || post.title;
+  const rawTitle = post.metaTitle || post.title;
+  const hasBrand = /بلومیا/.test(rawTitle);
+  const metadataTitle = hasBrand ? { absolute: rawTitle } : rawTitle;
+  const socialTitle = hasBrand ? rawTitle : `${rawTitle} | بلومیا کلاب`;
   const description = post.metaDescription || post.excerpt;
   const canonicalUrl = post.canonicalUrl || `https://bloomiaclub.com/blog/${slug}`;
 
   return {
-    title,
+    title: metadataTitle,
     description,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       url: canonicalUrl,
       siteName: 'بلومیا کلاب',
@@ -63,7 +66,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: socialTitle,
       description,
       images: [post.imageUrl],
     },

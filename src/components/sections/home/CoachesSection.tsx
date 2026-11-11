@@ -96,7 +96,7 @@ export const CoachesSection: React.FC<CoachesSectionProps> = ({ coaches }) => {
                     مشاهده پروفایل
                   </Link>
                   <Link
-                    href={`/coaches/${coach.slug}/book-session`}
+                    href={`/coaching/free-intro-session?coach=${coach.slug}`}
                     aria-label={`رزرو جلسه با ${coach.name}`}
                     className="inline-flex items-center justify-center gap-1 py-2.5 px-3 rounded-xl bg-brand-teal-900 hover:bg-brand-teal-800 text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs text-center"
                   >

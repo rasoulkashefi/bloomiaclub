@@ -135,9 +135,9 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
     }
     if (slug.includes('nemati')) {
       return {
-        line1: 'وضوح ذهنی',
-        line2: 'و خودباوری',
-        line3: 'برای تغییر',
+        line1: 'کوچ رشد فردی',
+        line2: 'وضوح ذهنی و',
+        line3: 'خودباوری',
       };
     }
     if (slug.includes('johari')) {
@@ -289,9 +289,9 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
 
             {/* Mobile-Only Coach Intro & Social Links */}
             <div className="flex flex-col items-start mt-9 sm:mt-11 lg:hidden">
-              <h3 className="font-serif text-[26px] sm:text-[30px] font-normal leading-[1.35] text-white">
+              <h2 className="font-serif text-[26px] sm:text-[30px] font-normal leading-[1.35] text-white">
                 سلام، من {coachName} هستم
-              </h3>
+              </h2>
               <p className="mt-2 text-sm sm:text-base text-white/80 leading-[1.75] font-sans">
                 {coachTitle}
               </p>
@@ -348,11 +348,11 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
           <div className="hidden lg:flex flex-col justify-between items-end lg:col-span-3 xl:col-span-3 z-20 self-stretch py-2 min-h-[480px] xl:min-h-[520px]">
             {/* Top: Name & Designation */}
             <div className="flex flex-col items-start w-full max-w-[300px] pt-2 xl:pt-4 text-right">
-              <h3 className="font-serif text-[26px] lg:text-[28px] xl:text-[34px] 2xl:text-[38px] font-normal leading-[1.34] sm:leading-[1.3] text-white">
+              <h2 className="font-serif text-[26px] lg:text-[28px] xl:text-[34px] 2xl:text-[38px] font-normal leading-[1.34] sm:leading-[1.3] text-white">
                 سلام، من
                 <br />
                 {coachName} هستم
-              </h3>
+              </h2>
               <p className="mt-3.5 text-sm lg:text-[15px] xl:text-base text-white/80 leading-[1.75] font-sans max-w-[260px] xl:max-w-[300px]">
                 {coachTitle}
               </p>
@@ -420,7 +420,7 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
           <div className="relative w-full h-full z-10">
             <Image
               src={heroImage}
-              alt={coachName}
+              alt={`${coachName} — ${coachTitle}`}
               fill
               className="object-contain object-bottom transition-all duration-300"
               priority

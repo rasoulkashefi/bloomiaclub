@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   const doc = await sanityClient.fetch(COACH_BY_SLUG_ANY_QUERY, { slug });
 
   // 1. Public pages
-  for (const path of ['/', '/coaches', `/coaches/${slug}`, `/coaches/${slug}/v2`, `/coaches/${slug}/v3`]) {
+  for (const path of ['/', '/coaches', '/blog', '/coaching/free-intro-session', '/sitemap.xml', `/coaches/${slug}`, `/coaches/${slug}/v2`, `/coaches/${slug}/v3`]) {
     revalidatePath(path);
   }
   report.revalidate = 'done';

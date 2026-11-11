@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { getAllEvents } from '@/lib/events';
+import { getCoachBySlug } from '@/lib/coaches';
 import { EventsHeroSection } from '@/components/sections/events/EventsHeroSection';
 import { EventsFilterAndListSection } from '@/components/sections/events/EventsFilterAndListSection';
 import { EventsWhyAttendSection } from '@/components/sections/events/EventsWhyAttendSection';
@@ -17,26 +18,28 @@ interface EventsPageProps {
 export async function generateMetadata({ searchParams }: EventsPageProps): Promise<Metadata> {
   const resolved = searchParams ? await searchParams : {};
   const coachSlug = resolved.coach;
+  const coach = coachSlug ? await getCoachBySlug(coachSlug).catch(() => null) : null;
 
-  const title = coachSlug
-    ? `رویدادها و وبینارهای کوچ در بلومیا کلاب`
-    : 'رویدادها، وبینارها و کارگاه‌های تخصصی کوچینگ | بلومیا کلاب';
+  const pageTitle = coachSlug
+    ? (coach ? `رویدادها و وبینارهای ${coach.name}` : 'رویدادها و وبینارهای کوچ')
+    : 'رویدادها، وبینارها و کارگاه‌های تخصصی کوچینگ';
+  const socialTitle = `${pageTitle} | بلومیا کلاب`;
 
   const description =
     'تقویم کارگاه‌ها، مسترکلاس‌ها و وبینارهای آنلاین کوچینگ و رشد فردی با تدریس کوچ‌های بین‌المللی ICF در بلومیا کلاب. ثبت‌نام از طریق ایسمینار و ایوند با دسترسی به ویدیوهای ضبط‌شده.';
 
   const canonicalUrl = coachSlug
-    ? `https://bloomiaclub.com/events?coach=${coachSlug}`
+    ? `https://bloomiaclub.com/events?coach=${coach?.slug || coachSlug}`
     : 'https://bloomiaclub.com/events';
 
   return {
-    title,
+    title: pageTitle,
     description,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       url: canonicalUrl,
       siteName: 'بلومیا کلاب',
@@ -54,7 +57,7 @@ export async function generateMetadata({ searchParams }: EventsPageProps): Promi
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: socialTitle,
       description,
       images: ['/images/og-events.jpg'],
     },

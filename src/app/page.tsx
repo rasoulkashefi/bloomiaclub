@@ -1,5 +1,6 @@
 import React from 'react';
-import { getRandomCoaches } from '@/lib/coaches';
+import type { Metadata } from 'next';
+import { getAllCoaches } from '@/lib/coaches';
 import { getLatestPosts } from '@/lib/posts';
 import { HeroSection } from '@/components/sections/home/HeroSection';
 import { BookingFeaturesSection } from '@/components/sections/home/BookingFeaturesSection';
@@ -12,13 +13,18 @@ import { CommunitySection } from '@/components/sections/home/CommunitySection';
 import { FaqSection } from '@/components/sections/home/FaqSection';
 import { FinalCtaSection } from '@/components/sections/home/FinalCtaSection';
 
-// Force dynamic rendering on each request to guarantee randomized coaches list on every page load
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR 1 hour (+ on-demand Sanity webhook revalidation)
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://bloomiaclub.com',
+  },
+};
 
 export default async function HomePage() {
-  // Fetch real data on server (SSR/SSG with cache revalidation)
+  // Fetch all coaches deterministically so every coach receives homepage internal link equity
   const [coaches, posts] = await Promise.all([
-    getRandomCoaches(6),
+    getAllCoaches(),
     getLatestPosts(3),
   ]);
 

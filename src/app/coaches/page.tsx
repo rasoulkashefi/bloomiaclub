@@ -6,7 +6,7 @@ import { CoachFaqSection } from '@/components/sections/coaches/CoachFaqSection';
 import { CoachSeoGuideSection } from '@/components/sections/coaches/CoachSeoGuideSection';
 import { coachFaqs } from '@/data/coachFaqs';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR 1 hour (+ on-demand Sanity webhook revalidation)
 
 export const metadata: Metadata = {
   title: 'کوچ‌های مورد تایید ICF | تخصص‌های رشد فردی، شغلی و کسب‌وکار',

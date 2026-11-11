@@ -183,11 +183,10 @@ export const SoleaAbout: React.FC<SoleaAboutProps> = ({ coach }) => {
                 <div className="relative aspect-[500/560] w-full overflow-hidden rounded-[20px] bg-[#f2f7f6]">
                   <Image
                     src={aboutImage}
-                    alt={coachName}
+                    alt={`${coachName}${coachName.includes('\u200c') ? ` (${coachName.replace(/\u200c/g, ' ')})` : ''} — ${coachTitle}`}
                     fill
                     className="object-cover object-[center_20%] transition-transform duration-700 ease-out hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 500px"
-                    priority
                   />
                 </div>
               </motion.div>

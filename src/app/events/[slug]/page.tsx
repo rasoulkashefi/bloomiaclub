@@ -23,22 +23,25 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
 
   if (!event) {
     return {
-      title: 'رویداد یافت نشد | بلومیا کلاب',
+      title: 'رویداد یافت نشد',
     };
   }
 
-  const title = event.metaTitle || event.title;
+  const rawTitle = event.metaTitle || event.title;
+  const hasBrand = /بلومیا/.test(rawTitle);
+  const metadataTitle = hasBrand ? { absolute: rawTitle } : rawTitle;
+  const socialTitle = hasBrand ? rawTitle : `${rawTitle} | بلومیا کلاب`;
   const description = event.metaDescription || event.excerpt;
   const canonicalUrl = `https://bloomiaclub.com/events/${slug}`;
 
   return {
-    title,
+    title: metadataTitle,
     description,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       url: canonicalUrl,
       siteName: 'بلومیا کلاب',
@@ -55,7 +58,7 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: socialTitle,
       description,
       images: [event.coverImage],
     },

@@ -134,4 +134,26 @@ html {
   .bl-overlay,
   .bl-sheet-bottom,
   .bl-sheet-right { animation-duration: 1ms !important; }
+  details.bl-faq-details::details-content { transition: none !important; }
+}
+
+/* Native accessible <details> FAQ progressive disclosure transitions */
+details.bl-faq-details summary {
+  list-style: none;
+}
+details.bl-faq-details summary::-webkit-details-marker {
+  display: none;
+}
+@supports (interpolate-size: allow-keywords) {
+  details.bl-faq-details {
+    interpolate-size: allow-keywords;
+  }
+}
+details.bl-faq-details::details-content {
+  transition: height 280ms ease, content-visibility 280ms ease allow-discrete;
+  height: 0;
+  overflow: clip;
+}
+details.bl-faq-details[open]::details-content {
+  height: auto;
 }

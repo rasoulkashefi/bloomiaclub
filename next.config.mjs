@@ -11,7 +11,6 @@ const cspDirectives = [
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    inlineCss: true,
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
   images: {
@@ -118,6 +117,106 @@ const nextConfig = {
   skipTrailingSlashRedirect: true,
   async redirects() {
     return [
+      {
+        source: '/index.html',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/coaches/:slug/book-session',
+        destination: '/coaches/:slug',
+        permanent: true,
+      },
+      {
+        source: '/coaches/parmiss_yari',
+        destination: '/coaches/parmiss-yari',
+        permanent: true,
+      },
+      {
+        source: '/coaches/mahya-shakoori',
+        destination: '/coaches/mahya_shakoori',
+        permanent: true,
+      },
+      {
+        source: '/coaches/mahya_shakouri',
+        destination: '/coaches/mahya_shakoori',
+        permanent: true,
+      },
+      {
+        source: '/coaches/mahya-shakouri',
+        destination: '/coaches/mahya_shakoori',
+        permanent: true,
+      },
+      {
+        source: '/coaches/arezoo-ghaffari',
+        destination: '/coaches/Arezoo_Ghaffari',
+        permanent: true,
+      },
+      {
+        source: '/coaches/arezoo_ghaffari',
+        destination: '/coaches/Arezoo_Ghaffari',
+        permanent: true,
+      },
+      {
+        source: '/coaches/fatemeh_derakhsh',
+        destination: '/coaches/fatemeh-derakhsh',
+        permanent: true,
+      },
+      {
+        source: '/coaches/fatemeh-darkhosh',
+        destination: '/coaches/fatemeh-derakhsh',
+        permanent: true,
+      },
+      {
+        source: '/coaches/fatemeh_darkhosh',
+        destination: '/coaches/fatemeh-derakhsh',
+        permanent: true,
+      },
+      {
+        source: '/coaches/payam_esmi',
+        destination: '/coaches/payam-esmi',
+        permanent: true,
+      },
+      {
+        source: '/coaches/maryam-johari',
+        destination: '/coaches/maryam_johari',
+        permanent: true,
+      },
+      {
+        source: '/coaches/shabnam-nematimalek',
+        destination: '/coaches/shabnam_nematimalek',
+        permanent: true,
+      },
+      {
+        source: '/coaches/shabnam_nemati',
+        destination: '/coaches/shabnam_nematimalek',
+        permanent: true,
+      },
+      {
+        source: '/coaches/shabnam-nemati',
+        destination: '/coaches/shabnam_nematimalek',
+        permanent: true,
+      },
+      {
+        source: '/coaches/saloomeh-fathijou',
+        destination: '/coaches/saloomeh_fathijou',
+        permanent: true,
+      },
+      {
+        source: '/coaches/salomeh_fathijou',
+        destination: '/coaches/saloomeh_fathijou',
+        permanent: true,
+      },
+      {
+        source: '/coaches/salomeh-fathijou',
+        destination: '/coaches/saloomeh_fathijou',
+        permanent: true,
+      },
+      {
+        source: '/coaches/fatemeh-esmaeeli',
+        destination: '/coaches/fatemeh_esmaeeli',
+        permanent: true,
+      },
       {
         source: '/coaches/:slug/v4',
         destination: '/coaches/:slug',

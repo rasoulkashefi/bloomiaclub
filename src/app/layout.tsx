@@ -41,9 +41,6 @@ export const metadata: Metadata = {
     address: true,
     email: true,
   },
-  alternates: {
-    canonical: 'https://bloomiaclub.com',
-  },
   openGraph: {
     type: 'website',
     locale: 'fa_IR',

@@ -293,11 +293,11 @@ export async function getRelatedPosts(categorySlug?: string, currentSlug?: strin
 }
 
 /**
- * Get all slugs for generateStaticParams
+ * Get all slugs and last-modified timestamps for sitemap & generateStaticParams
  */
-export async function getAllPostSlugs(): Promise<{ slug: string }[]> {
+export async function getAllPostSlugs(): Promise<{ slug: string; updatedAt?: string }[]> {
   try {
-    const query = `*[_type == "post" && status == "published"] { "slug": slug.current }`;
+    const query = `*[_type == "post" && status == "published"] { "slug": slug.current, "updatedAt": coalesce(_updatedAt, publishedAt) }`;
     const data = await sanityClient.fetch(query);
     return (data || []).filter((d: any) => Boolean(d.slug));
   } catch (err) {

@@ -26,6 +26,7 @@ export interface Coach {
   instagramUrl?: string | null;
   linkedinUrl?: string | null;
   bookingUrl?: string | null;
+  updatedAt?: string;
 }
 
 const supabaseBaseUrl =
@@ -173,6 +174,7 @@ export const normalizeSanityCoach = (doc: any): CoachProfile => {
     instagramUrl: doc.instagramUrl || fallback?.instagramUrl || null,
     linkedinUrl: doc.linkedinUrl || fallback?.linkedinUrl || null,
     bookingUrl: doc.bookingUrl || fallback?.bookingUrl || null,
+    updatedAt: doc._updatedAt || undefined,
 
     audience: cleanList<AudienceItem>(doc.audience, (i) => i.title) || fallback?.audience,
     method: cleanList<MethodStep>(doc.method, (i) => i.title) || fallback?.method,
@@ -1623,8 +1625,8 @@ export const fallbackCoaches: CoachProfile[] = [
     eyebrow: 'کوچ حرفه‌ای بلومیا',
     shortBio: 'همراه افرادی که می‌خواهند با وضوح ذهنی، اعتمادبه‌نفس و برنامه‌ریزی هدفمند، نسخه‌ای اصیل‌تر و توانمندتر از زندگی خود بسازند.',
     description: 'همراه افرادی که می‌خواهند با وضوح ذهنی، اعتمادبه‌نفس و برنامه‌ریزی هدفمند، نسخه‌ای اصیل‌تر و توانمندتر از زندگی خود بسازند.',
-    longBio: `باور دارم هر فردی پتانسیل‌های شگفت‌انگیزی دارد که در زیر غبار تردیدها، خودانتقادی و عادات فرسایش‌دهنده روزمره پنهان شده است.\n\nرسالت من به عنوان کوچ رشد فردی، ایجاد فضایی صمیمانه، شفاف و سرشار از امنیت است تا شما بتوانید به شناخت دقیقی از ارزش‌ها، نقاط قوت و خواسته‌های قلبی‌تان برسید. ما در کنار هم عادات موثر را جایگزین تعلل می‌کنیم و اعتمادبه‌نفس اصیل را در تاروپود تصمیم‌گیری‌هایتان می‌نشانیم.\n\nتغییر واقعی با قدم‌های کوچک اما پیوسته اتفاق می‌افتد؛ جایی که شما قهرمان داستان زندگی خود می‌شوید و با آرامش و اقتدار مسیرتان را می‌سازید.`,
-    longDescription: `باور دارم هر فردی پتانسیل‌های شگفت‌انگیزی دارد که در زیر غبار تردیدها، خودانتقادی و عادات فرسایش‌دهنده روزمره پنهان شده است.\n\nرسالت من به عنوان کوچ رشد فردی، ایجاد فضایی صمیمانه، شفاف و سرشار از امنیت است تا شما بتوانید به شناخت دقیقی از ارزش‌ها، نقاط قوت و خواسته‌های قلبی‌تان برسید. ما در کنار هم عادات موثر را جایگزین تعلل می‌کنیم و اعتمادبه‌نفس اصیل را در تاروپود تصمیم‌گیری‌هایتان می‌نشانیم.\n\nتغییر واقعی با قدم‌های کوچک اما پیوسته اتفاق می‌افتد؛ جایی که شما قهرمان داستان زندگی خود می‌شوید و با آرامش و اقتدار مسیرتان را می‌سازید.`,
+    longBio: `من شبنم نعمتی‌ملک هستم؛ مسیری که تا امروز آمده‌ام پر از جست‌وجو، تجربه و یادگیری بوده؛ تجربه‌ای که از دل نقش‌های خانوادگی، مسیرهای شخصی و مواجهه با سؤال‌های عمیق درباره هویت، معنا و رضایت از زندگی شکل گرفته است. باور دارم هر فردی پتانسیل‌های شگفت‌انگیزی دارد که در زیر غبار تردیدها، خودانتقادی و عادات فرسایش‌دهنده روزمره پنهان شده است.\n\nرسالت من به عنوان کوچ رشد فردی و خودآگاهی، ایجاد فضایی صمیمانه، شفاف و سرشار از امنیت است تا شما بتوانید به شناخت دقیقی از ارزش‌ها، نقاط قوت و خواسته‌های قلبی‌تان برسید. ما در کنار هم عادات مؤثر را جایگزین تعلل می‌کنیم و اعتمادبه‌نفس اصیل را در تاروپود تصمیم‌گیری‌هایتان می‌نشانیم.\n\nتغییر واقعی با قدم‌های کوچک اما پیوسته اتفاق می‌افتد؛ جایی که شما قهرمان داستان زندگی خود می‌شوید و با آرامش و اقتدار مسیرتان را می‌سازید.`,
+    longDescription: `من شبنم نعمتی‌ملک هستم؛ مسیری که تا امروز آمده‌ام پر از جست‌وجو، تجربه و یادگیری بوده؛ تجربه‌ای که از دل نقش‌های خانوادگی، مسیرهای شخصی و مواجهه با سؤال‌های عمیق درباره هویت، معنا و رضایت از زندگی شکل گرفته است. باور دارم هر فردی پتانسیل‌های شگفت‌انگیزی دارد که در زیر غبار تردیدها، خودانتقادی و عادات فرسایش‌دهنده روزمره پنهان شده است.\n\nرسالت من به عنوان کوچ رشد فردی و خودآگاهی، ایجاد فضایی صمیمانه، شفاف و سرشار از امنیت است تا شما بتوانید به شناخت دقیقی از ارزش‌ها، نقاط قوت و خواسته‌های قلبی‌تان برسید. ما در کنار هم عادات مؤثر را جایگزین تعلل می‌کنیم و اعتمادبه‌نفس اصیل را در تاروپود تصمیم‌گیری‌هایتان می‌نشانیم.\n\nتغییر واقعی با قدم‌های کوچک اما پیوسته اتفاق می‌افتد؛ جایی که شما قهرمان داستان زندگی خود می‌شوید و با آرامش و اقتدار مسیرتان را می‌سازید.`,
     imageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/87be0ca9091fb5a28213a3a19f4888d45a180361-960x1280.png',
     cutoutImageUrl: 'https://cdn.sanity.io/images/7yjhdw88/production/87be0ca9091fb5a28213a3a19f4888d45a180361-960x1280.png',
     coverImage: 'https://cdn.sanity.io/images/7yjhdw88/production/87be0ca9091fb5a28213a3a19f4888d45a180361-960x1280.png',
@@ -1641,9 +1643,9 @@ export const fallbackCoaches: CoachProfile[] = [
     ],
     rating: 5.0,
     totalReviews: 32,
-    totalSessions: 140,
-    coachingHours: 140,
-    satisfiedClients: 35,
+    totalSessions: 850,
+    coachingHours: 850,
+    satisfiedClients: 180,
     experienceYears: 4,
     audience: [
       { title: 'می‌خواهید احساس شایستگی و اعتمادبه‌نفس واقعی را در خود زنده کنید.' },
@@ -1773,6 +1775,7 @@ export const fallbackCoaches: CoachProfile[] = [
       { id: 'c3', title: 'متخصص متدولوژی عادات اتمی و خودآگاهی فردی' },
     ],
     faqs: [
+      { question: 'آیا امکان رزرو جلسه معارفه رایگان با شبنم نعمتی‌ملک وجود دارد؟', answer: 'بله؛ پیش از انتخاب بسته کوچینگ، می‌توانید یک جلسه صفر معارفه ۳۰ دقیقه‌ای کاملاً رایگان و آنلاین با شبنم نعمتی‌ملک (شبنم نعمتی ملک)، کوچ رشد فردی و خودآگاهی در بلومیا کلاب رزرو کنید تا با فضای گفتگو آشنا شوید و اولویت‌های خود را بررسی کنید.' },
       { question: 'آیا برای شروع باید هدف مشخصی داشته باشم؟', answer: 'خیر. در جلسات اولیه با هم شفاف می‌کنیم که اولویت اصلی شما در حال حاضر چیست و از کجا باید شروع کنید.' },
       { question: 'جلسات به صورت فردی است یا گروهی؟', answer: 'تمامی جلسات این پکیج‌ها به صورت فردی، کاملاً اختصاصی و آنلاین برگزار می‌شود.' },
       { question: 'اگر در طول دوره نیاز به راهنمایی داشته باشم چه می‌شود؟', answer: 'میان جلسات از طریق پیامک پشتیبانی کامل خواهید داشت تا هیچ تمرین یا سوالی بی‌پاسخ نماند.' },
@@ -2224,19 +2227,19 @@ function coachFromBackupRow(row: any): CoachProfile {
 
 export async function getAllCoaches(): Promise<CoachProfile[]> {
   const fromSanity = await fetchSanityCoaches();
-  if (fromSanity) return shuffleArray(fromSanity);
+  if (fromSanity) return fromSanity;
 
   try {
     const { data, error } = await withTimeout<any>(
       supabase.from('v2_coaches').select('*').eq('is_active', true),
       2500
     );
-    if (!error && data && data.length > 0) return shuffleArray(data.map(coachFromBackupRow));
+    if (!error && data && data.length > 0) return data.map(coachFromBackupRow);
   } catch (error) {
     console.warn('Could not fetch coaches from Supabase:', error);
   }
 
-  return shuffleArray(fallbackCoaches);
+  return fallbackCoaches;
 }
 
 export function getCanonicalSlug(rawSlug: string): string {

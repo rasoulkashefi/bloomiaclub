@@ -93,7 +93,7 @@ const TestimonialCard: React.FC<{ item: TestimonialItem; idx: number }> = ({ ite
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="none"
         className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { Lora, Plus_Jakarta_Sans } from 'next/font/google';
 import { getCoachBySlug, getAllCoaches } from '@/lib/coaches';
 import { getCoachArticles } from '@/lib/coach-articles';
@@ -27,7 +27,26 @@ interface CoachPageProps {
   }>;
 }
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR 1 hour (+ on-demand Sanity webhook revalidation)
+
+function getCoachAlternateNames(coach: { name: string; slug: string }): string[] {
+  const variants = new Set<string>();
+  if (coach.name.includes('\u200c')) {
+    variants.add(coach.name.replace(/\u200c/g, ' '));
+  }
+  const englishFromSlug = coach.slug
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, (ch) => ch.toUpperCase());
+  if (englishFromSlug && /[a-zA-Z]/.test(englishFromSlug)) {
+    variants.add(englishFromSlug);
+  }
+  if (coach.slug === 'shabnam_nematimalek') {
+    variants.add('شبنم نعمتی ملک');
+    variants.add('Shabnam Nematimalek');
+    variants.add('Shabnam Nemati Malek');
+  }
+  return Array.from(variants).filter((v) => v && v !== coach.name);
+}
 
 export async function generateStaticParams() {
   const coaches = await getAllCoaches();
@@ -40,22 +59,35 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
 
   if (!coach) {
     return {
-      title: 'کوچ یافت نشد | بلومیا کلاب',
+      title: 'کوچ یافت نشد',
       robots: { index: false },
     };
   }
 
   const cleanTitle = coach.title?.startsWith('کوچ') ? coach.title : `کوچ متخصص ${coach.title}`;
-  const title = `${coach.name} | ${cleanTitle} | بلومیا کلاب`;
-  const introService = coach.services?.find((s) => s.isFree || s.title?.includes('صفر') || s.title?.includes('معارفه') || s.title?.includes('آشنایی') || s.id?.includes('intro')) || coach.services?.[0];
+  // Root layout applies template "%s | بلومیا کلاب"; avoid duplicating brand suffix
+  const pageTitle = `${coach.name} | ${cleanTitle}`;
+  const fullTitle = `${pageTitle} | بلومیا کلاب`;
+  const spacedName = coach.name.includes('\u200c') ? coach.name.replace(/\u200c/g, ' ') : '';
+  const namePhrase = spacedName ? `${coach.name} (${spacedName})` : coach.name;
+
+  const introService =
+    coach.services?.find(
+      (s) =>
+        s.isFree ||
+        s.title?.includes('صفر') ||
+        s.title?.includes('معارفه') ||
+        s.title?.includes('آشنایی') ||
+        s.id?.includes('intro')
+    ) || coach.services?.[0];
   const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
 
-  const description =
-    coach.shortBio ||
-    coach.description ||
-    (isFreeIntro
-      ? `رزرو آنلاین جلسه معارفه رایگان با ${coach.name}، ${cleanTitle} در بلومیا کلاب.`
-      : `رزرو آنلاین جلسه معارفه با ${coach.name}، ${cleanTitle} در بلومیا کلاب.`);
+  const rawBio = coach.shortBio || coach.description;
+  const description = rawBio
+    ? `${namePhrase}، ${cleanTitle} در بلومیا کلاب؛ ${rawBio}`
+    : isFreeIntro
+      ? `رزرو آنلاین جلسه معارفه رایگان با ${namePhrase}، ${cleanTitle} در بلومیا کلاب.`
+      : `رزرو آنلاین جلسه معارفه با ${namePhrase}، ${cleanTitle} در بلومیا کلاب.`;
 
   const canonicalUrl = `https://bloomiaclub.com/coaches/${coach.slug}`;
   const dedicatedOg = `/images/coaches/og-${coach.slug}.jpg`;
@@ -64,10 +96,12 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
   const isMothersCoach = coach.slug.includes('fatemeh') && coach.slug.includes('esmaeeli');
 
   return {
-    title,
+    title: pageTitle,
     description,
     keywords: [
       coach.name,
+      `${coach.name} کوچ`,
+      ...(spacedName ? [spacedName, `${spacedName} کوچ`] : []),
       coach.title,
       'کوچینگ بلومیا',
       'کوچ حرفه‌ای ICF',
@@ -83,7 +117,7 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
       canonical: canonicalUrl,
     },
     openGraph: {
-      title,
+      title: fullTitle,
       description,
       url: canonicalUrl,
       siteName: 'بلومیا کلاب',
@@ -106,7 +140,7 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: fullTitle,
       description,
       images: [dedicatedOg],
     },
@@ -123,6 +157,11 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
 
   if (!coach) {
     notFound();
+  }
+
+  // Enforce single canonical URL for slug aliases or casing differences
+  if (coach.slug && slug !== coach.slug) {
+    permanentRedirect(`/coaches/${coach.slug}`);
   }
 
   // Ensure canonical atyno booking URL for coaches using Atyno
@@ -149,20 +188,25 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
   const isFreeIntro = introService ? (introService.isFree !== false && (!introService.price || introService.price === 0)) : true;
 
   // JSON-LD Person Schema for SEO & GEO
+  const alternateNames = getCoachAlternateNames(coach);
+  const sameAsUrls = [coach.linkedinUrl, coach.instagramUrl].filter(Boolean);
+
   const jsonLdPerson: Record<string, any> = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: coach.name,
+    ...(alternateNames.length > 0 ? { alternateName: alternateNames } : {}),
     jobTitle: coach.title,
     description: coach.shortBio || coach.description,
     image: coach.imageUrl || undefined,
     url: `https://bloomiaclub.com/coaches/${coach.slug}`,
+    ...(coach.languages && coach.languages.length > 0 ? { knowsLanguage: coach.languages } : {}),
     knowsAbout: [
       ...(coach.specialties || []),
       'استانداردهای بین‌المللی کوچینگ ICF',
       'کوچینگ فردی و رشد شخصی',
     ],
-    sameAs: [coach.linkedinUrl, coach.instagramUrl].filter(Boolean),
+    ...(sameAsUrls.length > 0 ? { sameAs: sameAsUrls } : {}),
     worksFor: {
       '@type': 'Organization',
       name: 'بلومیا کلاب',
