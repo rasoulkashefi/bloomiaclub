@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cache } from 'react';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { Lora, Plus_Jakarta_Sans } from 'next/font/google';
@@ -6,6 +6,8 @@ import { getCoachBySlug, getAllCoaches } from '@/lib/coaches';
 import { getCoachArticles } from '@/lib/coach-articles';
 import { getEventsByCoachSlug } from '@/lib/events';
 import { CoachV4Client } from './CoachV4Client';
+
+const getCachedCoach = cache(async (slug: string) => getCoachBySlug(slug));
 
 const lora = Lora({
   subsets: ['latin'],
@@ -45,6 +47,39 @@ function getCoachAlternateNames(coach: { name: string; slug: string }): string[]
     variants.add('Shabnam Nematimalek');
     variants.add('Shabnam Nemati Malek');
   }
+  if (coach.slug === 'saloomeh_fathijou') {
+    variants.add('سالومه فتحی جو');
+    variants.add('Saloomeh Fathijou');
+    variants.add('Salomeh Fathijou');
+    variants.add('Saloomeh Fathi Jou');
+    variants.add('Salomeh Fathi Jou');
+  }
+  if (coach.slug === 'mahya_shakoori') {
+    variants.add('Mahya Shakoori');
+    variants.add('Mahya Shakouri');
+  }
+  if (coach.slug === 'Arezoo_Ghaffari') {
+    variants.add('Arezoo Ghaffari');
+    variants.add('Arezoo Ghafari');
+  }
+  if (coach.slug === 'parmiss-yari') {
+    variants.add('Parmiss Yari');
+    variants.add('Parmis Yari');
+  }
+  if (coach.slug === 'fatemeh-derakhsh') {
+    variants.add('دکتر فاطمه درخوش');
+    variants.add('فاطمه درخش');
+    variants.add('دکتر فاطمه درخش');
+    variants.add('Fatemeh Derakhsh');
+    variants.add('Fatemeh Darkhosh');
+    variants.add('Fateme Darkhosh');
+    variants.add('Dr. Fatemeh Derakhsh');
+    variants.add('Dr. Fatemeh Darkhosh');
+  }
+  if (coach.slug === 'fatemeh_esmaeeli') {
+    variants.add('Fatemeh Esmaeeli');
+    variants.add('Fatemeh Esmaeili');
+  }
   return Array.from(variants).filter((v) => v && v !== coach.name);
 }
 
@@ -55,7 +90,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: CoachPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const coach = await getCoachBySlug(slug);
+  const coach = await getCachedCoach(slug);
 
   if (!coach) {
     return {
@@ -64,7 +99,7 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
     };
   }
 
-  const cleanTitle = coach.title?.startsWith('کوچ') ? coach.title : `کوچ متخصص ${coach.title}`;
+  const cleanTitle = coach.title?.includes('کوچ') ? coach.title : `کوچ متخصص ${coach.title}`;
   // Root layout applies template "%s | بلومیا کلاب"; avoid duplicating brand suffix
   const pageTitle = `${coach.name} | ${cleanTitle}`;
   const fullTitle = `${pageTitle} | بلومیا کلاب`;
@@ -153,7 +188,7 @@ export async function generateMetadata({ params }: CoachPageProps): Promise<Meta
 
 export default async function CoachDetailPage({ params }: CoachPageProps) {
   const { slug } = await params;
-  const coach = await getCoachBySlug(slug);
+  const coach = await getCachedCoach(slug);
 
   if (!coach) {
     notFound();
@@ -217,7 +252,10 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
       name: isFreeIntro ? 'جلسه معارفه رایگان کوچینگ (جلسه صفر)' : (introService?.title || 'جلسه معارفه و آشنایی کوچینگ'),
       price: isFreeIntro ? '0' : String((introService?.price || 0) * 10),
       priceCurrency: 'IRR',
-      url: coach.bookingUrl || 'https://bloomiaclub.com/coaching/free-intro-session',
+      url:
+        coach.bookingUrl && /^https?:\/\//i.test(coach.bookingUrl)
+          ? coach.bookingUrl
+          : `https://bloomiaclub.com/coaching/free-intro-session?coach=${coach.slug}`,
       availability: 'https://schema.org/InStock',
     },
   };
@@ -226,10 +264,14 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
     jsonLdPerson.hasCredential = coach.credentials.map((c) => ({
       '@type': 'EducationalOccupationalCredential',
       name: c.title,
-      recognizedBy: {
-        '@type': 'Organization',
-        name: c.organization,
-      },
+      ...(c.organization
+        ? {
+            recognizedBy: {
+              '@type': 'Organization',
+              name: c.organization,
+            },
+          }
+        : {}),
     }));
   }
 

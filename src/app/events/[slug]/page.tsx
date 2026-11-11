@@ -146,10 +146,30 @@ export default async function EventDetailPage({ params }: EventPageProps) {
     ],
   };
 
+  // FAQPage JSON-LD (matches visible event FAQs for SEO & GEO)
+  const jsonLdFaq =
+    event.faqs && event.faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: event.faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdEvent) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
+      {jsonLdFaq && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }} />
+      )}
 
       <main className="min-h-screen bg-brand-surface">
         <EventDetailHeroSection event={event} />

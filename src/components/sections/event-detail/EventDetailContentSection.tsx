@@ -11,19 +11,13 @@ import {
   ExternalLink,
   ShieldCheck,
   Calendar,
-  Sparkles,
   HelpCircle,
   ArrowLeft,
+  ChevronDown,
   FileText,
 } from 'lucide-react';
 import type { EventItem } from '@/lib/events';
 import { PortableTextRenderer } from '@/components/blog/PortableTextRenderer';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 
 interface EventDetailContentSectionProps {
   event: EventItem;
@@ -155,22 +149,25 @@ export const EventDetailContentSection: React.FC<EventDetailContentSectionProps>
                   <h2>پرسش‌های متداول این رویداد</h2>
                 </div>
 
-                <Accordion type="single" collapsible className="space-y-3">
+                <div className="space-y-3">
                   {event.faqs.map((faq, index) => (
-                    <AccordionItem
+                    <details
                       key={index}
-                      value={`event-faq-${index}`}
-                      className="border border-brand-neutral-200 rounded-2xl px-5 bg-brand-surface data-[state=open]:border-brand-teal-300"
+                      className="bl-faq-details group border border-brand-neutral-200 rounded-2xl bg-brand-surface open:border-brand-teal-300 overflow-hidden transition-colors"
                     >
-                      <AccordionTrigger className="text-start text-xs sm:text-sm font-bold text-brand-neutral-900 py-3.5 leading-snug">
-                        {faq.question}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-xs sm:text-sm text-brand-neutral-600 leading-relaxed pb-3.5">
+                      <summary className="w-full flex items-center justify-between gap-4 px-5 py-3.5 text-start text-xs sm:text-sm font-bold text-brand-neutral-900 hover:text-brand-teal-800 leading-snug min-h-[44px] cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-800/40 rounded-2xl">
+                        <span>{faq.question}</span>
+                        <ChevronDown
+                          aria-hidden="true"
+                          className="w-4 h-4 text-brand-neutral-500 transition-transform duration-200 group-open:rotate-180 shrink-0"
+                        />
+                      </summary>
+                      <div className="px-5 text-xs sm:text-sm text-brand-neutral-600 leading-relaxed pt-2 pb-3.5 border-t border-brand-neutral-200/60">
                         {faq.answer}
-                      </AccordionContent>
-                    </AccordionItem>
+                      </div>
+                    </details>
                   ))}
-                </Accordion>
+                </div>
               </div>
             )}
           </div>

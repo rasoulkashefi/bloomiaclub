@@ -100,36 +100,36 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
   const getHeroHeadline = () => {
     if (slug.includes('parmiss')) {
       return {
-        line1: 'قدرت پرسش',
-        line2: 'برای وضوح و',
+        line1: 'لایف کوچ و',
+        line2: 'قدرت پرسش و',
         line3: 'زیست اصیل',
       };
     }
     if (slug.includes('mahya')) {
       return {
-        line1: 'صلح با خود',
+        line1: 'کوچ خودآگاهی',
         line2: 'و رهایی از',
         line3: 'قضاوت درون',
       };
     }
     if (slug.includes('arezoo') && slug.includes('ghaffari')) {
       return {
-        line1: 'رهایی از فکر',
-        line2: 'و بازگشت به',
-        line3: 'زیست اصیل',
+        line1: 'کوچ فردی و',
+        line2: 'رهایی از',
+        line3: 'نشخوار ذهنی',
       };
     }
     if (slug.includes('saloomeh') || slug.includes('salomeh')) {
       return {
-        line1: 'کشف رسالت',
-        line2: 'و تصمیم‌های',
-        line3: 'مقتدرانه',
+        line1: 'کوچ خودشناسی',
+        line2: 'تحول فردی و',
+        line3: 'زیست اصیل',
       };
     }
     if (slug.includes('derakhsh') || slug.includes('darkhosh')) {
       return {
-        line1: 'مکث و آگاهی',
-        line2: 'برای کشف و',
+        line1: 'کوچ شغلی و',
+        line2: 'خودشناسی و',
         line3: 'طراحی مسیر',
       };
     }
@@ -142,16 +142,16 @@ export const SoleaHero: React.FC<SoleaHeroProps> = ({ coach, onOpenMenu, onOpenB
     }
     if (slug.includes('johari')) {
       return {
-        line1: 'آشتی با خود',
+        line1: 'کوچ خودشناسی',
         line2: 'و زیستن با',
-        line3: 'شفقت و معنا',
+        line3: 'شفقت و مهر',
       };
     }
     if (slug.includes('esmi')) {
       return {
-        line1: 'از مشغله زیاد',
-        line2: 'تا تمرکز و',
-        line3: 'اثرگذاری بالا',
+        line1: 'کوچ هدفمندی،',
+        line2: 'مدیریت زمان',
+        line3: 'و انضباط',
       };
     }
     if (slug.includes('fatemeh') && slug.includes('esmaeeli')) {

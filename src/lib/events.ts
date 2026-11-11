@@ -299,7 +299,7 @@ export async function getAllEvents(): Promise<EventItem[]> {
   try {
     const raw = await Promise.race([
       sanityClient.fetch(ALL_EVENTS_GROQ),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error('Sanity events timeout')), 3500)),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error('Sanity events timeout')), 7000)),
     ]);
 
     if (Array.isArray(raw) && raw.length > 0) {
@@ -356,7 +356,7 @@ export async function getEventBySlug(slug: string): Promise<EventItem | null> {
         }`,
         { slug }
       ),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error('Sanity single event timeout')), 3500)),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error('Sanity single event timeout')), 7000)),
     ]);
 
     if (raw) {
@@ -435,7 +435,7 @@ export async function getEventsByCoachSlug(coachSlug: string): Promise<EventItem
         }`,
         { slugs, refIds, coachSlug }
       ),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error('Sanity coach events timeout')), 3500)),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error('Sanity coach events timeout')), 7000)),
     ]);
 
     if (Array.isArray(raw) && raw.length > 0) {

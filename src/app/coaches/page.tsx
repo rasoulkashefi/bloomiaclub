@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     title: 'تیم کوچ‌های معتبر بلومیا کلاب | دارای تاییدیه بین‌المللی ICF',
     description:
       'همراهی در مسیر رشد و موفقیت با زبده‌ترین کوچ‌های ایران. انتخاب کوچ متخصص و رزرو جلسه معارفه رایگان.',
-    images: ['/og-image.jpg'],
+    images: ['/images/og-coaches.jpg'],
   },
 };
 

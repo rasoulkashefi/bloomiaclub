@@ -1,13 +1,5 @@
-'use client';
-
 import React from 'react';
-import { HelpCircle } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { HelpCircle, ChevronDown } from 'lucide-react';
 
 const defaultFaqs = [
   {
@@ -54,22 +46,25 @@ export const EventsFaqSection: React.FC = () => {
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="space-y-4">
+        <div className="space-y-4">
           {defaultFaqs.map((faq, index) => (
-            <AccordionItem
+            <details
               key={index}
-              value={`faq-${index}`}
-              className="border border-brand-neutral-200 rounded-2xl px-5 sm:px-6 bg-brand-surface data-[state=open]:border-brand-teal-300 data-[state=open]:shadow-soft transition-all"
+              className="bl-faq-details group border border-brand-neutral-200 rounded-2xl bg-brand-surface open:border-brand-teal-300 open:shadow-soft transition-all overflow-hidden"
             >
-              <AccordionTrigger className="text-start text-sm sm:text-base font-bold text-brand-neutral-900 hover:text-brand-teal-800 py-4 leading-snug">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-xs sm:text-sm text-brand-neutral-600 leading-[1.8] pt-1 pb-4">
+              <summary className="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 text-start text-sm sm:text-base font-bold text-brand-neutral-900 hover:text-brand-teal-800 leading-snug min-h-[44px] cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-800/40 rounded-2xl">
+                <span>{faq.question}</span>
+                <ChevronDown
+                  aria-hidden="true"
+                  className="w-4 h-4 text-brand-neutral-500 transition-transform duration-200 group-open:rotate-180 shrink-0"
+                />
+              </summary>
+              <div className="px-5 sm:px-6 text-xs sm:text-sm text-brand-neutral-600 leading-[1.8] pt-3 pb-4 border-t border-brand-neutral-200/60">
                 {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
+              </div>
+            </details>
           ))}
-        </Accordion>
+        </div>
       </div>
     </section>
   );

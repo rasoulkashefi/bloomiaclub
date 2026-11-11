@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { ChevronDown, HelpCircle, PhoneCall } from 'lucide-react';
 
@@ -38,12 +36,6 @@ export const faqs = [
 ];
 
 export const FaqSection: React.FC = () => {
-  const [openIdx, setOpenIdx] = useState<number | null>(0);
-
-  const toggleFaq = (idx: number) => {
-    setOpenIdx(openIdx === idx ? null : idx);
-  };
-
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -79,39 +71,29 @@ export const FaqSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Accordion list */}
+        {/* Native <details> Accordion list (indexable in SSR HTML & Ctrl+F searchable) */}
         <div className="space-y-4">
-          {faqs.map((faq, idx) => {
-            const isOpen = openIdx === idx;
-            return (
-              <div
-                key={idx}
-                className="bg-brand-surface rounded-2xl border border-brand-neutral-200/80 overflow-hidden transition-all duration-200"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full flex items-center justify-between p-5 text-right font-bold text-sm sm:text-base text-brand-neutral-900 hover:text-brand-teal-900 transition-colors cursor-pointer gap-4 min-h-[48px]"
-                  aria-expanded={isOpen}
+          {faqs.map((faq, idx) => (
+            <details
+              key={idx}
+              open={idx === 0}
+              className="bl-faq-details group bg-brand-surface rounded-2xl border border-brand-neutral-200/80 open:border-brand-teal-300 overflow-hidden transition-colors duration-200"
+            >
+              <summary className="w-full flex items-center justify-between p-5 text-right font-bold text-sm sm:text-base text-brand-neutral-900 hover:text-brand-teal-900 transition-colors cursor-pointer gap-4 min-h-[48px] select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-800/40 rounded-2xl">
+                <span className="flex-1 leading-snug">{faq.question}</span>
+                <span
+                  aria-hidden="true"
+                  className="w-7 h-7 rounded-full bg-brand-neutral-200/60 text-brand-neutral-600 group-open:rotate-180 group-open:bg-brand-teal-100 group-open:text-brand-teal-900 flex items-center justify-center shrink-0 transition-transform duration-200"
                 >
-                  <span className="flex-1 leading-snug">{faq.question}</span>
-                  <div
-                    className={`w-7 h-7 rounded-full bg-brand-neutral-200/60 flex items-center justify-center shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 bg-brand-teal-100 text-brand-teal-900' : 'text-brand-neutral-600'
-                    }`}
-                  >
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                </button>
+                  <ChevronDown className="w-4 h-4" />
+                </span>
+              </summary>
 
-                {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-brand-neutral-600 leading-relaxed border-t border-brand-neutral-200/40 animate-in fade-in duration-200">
-                    <p>{faq.answer}</p>
-                  </div>
-                )}
+              <div className="px-5 pb-5 pt-3 text-xs sm:text-sm text-brand-neutral-600 leading-relaxed border-t border-brand-neutral-200/40">
+                <p>{faq.answer}</p>
               </div>
-            );
-          })}
+            </details>
+          ))}
         </div>
 
         {/* Support Callout */}

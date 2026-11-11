@@ -1,7 +1,4 @@
-'use client';
-
 import React from 'react';
-import * as Accordion from '@radix-ui/react-accordion';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import { freeIntroFaqs } from '@/data/freeIntroFaqs';
 
@@ -24,26 +21,26 @@ export const FreeIntroFaqSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Radix Accordion */}
-        <Accordion.Root type="single" collapsible className="space-y-4">
+        {/* Native <details> Accordion (SSR HTML indexable for Google & GEO) */}
+        <div className="space-y-4">
           {freeIntroFaqs.map((faq, idx) => (
-            <Accordion.Item
+            <details
               key={idx}
-              value={`faq-${idx}`}
-              className="bg-brand-surface rounded-2xl border border-brand-surface-border shadow-soft-sm overflow-hidden data-[state=open]:border-brand-teal-300 transition-colors"
+              className="bl-faq-details group bg-brand-surface rounded-2xl border border-brand-surface-border shadow-soft-sm overflow-hidden open:border-brand-teal-300 transition-colors"
             >
-              <Accordion.Header>
-                <Accordion.Trigger className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-right font-bold text-sm sm:text-base text-brand-neutral-900 hover:text-brand-teal-900 transition-colors group min-h-[44px]">
-                  <span>{faq.question}</span>
-                  <ChevronDown className="w-5 h-5 text-brand-neutral-400 group-hover:text-brand-teal-800 transition-transform duration-200 group-data-[state=open]:rotate-180 shrink-0" />
-                </Accordion.Trigger>
-              </Accordion.Header>
-              <Accordion.Content className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-brand-neutral-600 leading-relaxed border-t border-brand-surface-border pt-4 data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+              <summary className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-right font-bold text-sm sm:text-base text-brand-neutral-900 hover:text-brand-teal-900 transition-colors min-h-[44px] cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-800/40 rounded-2xl">
+                <span>{faq.question}</span>
+                <ChevronDown
+                  aria-hidden="true"
+                  className="w-5 h-5 text-brand-neutral-400 group-hover:text-brand-teal-800 transition-transform duration-200 group-open:rotate-180 shrink-0"
+                />
+              </summary>
+              <div className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-brand-neutral-600 leading-relaxed border-t border-brand-surface-border pt-4">
                 {faq.answer}
-              </Accordion.Content>
-            </Accordion.Item>
+              </div>
+            </details>
           ))}
-        </Accordion.Root>
+        </div>
       </div>
     </section>
   );

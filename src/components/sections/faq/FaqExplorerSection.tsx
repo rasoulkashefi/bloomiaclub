@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import * as Accordion from '@radix-ui/react-accordion';
 import { Search, ChevronDown, X, HelpCircle, Filter } from 'lucide-react';
 import { generalFaqs, FAQ_CATEGORIES, FaqItem } from '@/data/generalFaqs';
 
@@ -96,35 +95,35 @@ export const FaqExplorerSection: React.FC = () => {
           })}
         </div>
 
-        {/* FAQ Accordion List */}
+        {/* Native <details> FAQ List (SSR HTML indexable for Google & GEO) */}
         {filteredFaqs.length > 0 ? (
-          <Accordion.Root type="single" collapsible className="space-y-4">
+          <div className="space-y-4">
             {filteredFaqs.map((faq) => (
-              <Accordion.Item
+              <details
                 key={faq.id}
-                value={faq.id}
-                className="bg-white rounded-2xl border border-brand-surface-border shadow-soft-sm overflow-hidden data-[state=open]:border-brand-teal-300 transition-colors"
+                className="bl-faq-details group bg-white rounded-2xl border border-brand-surface-border shadow-soft-sm overflow-hidden open:border-brand-teal-300 transition-colors"
               >
-                <Accordion.Header>
-                  <Accordion.Trigger className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-right font-bold text-sm sm:text-base text-brand-neutral-900 hover:text-brand-teal-900 transition-colors group min-h-[48px]">
-                    <div className="flex items-center gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-teal-600 shrink-0" />
-                      <span>{faq.question}</span>
-                    </div>
-                    <ChevronDown className="w-5 h-5 text-brand-neutral-400 group-hover:text-brand-teal-800 transition-transform duration-200 group-data-[state=open]:rotate-180 shrink-0" />
-                  </Accordion.Trigger>
-                </Accordion.Header>
-                <Accordion.Content className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-brand-neutral-600 leading-relaxed border-t border-brand-surface-border pt-4 data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+                <summary className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-right font-bold text-sm sm:text-base text-brand-neutral-900 hover:text-brand-teal-900 transition-colors min-h-[48px] cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal-800/40 rounded-2xl">
+                  <div className="flex items-center gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-teal-600 shrink-0" />
+                    <span>{faq.question}</span>
+                  </div>
+                  <ChevronDown
+                    aria-hidden="true"
+                    className="w-5 h-5 text-brand-neutral-400 group-hover:text-brand-teal-800 transition-transform duration-200 group-open:rotate-180 shrink-0"
+                  />
+                </summary>
+                <div className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-brand-neutral-600 leading-relaxed border-t border-brand-surface-border pt-4">
                   <p className="mb-3">{faq.answer}</p>
                   <div className="flex items-center gap-2 pt-2 text-[11px] text-brand-teal-800 font-medium">
                     <span className="px-2 py-0.5 rounded bg-brand-teal-50 border border-brand-teal-200/50">
                       {faq.categoryLabel}
                     </span>
                   </div>
-                </Accordion.Content>
-              </Accordion.Item>
+                </div>
+              </details>
             ))}
-          </Accordion.Root>
+          </div>
         ) : (
           /* Empty State */
           <div className="text-center py-16 px-4 bg-white rounded-3xl border border-brand-surface-border shadow-soft-sm">

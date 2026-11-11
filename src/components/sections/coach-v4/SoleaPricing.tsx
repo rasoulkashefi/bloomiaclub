@@ -75,21 +75,32 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach, onOpenBooking
               'یک فضای متمرکز، امن و بدون قضاوت برای اینکه چالش فعلی، تعارض درونی، مسئله مرزگذاری یا تصمیم مهم‌تان را روی میز بگذارید، از زاویه‌ای شفاف به آن نگاه کنید و به سمت تعادل و آرامش قدم بردارید.',
             price: 850000,
             isFree: false,
-            bookingUrl: '#contact',
+            bookingUrl: coach?.bookingUrl || '#contact',
           }
-        : {
-            id: 'coaching',
-            title: 'کوچینگ بانوان و مادران: وضوح و تعادل',
-            duration: '۶۰ دقیقه',
-            description:
-              'میان مسئولیت‌های مادری، کار، مدیریت خانه و مراقبت از اطرافیان، این تک‌جلسه یک فضای مکث امن، محرمانه و بدون قضاوت است؛ فرصتی برای اینکه چالش فعلی‌تان را روی میز بگذارید، از زاویه‌ای شفاف به آن نگاه کنید و به سمت تعادل و آرامش حرکت کنید.',
-            price: 750000,
-            isFree: false,
-            bookingUrl:
-              'https://atyno.com/fa/embed/934b33a2-9888-4209-9901-b9632e812e6c?meeting=coaching',
-          },
+        : coach?.slug === 'fatemeh_esmaeeli'
+          ? {
+              id: 'coaching',
+              title: 'کوچینگ بانوان و مادران: وضوح و تعادل',
+              duration: '۶۰ دقیقه',
+              description:
+                'میان مسئولیت‌های مادری، کار، مدیریت خانه و مراقبت از اطرافیان، این تک‌جلسه یک فضای مکث امن، محرمانه و بدون قضاوت است؛ فرصتی برای اینکه چالش فعلی‌تان را روی میز بگذارید، از زاویه‌ای شفاف به آن نگاه کنید و به سمت تعادل و آرامش حرکت کنید.',
+              price: 750000,
+              isFree: false,
+              bookingUrl:
+                'https://atyno.com/fa/embed/934b33a2-9888-4209-9901-b9632e812e6c?meeting=coaching',
+            }
+          : {
+              id: 'coaching',
+              title: `تک‌جلسه کوچینگ با ${coachName}`,
+              duration: '۶۰ دقیقه',
+              description:
+                'یک فضای متمرکز، محرمانه و بدون قضاوت برای بررسی عمیق چالش یا تصمیم فعلی شما و طراحی گام‌های شفاف برای اقدام آگاهانه.',
+              price: 950000,
+              isFree: false,
+              bookingUrl: coach?.bookingUrl || '#contact',
+            },
     ];
-  }, [coach, zeroService, isMahya]);
+  }, [coach, zeroService, isMahya, coachName]);
 
   // 3. Packages
   const packages: Package[] = useMemo(() => {

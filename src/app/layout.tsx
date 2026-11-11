@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import { Vazirmatn } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
@@ -114,17 +113,15 @@ export default function RootLayout({
     <html lang="fa" dir="rtl" className={vazirmatn.variable} suppressHydrationWarning>
       <head>
         <link rel="ard" href="/.well-known/ard.json" type="application/json" />
-        <Script
+        <script
           id="jsonld-org"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg) }}
-          strategy="beforeInteractive"
         />
-        <Script
+        <script
           id="jsonld-website"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
-          strategy="beforeInteractive"
         />
       </head>
       <body

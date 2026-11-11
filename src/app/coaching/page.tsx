@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 export default function CoachingHubPage() {
-  redirect('/coaching/what-is-coaching');
+  permanentRedirect('/coaching/what-is-coaching');
 }
