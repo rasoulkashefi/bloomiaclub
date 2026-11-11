@@ -152,11 +152,8 @@ const nextConfig = {
         destination: '/coaches/Arezoo_Ghaffari',
         permanent: true,
       },
-      {
-        source: '/coaches/arezoo_ghaffari',
-        destination: '/coaches/Arezoo_Ghaffari',
-        permanent: true,
-      },
+      // Note: Next.js redirects() matching is case-insensitive, so /coaches/arezoo_ghaffari
+      // is handled case-sensitively inside app/coaches/[slug]/page.tsx instead of here.
       {
         source: '/coaches/fatemeh_derakhsh',
         destination: '/coaches/fatemeh-derakhsh',
