@@ -14,46 +14,76 @@ interface TestimonialItem {
   author: string;
 }
 
-const videoAssets = [
-  { video: '/videos/solea/testimonial_anolta.mp4', poster: '/images/solea/img_18.png' },
-  { video: '/videos/solea/testimonial_mercedes.mp4', poster: '/images/solea/img_19.png' },
-  { video: '/videos/solea/testimonial_sophia.mp4', poster: '/images/solea/img_20.png' },
+interface VideoAsset {
+  video: string;
+  poster: string;
+}
+
+const FEMALE_VIDEO_ASSETS: VideoAsset[] = [
+  { video: '/videos/coment/01.mp4', poster: '/videos/coment/01.webp' },
+  { video: '/videos/coment/06.mp4', poster: '/videos/coment/06.webp' },
+  { video: '/videos/coment/03.mp4', poster: '/videos/coment/03.webp' },
+  { video: '/videos/coment/02.mp4', poster: '/videos/coment/02.webp' },
+  { video: '/videos/coment/08.mp4', poster: '/videos/coment/08.webp' },
+  { video: '/videos/coment/10.mp4', poster: '/videos/coment/10.webp' },
+  { video: '/videos/coment/04.mp4', poster: '/videos/coment/04.webp' },
+  { video: '/videos/coment/09.mp4', poster: '/videos/coment/09.webp' },
 ];
+
+const MALE_VIDEO_ASSETS: VideoAsset[] = [
+  { video: '/videos/coment/07.mp4', poster: '/videos/coment/07.webp' },
+  { video: '/videos/coment/05.mp4', poster: '/videos/coment/05.webp' },
+];
+
+const MALE_FIRST_NAMES = new Set([
+  'آرش', 'آرمین', 'احسان', 'احمد', 'اردلان', 'اشکان', 'امید', 'امیر', 'امیرحسین',
+  'امیرعلی', 'ایمان', 'بابک', 'بهرام', 'بهروز', 'بهنام', 'پدرام', 'پژمان', 'پویا',
+  'پیام', 'توحید', 'جواد', 'حامد', 'حسام', 'حسن', 'حسین', 'حمید', 'حمیدرضا',
+  'خشایار', 'داریوش', 'دانیال', 'داوود', 'رامین', 'رحیم', 'رسول', 'رضا', 'رهام',
+  'روزبه', 'ساسان', 'سامان', 'سپهر', 'سجاد', 'سروش', 'سعید', 'سهراب', 'سهیل',
+  'سیامک', 'سیاوش', 'سینا', 'شاهرخ', 'شاهین', 'شایان', 'شهرام', 'شهریار', 'صادق',
+  'طاها', 'عرفان', 'علی', 'علیرضا', 'عماد', 'فربد', 'فرهاد', 'فرزاد', 'فرشید',
+  'فرید', 'کاوه', 'کامران', 'کسری', 'کیان', 'کیوان', 'مازیار', 'مجتبی', 'مجید',
+  'محسن', 'محمد', 'محمدجواد', 'محمدحسین', 'محمدرضا', 'مرتضی', 'مسعود', 'مصطفی',
+  'مهدی', 'مهران', 'مهرداد', 'میلاد', 'نیما', 'وحید', 'هادی', 'هومن', 'یاسر',
+  'یوسف', 'یونس',
+]);
+
+function isMaleAuthor(author: string): boolean {
+  const normalized = author.trim();
+  if (normalized.startsWith('آقای ') || normalized.startsWith('مهندس ')) return true;
+  const firstToken = normalized.split(/[\s—\-،.]+/)[0];
+  return MALE_FIRST_NAMES.has(firstToken);
+}
 
 const defaultTestimonials: TestimonialItem[] = [
   {
-    video: '/videos/solea/testimonial_anolta.mp4',
-    poster: '/images/solea/img_18.png',
+    ...FEMALE_VIDEO_ASSETS[0],
     quote: '«وقتی کسی را کوچ می‌کنی، در واقع یک گوشه امن برای آرام شدن به او می‌دهی. در جلسات با شما به این گوشه امن رسیدم؛ گویا با چراغی پرنور مرا به عمق درونم بردید تا با مهارت و صبوری‌تان به آرامش و شفافیت برسم.»',
     author: 'نسترن م. — مراجع دوره خودشناسی و وضوح ذهنی',
   },
   {
-    video: '/videos/solea/testimonial_mercedes.mp4',
-    poster: '/images/solea/img_19.png',
+    ...FEMALE_VIDEO_ASSETS[1],
     quote: '«شما با صبوری و مهارت بالا خیلی خوب به حرف‌هایم گوش دادید و مسائلی که برایم غیرقابل‌حل و مبهم بودند، کاملاً روشن و شفاف شدند. نوع حضورتان در جلسات حس امنیت فوق‌العاده‌ای می‌دهد تا به‌راحتی به آگاهی برسم.»',
     author: 'مهسا ر. — مراجع جلسات کوچینگ فردی',
   },
   {
-    video: '/videos/solea/testimonial_sophia.mp4',
-    poster: '/images/solea/img_20.png',
+    ...FEMALE_VIDEO_ASSETS[2],
     quote: '«در تمام طول جلسه حس امنیت و آرامش داشتم. آرامش شما کمک کرد خیلی راحت‌تر و عمیق‌تر فکر کنم؛ مسائلی که تا دیروز برایم سخت و ترسناک بودند آسان شدند و توانستم از زوایای تازه‌ای به آن‌ها نگاه کنم.»',
     author: 'سارا ک. — مراجع دوره عبور از تعارض و ترس‌ها',
   },
   {
-    video: '/videos/solea/testimonial_anolta.mp4',
-    poster: '/images/solea/img_18.png',
+    ...FEMALE_VIDEO_ASSETS[3],
     quote: '«از همدلی و درکتان در جلسات کوچینگ خیلی لذت بردم. آن‌قدر قشنگ ارتباط مؤثر را زندگی می‌کنید که از همان لحظه اول احساس کردم می‌توانم کاملاً راحت باشم و یک فرد امن برای شنیدنم حضور دارد.»',
     author: 'الهام ش. — مراجع جلسات کوچینگ فردی',
   },
   {
-    video: '/videos/solea/testimonial_mercedes.mp4',
-    poster: '/images/solea/img_19.png',
+    ...FEMALE_VIDEO_ASSETS[4],
     quote: '«در تمام این مدت واقعاً درکم کردید و با من همدل بودید. از صمیم قلب ممنونم که روی جرأت و جسارتم کار کردید و این باور ارزشمند را در من زنده کردید که توانایی رسیدن به اهدافم را دارم.»',
     author: 'پریسا ع. — مراجع دوره تقویت اعتمادبه‌نفس و اهداف',
   },
   {
-    video: '/videos/solea/testimonial_sophia.mp4',
-    poster: '/images/solea/img_20.png',
+    ...FEMALE_VIDEO_ASSETS[5],
     quote: '«یک دوره ۶ جلسه‌ای عالی را با شما تجربه کردم که تک‌تک لحظاتش برایم پربار بود. ممنونم که این‌قدر عمیق می‌شنوید و با پرسش‌های به‌جا کمک می‌کنید از زاویه‌ای جدید به ابعاد مختلف دغدغه‌هایم نگاه کنم.»',
     author: 'زهرا ت. — مراجع پکیج ۶ جلسه‌ای کشف',
   },
@@ -93,8 +123,8 @@ const TestimonialCard: React.FC<{ item: TestimonialItem; idx: number }> = ({ ite
         loop
         muted
         playsInline
-        preload="none"
-        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        preload="metadata"
+        className="h-full w-full object-cover object-[50%_15%] transition-transform duration-700 ease-out group-hover:scale-105"
       />
 
       {/* Subtle Ambient Vignette Overlay */}
@@ -178,10 +208,14 @@ export const SoleaTestimonials: React.FC<SoleaTestimonialsProps> = ({ coach }) =
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  // Merge coach testimonials if available
+  // Merge coach testimonials if available, matching video subject gender to author name
+  let maleCursor = 0;
+  let femaleCursor = 0;
   const list: TestimonialItem[] = (coach?.testimonials && coach.testimonials.length > 0)
-    ? coach.testimonials.map((ct, idx) => {
-        const asset = videoAssets[idx % videoAssets.length];
+    ? coach.testimonials.map((ct) => {
+        const asset = isMaleAuthor(ct.author)
+          ? MALE_VIDEO_ASSETS[maleCursor++ % MALE_VIDEO_ASSETS.length]
+          : FEMALE_VIDEO_ASSETS[femaleCursor++ % FEMALE_VIDEO_ASSETS.length];
         const cleanQuote = ct.quote.replace(/^[«"'\s]+|[»"'\s]+$/g, '').trim();
         return {
           video: asset.video,
