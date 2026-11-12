@@ -36,9 +36,10 @@ const defaultSteps: SupportStep[] = [
 
 interface SoleaSupportProps {
   coach?: CoachProfile;
+  onOpenBooking?: (offeringTitle?: string) => void;
 }
 
-export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
+export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach, onOpenBooking }) => {
   const coachName = coach?.name || 'کوچ بلومیا';
   const isFatemeh = coach?.slug === 'fatemeh_esmaeeli';
   const bookingLink = coach?.bookingUrl || (isFatemeh ? 'https://atyno.com/fatemeh/zero' : '#contact');
@@ -223,16 +224,35 @@ export const SoleaSupport: React.FC<SoleaSupportProps> = ({ coach }) => {
                       <span>{buttonText}</span>
                     </a>
 
-                    <a
-                      href={bookingLink}
-                      target={coach?.bookingUrl ? '_blank' : undefined}
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-white/85 hover:text-white transition-colors underline underline-offset-8"
-                    >
-                      <span>{isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}</span>
-                      <ArrowLeft className="h-4 w-4" />
-                    </a>
+                    {onOpenBooking ? (
+                      <button
+                        type="button"
+                        onClick={() => onOpenBooking()}
+                        className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-white/85 hover:text-white transition-colors underline underline-offset-8 cursor-pointer"
+                      >
+                        <span>{isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}</span>
+                        <ArrowLeft className="h-4 w-4" />
+                      </button>
+                    ) : (
+                      <a
+                        href={bookingLink}
+                        target={coach?.bookingUrl ? '_blank' : undefined}
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-sm sm:text-base font-medium text-white/85 hover:text-white transition-colors underline underline-offset-8"
+                      >
+                        <span>{isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}</span>
+                        <ArrowLeft className="h-4 w-4" />
+                      </a>
+                    )}
                   </>
+                ) : onOpenBooking ? (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBooking()}
+                    className="inline-flex items-center justify-center rounded-[14px] bg-white px-8 py-4 text-[15px] font-semibold text-[#1f3d3a] transition-all hover:bg-[#dfece9] active:scale-95 shadow-md cursor-pointer"
+                  >
+                    {isFreeIntro ? 'رزرو جلسه معارفه رایگان' : 'رزرو آنلاین جلسه معارفه'}
+                  </button>
                 ) : (
                   <a
                     href={bookingLink}

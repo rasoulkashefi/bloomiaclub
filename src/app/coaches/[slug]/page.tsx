@@ -208,6 +208,8 @@ export default async function CoachDetailPage({ params }: CoachPageProps) {
     coach.bookingUrl = 'https://atyno.com/fa/embed/f2f11bdb-3377-4df4-bc88-bc575de4a379?meeting=intro-call';
   } else if ((coach.slug === 'fatemeh-derakhsh' || coach.slug === 'fatemeh_derakhsh') && !coach.bookingUrl) {
     coach.bookingUrl = 'https://atyno.com/fa/embed/a4ab73e8-e192-43b8-86dd-dc15102a1242?meeting=zero-coaching-session';
+  } else if (coach.slug === 'parmiss-yari' && (!coach.bookingUrl || coach.bookingUrl.includes('zero-coaching-session'))) {
+    coach.bookingUrl = 'https://atyno.com/fa/embed/62eb65e6-f7bc-4b8c-8ea0-e3a7c974a9bd?meeting=zero-coaching';
   }
 
   const [fetchedArticles, coachEvents] = await Promise.all([

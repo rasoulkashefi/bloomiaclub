@@ -329,13 +329,13 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach, onOpenBooking
               </span>
             </div>
             <span className="text-xs text-[#6b6b6b]">
-              تومان / {toFa(pkg.sessions)} جلسه ۶۰ دقیقه‌ای
+              تومان / {toFa(pkg.sessions)} جلسه {pkg.duration ? pkg.duration.replace('دقیقه', 'دقیقه‌ای') : '۶۰ دقیقه‌ای'}
             </span>
           </div>
 
           {/* Description */}
           {pkg.description && (
-            <p className="mt-3 text-xs leading-relaxed text-[#4a4a4a]">
+            <p className="mt-3 text-xs leading-relaxed text-[#4a4a4a] whitespace-pre-line">
               {pkg.description}
             </p>
           )}
@@ -600,7 +600,8 @@ export const SoleaPricing: React.FC<SoleaPricingProps> = ({ coach, onOpenBooking
 
               <div
                 className={`grid gap-6 lg:gap-7 ${
-                  (hasBothTypes ? coachingPackages : packages).length === 3
+                  (hasBothTypes ? coachingPackages : packages).length === 3 ||
+                  (hasBothTypes ? coachingPackages : packages).length === 5
                     ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto'
                     : (hasBothTypes ? coachingPackages : packages).length === 2
                       ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto'

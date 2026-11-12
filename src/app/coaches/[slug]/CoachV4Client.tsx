@@ -229,7 +229,7 @@ export const CoachV4Client: React.FC<CoachV4ClientProps> = ({ coach, events }) =
       <SoleaPricing coach={coach} onOpenBooking={handleOpenBooking} />
 
       {/* Process & Ebook Support Banner */}
-      <SoleaSupport coach={coach} />
+      <SoleaSupport coach={coach} onOpenBooking={handleOpenBooking} />
 
       {/* Industry News / Blog */}
       <SoleaBlog coach={coach} />

@@ -38,7 +38,7 @@ export const CoachArticlesSection: React.FC<CoachArticlesSectionProps> = ({
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const coachName = coach?.name || 'فاطمه اسماعیلی';
-  const coachProfileUrl = `/coaches/${coachSlug}/v4`;
+  const coachProfileUrl = `/coaches/${coachSlug}`;
 
   // Official embedded booking URL for zero/intro session
   const bookingEmbedUrl =
@@ -297,6 +297,7 @@ export const CoachArticlesSection: React.FC<CoachArticlesSectionProps> = ({
         title="جلسه صفر (معارفه رایگان)"
         bookingUrl={bookingEmbedUrl}
         coachName={coachName}
+        coachSlug={coachSlug}
       />
     </div>
   );
